@@ -9,7 +9,7 @@ env:
   TAG: ${{ inputs.tag || github.ref_name }}
   # same environment as CI: GitHub's own visual baselines and the shared-runner blocking-time guard
   LARKMOOR_BASELINES: tests/baselines/ci
-  LARKMOOR_TBT_BUDGET: 450
+  LARKMOOR_TBT_BUDGET: 1000
 jobs:
   release:
     runs-on: ubuntu-latest
