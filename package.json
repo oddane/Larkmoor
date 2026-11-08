@@ -1,0 +1,73 @@
+{
+  "name": "@larkmoor/design-system",
+  "version": "0.1.0",
+  "description": "Tokens, CSS foundations, layout primitives, components and small behaviours for any website you build.",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "README.md",
+    "CHANGELOG.md",
+    "ATTRIBUTION.md",
+    "LICENSE.md",
+    "docs/guides/THEMING.md",
+    "docs/guides/MIGRATION.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/larkmoor.d.ts",
+      "default": "./dist/larkmoor.js"
+    },
+    "./larkmoor.css": "./dist/larkmoor.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./themes/*": "./dist/themes/*",
+    "./tokens.json": "./dist/tokens.json",
+    "./breakpoints": {
+      "types": "./dist/breakpoints.d.ts",
+      "default": "./dist/breakpoints.mjs"
+    },
+    "./scss/breakpoints": "./dist/_breakpoints.scss",
+    "./fonts/*": "./dist/fonts/*",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test:unit": "node --test \"tests/unit/*.test.mjs\"",
+    "test:browser": "node --test --test-concurrency=1 \"tests/browser/*.test.mjs\"",
+    "test": "npm run build && npm run typecheck && npm run test:unit && npm run test:browser",
+    "test:update-baselines": "UPDATE_BASELINES=1 node --test --test-concurrency=1 tests/browser/visual.test.mjs",
+    "examples": "node scripts/sync-examples.mjs",
+    "serve": "node scripts/serve.mjs",
+    "pack:check": "node scripts/pack-check.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "evidence": "node scripts/evidence.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0",
+    "sharp": "^0.34.0",
+    "typescript": "^5.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oddane/Larkmoor.git"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "dtcg",
+    "css",
+    "accessibility",
+    "wcag",
+    "theming"
+  ]
+}

@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff2 binary
+*.tgz binary
+dist/** linguist-generated=true
+docs/vendor/** linguist-generated=true
+examples/*/vendor/** linguist-generated=true
+tests/baselines/** linguist-generated=true
