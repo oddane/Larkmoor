@@ -13,6 +13,7 @@ jobs:
     permissions: { contents: write }   # only used to commit first-time CI visual baselines on main
     env:
       LARKMOOR_BASELINES: tests/baselines/ci
+      LARKMOOR_TBT_BUDGET: 450   # shared runners are slower than the reference machine; see tests/browser/perf.test.mjs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
