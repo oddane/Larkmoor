@@ -34,10 +34,22 @@
 | Tauawo | 1280 | WCAG text-spacing override | no clipping, no sideways scroll |
 | Tauawo | 1280 | forced colours | selected option and strike-through distinguishable |
 | Tauawo, Harbor | 1280 | JavaScript off | content visible; script-only controls hidden |
+| Tauawo, Harbor (light and dark) | 1280 | `prefers-contrast: more` | the high-contrast partner is applied; all measurable text 7:1 (large text 4.5:1) |
+| Screen-reader fixture | 700 | accessibility tree | tabs, dialog (modal, inert background, focus in and back), toast (live region order), breadcrumbs, pagination, table, tab bar: roles, names, states |
 
 The contrast checker skips text over gradients and images and lists them for manual review. The checked segment's label sits on a pseudo-element thumb, so its pair (on-action on action) is checked in the unit test instead.
 
 **Not available here:** axe-core, because the package registry was unreachable from the build environment. Run the axe DevTools extension once on each page.
+
+## Screen readers in CI
+
+`.github/workflows/screen-readers.yml` runs on every push. It starts real screen readers on GitHub's machines with [Guidepup](https://github.com/guidepup/guidepup) and reads `tests/screen-reader/index.html`:
+- **VoiceOver** on macOS with WebKit (Safari's engine);
+- **NVDA** on Windows with Firefox.
+
+For tabs, dialog, toast, breadcrumbs, pagination, table and tab bar it checks what the screen reader actually said: names, roles, selected and current states, the dialog name on opening, focus return on Escape, the toast announcement, and that breadcrumb separators and arrow glyphs are not read. Everything spoken is uploaded as a build artifact, pass or fail.
+
+Keys are sent to the page by Playwright, so this checks what the screen readers announce, not their own key handling (for example NVDA's browse and focus modes). Those still need a person; see below.
 
 ## Manual checks that need your devices
 
