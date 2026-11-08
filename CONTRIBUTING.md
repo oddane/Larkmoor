@@ -23,4 +23,4 @@
 6. Add a CHANGELOG entry and choose the version step (README → Versioning).
 
 ## Before a pull request
-`npm test` must pass. Review any `reports/visual/diff-*.png` before running `npm run test:update-baselines`.
+`npm test` must pass. Review any `reports/visual/diff-*.png` before running `npm run test:update-baselines` (local baselines live in `tests/baselines/local`; CI keeps its own set in `tests/baselines/ci`, because fonts render differently on GitHub's machines).

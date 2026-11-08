@@ -1,11 +1,15 @@
 version: 2
 updates:
+  # Grouped so dependency updates arrive as one reviewable PR per ecosystem each month.
   - package-ecosystem: npm
     directory: /
     schedule: { interval: monthly }
-    open-pull-requests-limit: 5
+    groups:
+      dev-tooling: { patterns: ["*"] }
     labels: ["type: dependencies"]
   - package-ecosystem: github-actions
     directory: /
     schedule: { interval: monthly }
+    groups:
+      actions: { patterns: ["*"] }
     labels: ["type: dependencies"]

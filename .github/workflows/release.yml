@@ -19,4 +19,9 @@ jobs:
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
           notes=$(awk "/^## ${GITHUB_REF_NAME#v} /{f=1;next} /^## /{f=0} f" CHANGELOG.md)
-          gh release create "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --title "Larkmoor $GITHUB_REF_NAME" --notes "$notes"
+          # works whether the release was drafted in the GitHub UI (which creates the tag) or not
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --title "Larkmoor $GITHUB_REF_NAME" --notes "$notes"
+          fi

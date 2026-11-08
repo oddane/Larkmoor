@@ -1,5 +1,7 @@
 // Visual regression: full-page screenshots of each page and theme at three widths, compared with
-// committed baselines in tests/baselines. Review the diffs in reports/visual before accepting new
+// committed baselines. Font rendering differs between machines, so each environment has its own set:
+// tests/baselines/local (development) and tests/baselines/ci (GitHub Actions, set by LARKMOOR_BASELINES).
+// A missing baseline is recorded instead of compared; CI commits newly recorded ones on main. Review the diffs in reports/visual before accepting new
 // baselines with `npm run test:update-baselines`.
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -9,9 +11,10 @@ import { setup, open, scrollThrough, PAGES } from './helpers.mjs';
 const sharp = createRequire(import.meta.url)('sharp');
 
 const UPDATE = process.env.UPDATE_BASELINES === '1';
+const DIR = process.env.LARKMOOR_BASELINES || 'tests/baselines/local';
 const TOLERANCE = 0.002; // share of pixels allowed to differ (anti-aliasing noise)
 let env;
-before(async () => { env = await setup(); mkdirSync('reports/visual', { recursive: true }); mkdirSync('tests/baselines', { recursive: true }); });
+before(async () => { env = await setup(); mkdirSync('reports/visual', { recursive: true }); mkdirSync(DIR, { recursive: true }); });
 after(async () => { await env.close(); });
 
 async function diff(a, b, out) {
@@ -39,8 +42,8 @@ for (const [name, path, theme] of CASES) {
       const file = `${name}-${width}.png`;
       await page.screenshot({ path: `reports/visual/${file}`, fullPage: true });
       await context.close();
-      if (UPDATE || !existsSync(`tests/baselines/${file}`)) { copyFileSync(`reports/visual/${file}`, `tests/baselines/${file}`); return; }
-      const r = await diff(`tests/baselines/${file}`, `reports/visual/${file}`, `reports/visual/diff-${file}`);
+      if (UPDATE || !existsSync(`${DIR}/${file}`)) { copyFileSync(`reports/visual/${file}`, `${DIR}/${file}`); return; }
+      const r = await diff(`${DIR}/${file}`, `reports/visual/${file}`, `reports/visual/diff-${file}`);
       assert.ok(r.ratio <= TOLERANCE, `${file}: ${(r.ratio * 100).toFixed(2)}% of pixels changed ${r.reason || ''} (see reports/visual/diff-${file})`);
     });
   }

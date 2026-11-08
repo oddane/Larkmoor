@@ -31,4 +31,4 @@ if gh api -X PUT "repos/$REPO/branches/main/protection" -H "Accept: application/
   "required_pull_request_reviews": { "required_approving_review_count": 0, "require_code_owner_reviews": false },
   "restrictions": null, "required_linear_history": true, "allow_force_pushes": false, "allow_deletions": false }
 JSON
-then echo "branch protection ✓"; else echo "branch protection skipped (private repos need GitHub Pro or Team)"; fi
+then echo "branch protection ✓"; else echo "branch protection not applied: needs admin rights, and GitHub Pro or Team for private repositories"; fi

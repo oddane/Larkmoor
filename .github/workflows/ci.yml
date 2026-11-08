@@ -2,6 +2,7 @@ name: CI
 on:
   push: { branches: [main] }
   pull_request:
+  workflow_dispatch:
 permissions: { contents: read }
 concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
 jobs:
@@ -9,6 +10,9 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions: { contents: write }   # only used to commit first-time CI visual baselines on main
+    env:
+      LARKMOOR_BASELINES: tests/baselines/ci
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,6 +25,16 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:browser
       - run: npm run pack:check
+      - name: Commit first-time CI visual baselines
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          if [ -n "$(git status --porcelain -- tests/baselines/ci)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add tests/baselines/ci
+            git commit -m "Record CI visual baselines"
+            git push
+          fi
       - name: Upload test evidence
         if: always()
         uses: actions/upload-artifact@v4
