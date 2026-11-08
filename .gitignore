@@ -1,6 +1,6 @@
 node_modules/
-reports/
-logs/
+/reports/
+/logs/
 *.tgz
 .DS_Store
 .env*

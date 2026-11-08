@@ -1,0 +1,39 @@
+{
+  "profile": "390x844 @3x, 4x CPU slowdown, 1.6Mbps down, 150ms latency, cache off",
+  "budget": {
+    "lcp": 2500,
+    "cls": 0.1,
+    "tbt": 200,
+    "bytes": 614400
+  },
+  "median": {
+    "lcp": 1788,
+    "cls": 0,
+    "tbt": 117,
+    "bytes": 319530,
+    "tapToPaint": 37
+  },
+  "runs": [
+    {
+      "lcp": 1788,
+      "cls": 0,
+      "tbt": 117,
+      "bytes": 319530,
+      "tapToPaint": 37
+    },
+    {
+      "lcp": 1820,
+      "cls": 0,
+      "tbt": 100,
+      "bytes": 319530,
+      "tapToPaint": 44
+    },
+    {
+      "lcp": 1668,
+      "cls": 0,
+      "tbt": 162,
+      "bytes": 319530,
+      "tapToPaint": 35
+    }
+  ]
+}

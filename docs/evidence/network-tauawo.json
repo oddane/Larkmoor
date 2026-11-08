@@ -1,0 +1,90 @@
+{
+  "page": "/examples/tauawo/",
+  "recordedAt": "2026-11-08T15:51:15.879Z",
+  "totalRequests": 16,
+  "external": [],
+  "cookies": [],
+  "localStorage": {},
+  "requests": [
+    {
+      "url": "/examples/tauawo/",
+      "type": "document",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/fonts/martian-mono-semicondensed-500.woff2",
+      "type": "font",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/fonts/geist-variable.woff2",
+      "type": "font",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/fonts.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/larkmoor.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/themes/evergreen-inverse.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/tauawo.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/username.webp",
+      "type": "image",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/larkmoor.js",
+      "type": "script",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/fonts/martian-mono-400.woff2",
+      "type": "font",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/vendor/larkmoor/fonts/martian-mono-semicondensed-300.woff2",
+      "type": "font",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/chats.webp",
+      "type": "image",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/conversation.webp",
+      "type": "image",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/group.webp",
+      "type": "image",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/ghost.webp",
+      "type": "image",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/tauawo/img/community-groups.webp",
+      "type": "image",
+      "method": "GET"
+    }
+  ]
+}

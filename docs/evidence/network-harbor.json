@@ -1,0 +1,35 @@
+{
+  "page": "/examples/harbor/",
+  "recordedAt": "2026-11-08T15:51:17.680Z",
+  "totalRequests": 5,
+  "external": [],
+  "cookies": [],
+  "localStorage": {},
+  "requests": [
+    {
+      "url": "/examples/harbor/",
+      "type": "document",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/harbor/vendor/larkmoor/larkmoor.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/harbor/vendor/larkmoor/themes/harbor.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/harbor/vendor/larkmoor/themes/harbor-dark.css",
+      "type": "stylesheet",
+      "method": "GET"
+    },
+    {
+      "url": "/examples/harbor/vendor/larkmoor/larkmoor.js",
+      "type": "script",
+      "method": "GET"
+    }
+  ]
+}
