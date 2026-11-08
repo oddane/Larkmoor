@@ -22,14 +22,28 @@ export function scenarios(wrap, reader) {
       }
       throw new Error(`Tab never reached "${text}"`);
     };
+    /** Moves with the reader's own "next item" command until it says `text`. Safari's Tab skips links
+     *  by default, so VoiceOver users reach links this way; NVDA users usually Tab. */
+    const linkTo = async (text, max = 40) => {
+      if (reader !== 'voiceover') return tabTo(text, max);
+      for (let i = 0; i < max; i++) {
+        await s.next(); await settle(page, 500);
+        await take();
+        if (said.slice(-2).join(' ').toLowerCase().includes(text)) return;
+      }
+      throw new Error(`Next never reached "${text}"`);
+    };
     await page.goto('/tests/screen-reader/', { waitUntil: 'load' });
     await page.locator('html[data-ready="true"]').waitFor();
     await s.navigateToWebContent();
-    await take(); said.length = 0;
+    await take();
+    console.log(`[${reader}] ${name}: after navigateToWebContent:`, JSON.stringify(said), 'last:', JSON.stringify(await s.lastSpokenPhrase().catch((e) => String(e))));
+    said.length = 0;
     try {
-      await body({ page, s, take, heard, said, press, tabTo });
+      await body({ page, s, take, heard, said, press, tabTo, linkTo });
     } finally {
       await take().catch(() => {});
+      console.log(`[${reader}] ${name} (attempt ${info.retry}) heard:`, JSON.stringify(said));
       const dir = new URL(`../../reports/screen-reader/${reader}/`, import.meta.url);
       mkdirSync(dir, { recursive: true });
       writeFileSync(new URL(`${name.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.json`, dir), JSON.stringify({ reader, scenario: name, attempt: info.retry, spoken: said }, null, 2));
@@ -62,11 +76,12 @@ export function scenarios(wrap, reader) {
     await tabTo('save draft');
     said.length = 0;
     await press('Enter', 3500);
+    console.log(`[${reader}] toast elements on the page:`, await page.locator('.lm-toast').count());
     expect(await heard()).toContain('draft saved');
   });
 
-  run('breadcrumbs read as a named navigation with the current page and no slashes', async ({ page, s, heard, tabTo }) => {
-    await tabTo('home');
+  run('breadcrumbs read as a named navigation with the current page and no slashes', async ({ page, s, heard, linkTo }) => {
+    await linkTo('home');
     for (let i = 0; i < 6; i++) { await s.next(); await settle(page, 600); }
     const t = await heard();
     expect(t).toContain('breadcrumb');
@@ -75,10 +90,9 @@ export function scenarios(wrap, reader) {
     expect(t).not.toMatch(/slash/);
   });
 
-  run('pagination links are named and the current page is announced', async ({ heard, press, tabTo }) => {
-    await tabTo('previous page');
-    await press('Tab', 800);
-    await press('Tab', 1200);
+  run('pagination links are named and the current page is announced', async ({ heard, linkTo }) => {
+    await linkTo('previous page');
+    await linkTo('current');
     const t = await heard();
     expect(t).toContain('previous page');
     expect(t).toMatch(/current/);
@@ -95,9 +109,9 @@ export function scenarios(wrap, reader) {
     expect(t).toMatch(/4,?812/);
   });
 
-  run('tab bar is a named navigation with the current page marked', async ({ heard, tabTo }) => {
-    await tabTo('loans this month');
-    await tabTo('home');
+  run('tab bar is a named navigation with the current page marked', async ({ heard, linkTo }) => {
+    await linkTo('loans this month');
+    await linkTo('home');
     const t = await heard();
     expect(t).toMatch(/current/);
   });
