@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en" data-lm-theme="harbor">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quay Lane Library · Fictional example of the Larkmoor design system</title>
+  <meta name="description" content="A fictional community library site that shows the Larkmoor design system running under a second brand theme.">
+  <script>document.documentElement.classList.add('js');</script>
+  <meta name="theme-color" content="#fbf7f1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d2b53'/%3E%3Cpath d='M9 8h4v13h10v3H9z' fill='%23fbf7f1'/%3E%3C/svg%3E">
+  <!-- Harbor uses system fonts only, so it loads no font files at all. -->
+  <link rel="stylesheet" href="vendor/larkmoor/larkmoor.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark.css">
+  <style>
+    /* Product-specific extensions only. Everything else is the design system. */
+    .hero { padding-block: calc(var(--lm-size-header) + var(--lm-space-8)) var(--lm-space-8); background: var(--lm-color-bg-subtle); border-bottom: var(--lm-border-width) solid var(--lm-color-border); }
+    .hero .lm-display { max-width: 18ch; }
+    .hours-today { font-size: var(--lm-font-size-caption); color: var(--lm-color-text-secondary); }
+    .events [data-when] { display: none; }
+    .events:has(#when-week:checked) [data-when~="week"],
+    .events:has(#when-month:checked) [data-when~="month"],
+    .events:has(#when-all:checked) [data-when] { display: grid; }
+    .event__date { font-family: var(--lm-text-label-family); font-weight: var(--lm-text-label-weight); font-size: var(--lm-font-size-meta); letter-spacing: var(--lm-text-label-tracking); text-transform: uppercase; color: var(--lm-color-text-label); }
+    .signup { max-width: 640px; }
+    .signup form { display: grid; gap: var(--lm-space-5); }
+    .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--lm-space-5); }
+    @media (max-width: 519.98px) { .form-row { grid-template-columns: minmax(0, 1fr); } }
+    .demo-note { font-size: var(--lm-font-size-caption); color: var(--lm-color-text-muted); }
+    .lm-segmented { --_n: 3; max-width: 420px; }
+  </style>
+</head>
+<body>
+<a class="lm-skip-link" href="#main">Skip to content</a>
+
+<header class="lm-header" id="header">
+  <div class="lm-container lm-header__bar">
+    <a class="lm-wordmark" href="#main" aria-label="Quay Lane Library, back to top">
+      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="currentColor"/><path d="M9 8h4v13h10v3H9z" style="fill: var(--lm-color-bg)"/></svg>
+      Quay Lane Library
+    </a>
+    <nav class="lm-nav" aria-label="Main">
+      <a href="#visit">Visit</a>
+      <a href="#events">Events</a>
+      <a href="#card">Library card</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <div class="lm-header__end">
+      <a class="lm-btn lm-btn--primary lm-btn--sm" href="#card">Get a card</a>
+      <button class="lm-menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="lm-mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
+    <a href="#visit">Visit</a>
+    <a href="#events">Events</a>
+    <a href="#card">Library card</a>
+    <a href="#faq">Questions</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="lm-container lm-stack" style="--lm-stack-gap: var(--lm-space-5)">
+      <p class="lm-label lm-label--accent">Community library · Fictional example</p>
+      <h1 class="lm-display" id="hero-title">Borrow a book, a drill or a quiet <em>afternoon.</em></h1>
+      <p class="lm-lead">Free to join for anyone who lives, works or studies nearby. Bring nothing but your name.</p>
+      <div class="lm-cluster">
+        <a class="lm-btn lm-btn--primary" href="#card">Get a library card
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lm-nudge><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="lm-link" href="#visit">Opening hours</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="visit" aria-labelledby="visit-title">
+    <div class="lm-container lm-split">
+      <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-3)">
+        <p class="lm-label lm-label--accent">01 · Visit</p>
+        <h2 class="lm-title" id="visit-title">Open six days a week.</h2>
+        <p class="hours-today">Closed on public holidays. Step-free entrance on Quay Lane.</p>
+      </div>
+      <dl class="lm-rows" style="--lm-rows-term: 160px">
+        <div><dt>Monday</dt><dd>Closed</dd></div>
+        <div><dt>Tuesday to Thursday</dt><dd>9:00 to 20:00</dd></div>
+        <div><dt>Friday</dt><dd>9:00 to 17:00</dd></div>
+        <div><dt>Saturday</dt><dd>10:00 to 16:00</dd></div>
+        <div><dt>Sunday</dt><dd>12:00 to 16:00 · reading room only</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="lm-section events" id="events" aria-labelledby="events-title">
+    <div class="lm-container">
+      <div class="lm-section-head lm-split">
+        <p class="lm-label lm-label--accent">02 · Events</p>
+        <div>
+          <h2 class="lm-title" id="events-title">Free, and mostly in the evening.</h2>
+          <p class="lm-lead">No booking needed unless it says so.</p>
+        </div>
+      </div>
+      <fieldset class="lm-segmented" style="margin-bottom: var(--lm-space-6)">
+        <legend class="lm-sr-only">Show events</legend>
+        <input type="radio" name="when" id="when-week" checked><label for="when-week">This week</label>
+        <input type="radio" name="when" id="when-month"><label for="when-month">This month</label>
+        <input type="radio" name="when" id="when-all"><label for="when-all">All</label>
+      </fieldset>
+      <div class="lm-grid lm-grid--fill" style="--lm-grid-min: 260px; --lm-grid-gap: var(--lm-space-5)">
+        <article class="lm-card" data-when="week month">
+          <p class="event__date lm-tabular">Tue 10 Nov · 18:30</p>
+          <h3 class="lm-subheading">Repair café: bring it, don't bin it</h3>
+          <p class="lm-caption">Volunteers fix lamps, zips and bike lights while you watch and learn.</p>
+          <span class="lm-badge lm-badge--success">Drop in</span>
+        </article>
+        <article class="lm-card" data-when="week month">
+          <p class="event__date lm-tabular">Thu 12 Nov · 19:00</p>
+          <h3 class="lm-subheading">Slow reading club: one chapter, read aloud, discussed at length by whoever stays</h3>
+          <p class="lm-caption">A long title on purpose: the card keeps its rhythm when the heading wraps.</p>
+          <span class="lm-badge lm-badge--warning">8 places left</span>
+        </article>
+        <article class="lm-card" data-when="month">
+          <p class="event__date lm-tabular">Sat 21 Nov · 10:00</p>
+          <h3 class="lm-subheading">Tool library open morning</h3>
+          <p class="lm-caption">See the 140 tools you can borrow, from ladders to sewing machines.</p>
+          <span class="lm-badge lm-badge--success">Drop in</span>
+        </article>
+        <article class="lm-card" data-when="month">
+          <p class="event__date lm-tabular">Wed 25 Nov · 17:00</p>
+          <h3 class="lm-subheading">Homework help for 11 to 16 year olds</h3>
+          <p class="lm-caption">Quiet tables, two volunteer tutors and the good printer.</p>
+          <span class="lm-badge lm-badge--danger">Full</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="card" aria-labelledby="card-title">
+    <div class="lm-container lm-split">
+      <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-3)">
+        <p class="lm-label lm-label--accent">03 · Library card</p>
+        <h2 class="lm-title" id="card-title">Join in a minute.</h2>
+        <p class="lm-caption">Collect your card at the desk. We ask for the least we can.</p>
+      </div>
+      <div class="signup">
+        <div class="lm-error-summary" id="error-summary" tabindex="-1" role="alert" aria-labelledby="error-summary-title" hidden>
+          <p class="lm-alert__title" id="error-summary-title">Please fix these before sending</p>
+          <ul></ul>
+        </div>
+        <div class="lm-alert lm-alert--success" id="form-success" role="status" hidden>
+          <span aria-hidden="true">✓</span>
+          <div><p class="lm-alert__title">Card requested</p><p>Pick it up at the front desk any time in the next 30 days.</p></div>
+        </div>
+        <div class="lm-alert lm-alert--danger" id="form-failure" role="alert" hidden>
+          <span aria-hidden="true">!</span>
+          <div><p class="lm-alert__title">That didn't send</p><p>Your answers are still here. Check your connection and press Request card again.</p></div>
+        </div>
+        <form id="signup" action="#" novalidate>
+          <div class="form-row">
+            <div class="lm-field">
+              <label class="lm-field__label" for="given-name">First name</label>
+              <input class="lm-input" id="given-name" name="given-name" autocomplete="given-name" required aria-describedby="given-name-message">
+              <p class="lm-field__message" id="given-name-message"></p>
+            </div>
+            <div class="lm-field">
+              <label class="lm-field__label" for="family-name">Last name</label>
+              <input class="lm-input" id="family-name" name="family-name" autocomplete="family-name" required aria-describedby="family-name-message">
+              <p class="lm-field__message" id="family-name-message"></p>
+            </div>
+          </div>
+          <div class="lm-field">
+            <label class="lm-field__label" for="email">Email <span class="lm-field__optional">(optional)</span></label>
+            <p class="lm-field__hint" id="email-hint">Only for due-date reminders. Leave it empty and we'll never contact you.</p>
+            <input class="lm-input" id="email" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" aria-describedby="email-hint email-message">
+            <p class="lm-field__message" id="email-message"></p>
+          </div>
+          <div class="lm-field">
+            <label class="lm-field__label" for="postcode">Postcode</label>
+            <p class="lm-field__hint" id="postcode-hint">To check you live, work or study nearby. Letters and numbers, like LM4 7QA.</p>
+            <input class="lm-input" id="postcode" name="postcode" autocomplete="postal-code" autocapitalize="characters" required pattern="[A-Za-z0-9 ]{5,8}" aria-describedby="postcode-hint postcode-message" style="max-width: 200px">
+            <p class="lm-field__message" id="postcode-message"></p>
+          </div>
+          <label class="lm-check"><input type="checkbox" name="simulate-failure" id="simulate-failure"> Demo only: make this request fail, to see the error and retry state</label>
+          <div class="lm-cluster">
+            <button class="lm-btn lm-btn--primary" type="submit">Request card</button>
+            <p class="demo-note">This is a demo. Nothing is sent anywhere.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="faq" aria-labelledby="faq-title">
+    <div class="lm-container lm-split">
+      <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-3)">
+        <p class="lm-label lm-label--accent">04 · Questions</p>
+        <h2 class="lm-title" id="faq-title">Before you come in.</h2>
+      </div>
+      <div class="lm-accordion">
+        <details><summary>Does it cost anything?</summary><p>No. Cards, loans, events and the tool library are free. Late returns are free too; we just ask you to bring things back.</p></details>
+        <details><summary>Can I borrow without a card?</summary><p>You can read anything in the building. Taking things home needs a card.</p></details>
+        <details><summary>Is the building accessible?</summary><p>Yes: step-free entrance on Quay Lane, a lift to both floors, and a hearing loop at the front desk.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" data-lm-theme="harbor-dark" aria-labelledby="closing-title">
+    <div class="lm-container lm-stack" style="--lm-stack-gap: var(--lm-space-5)">
+      <h2 class="lm-display" id="closing-title">See you on <em>Quay Lane.</em></h2>
+      <div class="lm-cluster">
+        <a class="lm-btn lm-btn--primary" href="#card">Get a library card</a>
+        <a class="lm-btn lm-btn--secondary" href="#visit">Opening hours</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="lm-footer" data-lm-theme="harbor-dark">
+  <div class="lm-container lm-footer__grid">
+    <div class="lm-footer__brand">
+      <a class="lm-wordmark" href="#main" aria-label="Quay Lane Library, back to top">Quay Lane Library</a>
+      <p>A fictional library, made to show the Larkmoor design system under a second brand theme.</p>
+      <span class="lm-badge lm-badge--outline">Example site</span>
+    </div>
+    <nav class="lm-footer__col" aria-labelledby="ft-visit"><h2 id="ft-visit">Visit</h2><ul><li><a href="#visit">Opening hours</a></li><li><a href="#events">Events</a></li></ul></nav>
+    <nav class="lm-footer__col" aria-labelledby="ft-join"><h2 id="ft-join">Join</h2><ul><li><a href="#card">Library card</a></li><li><a href="#faq">Questions</a></li></ul></nav>
+    <nav class="lm-footer__col" aria-labelledby="ft-system"><h2 id="ft-system">System</h2><ul><li><a href="../../docs/">Component docs</a></li></ul></nav>
+  </div>
+  <div class="lm-container lm-footer__bottom"><p>Example content. Not a real organisation.</p></div>
+</footer>
+
+<script type="module">
+  import { initDisclosureMenu, initHeader, initReveal, initForm } from './vendor/larkmoor/larkmoor.js';
+
+  const header = document.getElementById('header');
+  const menu = document.getElementById('mobile-menu');
+  initDisclosureMenu(header.querySelector('.lm-menu-button'));
+  initHeader(header, { isLocked: () => !menu.hidden });
+  initReveal('.lm-section-head > *, .lm-card, .lm-rows > div, .lm-accordion details');
+
+  const form = document.getElementById('signup');
+  const success = document.getElementById('form-success');
+  const failure = document.getElementById('form-failure');
+  initForm(form, {
+    summary: document.getElementById('error-summary'),
+    messages: {
+      'given-name': { valueMissing: 'Enter your first name' },
+      'family-name': { valueMissing: 'Enter your last name' },
+      email: { typeMismatch: 'Enter an email like name@example.com, or leave it empty' },
+      postcode: { valueMissing: 'Enter your postcode', patternMismatch: 'Postcodes are 5 to 8 letters and numbers' },
+    },
+    // Stands in for a real request. Success is only shown after it resolves.
+    onValid: async (data) => {
+      success.hidden = true; failure.hidden = true;
+      await new Promise((r) => setTimeout(r, 900));
+      if (data.get('simulate-failure')) { failure.hidden = false; return; }
+      success.hidden = false;
+      form.reset();
+    },
+  });
+</script>
+</body>
+</html>

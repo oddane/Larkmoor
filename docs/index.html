@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Larkmoor · Components</title>
+  <meta name="description" content="Live examples, states, accessibility behaviour and usage rules for every Larkmoor component.">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="vendor/larkmoor/fonts.css">
+  <link rel="stylesheet" href="vendor/larkmoor/larkmoor.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-inverse.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark.css">
+  <style>
+    /* Documentation chrome only. */
+    ul, ol { list-style: none; }
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: var(--lm-space-7); padding-block: var(--lm-space-7) var(--lm-space-9); }
+    .toc { position: sticky; top: var(--lm-space-5); align-self: start; display: grid; gap: var(--lm-space-1); font-size: var(--lm-font-size-caption); max-height: calc(100svh - 48px); overflow-y: auto; }
+    .toc a { display: block; padding: 4px 0; color: var(--lm-color-text-secondary); text-decoration: none; }
+    .toc a:hover { color: var(--lm-color-accent-text); }
+    .toc p { margin-top: var(--lm-space-4); }
+    @media (max-width: 899.98px) { .docs { grid-template-columns: minmax(0, 1fr); } .toc { position: static; max-height: none; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); } }
+    .doc { padding-block: var(--lm-space-7); border-top: 1px solid var(--lm-color-border); display: grid; gap: var(--lm-space-4); }
+    .doc > h2 { scroll-margin-top: 24px; }
+    .stage { padding: var(--lm-space-6); border: 1px solid var(--lm-color-border); border-radius: var(--lm-radius-lg); display: grid; gap: var(--lm-space-5); }
+    .stage-label { font-family: var(--lm-font-family-mono); font-size: 11px; color: var(--lm-color-text-muted); }
+    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--lm-space-5); font-size: var(--lm-font-size-caption); color: var(--lm-color-text-secondary); }
+    .meta h3 { font-size: var(--lm-font-size-caption); font-weight: 600; color: var(--lm-color-text); margin-bottom: var(--lm-space-2); }
+    .meta li { padding-left: 1em; position: relative; margin-top: 4px; }
+    .meta li::before { content: "–"; position: absolute; left: 0; color: var(--lm-color-text-muted); }
+    .do h3::before { content: "✓ "; color: var(--lm-color-success); }
+    .dont h3::before { content: "✕ "; color: var(--lm-color-danger); }
+    pre { margin: 0; padding: var(--lm-space-4); border-radius: var(--lm-radius-md); background: var(--lm-color-bg-subtle); border: 1px solid var(--lm-color-border); overflow-x: auto; font: 12.5px/1.6 var(--lm-font-family-mono); }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--lm-space-3); }
+    .swatch { display: grid; grid-template-columns: 40px 1fr; gap: var(--lm-space-3); align-items: center; font-size: 12px; }
+    .swatch i { width: 40px; height: 40px; border-radius: var(--lm-radius-md); border: 1px solid var(--lm-color-border-strong); }
+    .swatch code { display: block; font: 11px var(--lm-font-family-mono); color: var(--lm-color-text-muted); }
+    .space-row { display: grid; grid-template-columns: minmax(0, 150px) 48px minmax(0, 1fr); align-items: center; gap: var(--lm-space-3); font: 12px var(--lm-font-family-mono); }
+    .space-row i { max-width: 100%; height: 12px; background: var(--lm-color-accent); border-radius: 2px; }
+    .type-row { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: var(--lm-space-4); align-items: baseline; padding-block: var(--lm-space-3); border-bottom: 1px solid var(--lm-color-border); }
+    .type-row > code { font: 11px var(--lm-font-family-mono); color: var(--lm-color-text-muted); }
+    @media (max-width: 519.98px) { .type-row { grid-template-columns: minmax(0, 1fr); gap: var(--lm-space-1); } }
+    .doc, .doc > * { min-width: 0; }
+    .theme-pick { display: flex; flex-wrap: wrap; gap: var(--lm-space-3); align-items: center; }
+    .demo-box { background: var(--lm-color-bg-subtle); border-radius: var(--lm-radius-sm); padding: var(--lm-space-3); font-size: 12px; color: var(--lm-color-text-muted); }
+    .is-hover { background: var(--lm-color-accent) !important; color: var(--lm-color-on-accent) !important; }
+    .is-focus { outline: 2px solid var(--lm-color-focus); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+<a class="lm-skip-link" href="#main">Skip to content</a>
+<div id="preview-root">
+<header class="lm-container" style="padding-top: var(--lm-space-7)">
+  <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-3)">
+    <p class="lm-label lm-label--accent">Larkmoor · v<span id="version">0.1.0</span></p>
+    <h1 class="lm-display">Components</h1>
+    <p class="lm-lead">Every component with its states, keyboard behaviour and rules. Change the theme to see the same markup under each brand.</p>
+    <div class="theme-pick">
+      <label class="lm-field__label" for="theme">Theme</label>
+      <select class="lm-select" id="theme" style="max-width: 260px">
+        <option value="">Evergreen (default)</option>
+        <option value="evergreen-inverse">Evergreen inverse</option>
+        <option value="harbor">Harbor</option>
+        <option value="harbor-dark">Harbor dark</option>
+      </select>
+      <a class="lm-link" href="../examples/tauawo/">Tauawo site</a>
+      <a class="lm-link" href="../examples/harbor/">Harbor example</a>
+    </div>
+  </div>
+</header>
+
+<div class="lm-container docs">
+  <nav class="toc" aria-label="Contents">
+    <p class="lm-label">Foundations</p>
+    <a href="#color">Colour</a><a href="#type">Typography</a><a href="#space">Spacing</a><a href="#layout">Layout primitives</a><a href="#motion">Motion</a>
+    <p class="lm-label">Components</p>
+    <a href="#button">Button</a><a href="#link">Link</a><a href="#header">Header and navigation</a><a href="#segmented">Segmented control</a><a href="#accordion">Accordion</a><a href="#field">Form field</a><a href="#input-group">Input group</a><a href="#badge">Badge</a><a href="#surfaces">Panel, card, alert</a><a href="#rows">Rows</a><a href="#footer">Footer</a><a href="#motion-toggle">Motion toggle</a>
+    <p class="lm-label">Code</p>
+    <a href="#behaviours">Behaviours (JS)</a><a href="#future">Not built yet</a>
+  </nav>
+
+  <main id="main">
+    <!-- ================= foundations ================= -->
+    <section class="doc" id="color" aria-labelledby="h-color">
+      <h2 class="lm-title" id="h-color">Colour</h2>
+      <p class="lm-body">Components use semantic roles only. Values below are read live from <code class="lm-code">tokens.json</code> for the selected theme; each text role shows its contrast against <code class="lm-code">bg</code>.</p>
+      <div class="swatches" id="swatches"></div>
+      <div class="meta">
+        <div class="do"><h3>Do</h3><ul><li>Use <code>text-muted</code> for metadata; it passes 4.5:1 on <code>bg</code> and <code>bg-subtle</code>.</li><li>Pair colour with text or shape (badges have a label and a dot).</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Reference <code>--lm-palette-*</code> in components.</li><li>Use <code>accent</code> for body text on dark themes without checking contrast.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="type" aria-labelledby="h-type">
+      <h2 class="lm-title" id="h-type">Typography</h2>
+      <p class="lm-body">Seven roles. Visual role is independent of heading level: an <code>h2</code> can wear <code>.lm-display</code>.</p>
+      <div>
+        <div class="type-row"><code>.lm-display</code><p class="lm-display">Only the people <em>read it.</em></p></div>
+        <div class="type-row"><code>.lm-title</code><p class="lm-title">Decide what people <em>see.</em></p></div>
+        <div class="type-row"><code>.lm-heading</code><p class="lm-heading">A name, not a number.</p></div>
+        <div class="type-row"><code>.lm-subheading</code><p class="lm-subheading">We can't see</p></div>
+        <div class="type-row"><code>.lm-lead</code><p class="lm-lead">Lead paragraphs introduce a section in one or two sentences.</p></div>
+        <div class="type-row"><code>body</code><p>Body text is 16px with a 1.6 line height and a measure around 65 characters in <code>.lm-prose</code>.</p></div>
+        <div class="type-row"><code>.lm-caption</code><p class="lm-caption">Captions and help text, 14px.</p></div>
+        <div class="type-row"><code>.lm-label</code><p class="lm-label">Eyebrow label · 11px</p></div>
+        <div class="type-row"><code>.lm-tabular</code><p class="lm-tabular">1,204 · 98.6 · 0:42</p></div>
+      </div>
+      <div class="meta">
+        <div><h3>Rules</h3><ul><li>One display per page; titles per section; at most three roles in one block.</li><li>Fluid sizes use <code>clamp()</code> with px bounds mixed with vw, so browser zoom still scales text.</li><li>Use <code>.lm-tabular</code> for numbers that change or align.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Skip heading levels to get a smaller look; pick the role class instead.</li><li>Use <code>.lm-label</code> for anything longer than a few words (uppercase hurts reading).</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="space" aria-labelledby="h-space">
+      <h2 class="lm-title" id="h-space">Spacing</h2>
+      <p class="lm-body">A 4px-based scale. Small steps inside components, large steps between groups: related things sit closer than unrelated ones.</p>
+      <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-2)" id="space-rows"></div>
+      <div class="meta">
+        <div><h3>Who owns the space</h3><ul><li>Components own their padding.</li><li>Layout primitives own the gap between children (<code>--lm-stack-gap</code>, <code>--lm-grid-gap</code>).</li><li>Sections own page rhythm (<code>--lm-space-section</code>).</li></ul></div>
+        <div><h3>Typical pairs</h3><ul><li>Icon to label: <code>space-2</code> (8px)</li><li>Label to input: <code>space-2</code></li><li>Related fields: <code>space-5</code> (24px)</li><li>Heading to its content: <code>space-head-gap</code> (32 to 56px)</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="layout" aria-labelledby="h-layout">
+      <h2 class="lm-title" id="h-layout">Layout primitives</h2>
+      <div class="stage">
+        <p class="stage-label">.lm-stack</p>
+        <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-2)"><div class="demo-box">One</div><div class="demo-box">Two</div><div class="demo-box">Three</div></div>
+        <p class="stage-label">.lm-cluster (wraps)</p>
+        <div class="lm-cluster"><span class="demo-box">Short</span><span class="demo-box">A much longer item</span><span class="demo-box">Three</span><span class="demo-box">Four</span></div>
+        <p class="stage-label">.lm-grid (--lm-grid-min: 160px)</p>
+        <div class="lm-grid" style="--lm-grid-min: 160px; --lm-grid-gap: var(--lm-space-3)"><div class="demo-box">A</div><div class="demo-box">B</div><div class="demo-box">C</div><div class="demo-box">D</div></div>
+        <p class="stage-label">.lm-split (4/8, stacks below 900px)</p>
+        <div class="lm-split"><div class="demo-box">Aside</div><div class="demo-box">Content</div></div>
+      </div>
+<pre><code>&lt;section class="lm-section"&gt;
+  &lt;div class="lm-container"&gt;
+    &lt;div class="lm-section-head lm-split"&gt;
+      &lt;p class="lm-label lm-label--accent"&gt;01 · Topic&lt;/p&gt;
+      &lt;h2 class="lm-title"&gt;Heading&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class="lm-grid" style="--lm-grid-min: 260px"&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+      <div class="meta">
+        <div><h3>Containers</h3><ul><li><code>.lm-container</code>: max 1200px, gutter 16 to 32px.</li><li><code>.lm-prose</code>: about 65 characters per line.</li><li><code>.lm-shell</code>: header / main / footer with the footer kept at the bottom.</li></ul></div>
+        <div><h3>Breakpoints</h3><ul><li>520 compact · 760 narrow · 900 medium · 1100 wide.</li><li>CSS can't read custom properties in <code>@media</code>; import <code>@larkmoor/design-system/breakpoints</code> in JS or <code>scss/breakpoints</code> in Sass.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="motion" aria-labelledby="h-motion">
+      <h2 class="lm-title" id="h-motion">Motion</h2>
+      <div class="meta">
+        <div><h3>Durations</h3><ul><li><code>fast</code> 150ms: colour and border feedback</li><li><code>base</code> 250ms: small movement, toggles</li><li><code>slow</code> 400ms: disclosure, sliding thumbs</li><li><code>slower</code> 600ms: entrances only</li></ul></div>
+        <div><h3>Rules</h3><ul><li>One standard easing: <code>cubic-bezier(.22, .8, .2, 1)</code>.</li><li>Reduced motion shortens every transition to near zero; nothing waits on an animation.</li><li>Anything that loops over 5 seconds needs a <a class="lm-link" href="#motion-toggle">motion toggle</a>.</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ================= components ================= -->
+    <section class="doc" id="button" aria-labelledby="h-button">
+      <h2 class="lm-title" id="h-button">Button</h2>
+      <p class="lm-body">Triggers an action. Variants: primary (one per view), secondary, danger. Sizes: default 44px, small 36px.</p>
+      <div class="stage">
+        <div class="lm-cluster">
+          <button class="lm-btn lm-btn--primary" type="button">Primary</button>
+          <button class="lm-btn lm-btn--secondary" type="button">Secondary</button>
+          <button class="lm-btn lm-btn--danger" type="button">Delete card</button>
+          <button class="lm-btn lm-btn--primary lm-btn--sm" type="button">Small</button>
+        </div>
+        <p class="stage-label">States: hover · focus-visible · busy · unavailable (aria-disabled) · long label</p>
+        <div class="lm-cluster">
+          <button class="lm-btn lm-btn--primary is-hover" type="button">Hover</button>
+          <button class="lm-btn lm-btn--secondary is-focus" type="button">Focus</button>
+          <button class="lm-btn lm-btn--primary" type="button" aria-busy="true" aria-disabled="true">Sending</button>
+          <button class="lm-btn lm-btn--primary" type="button" aria-disabled="true">Unavailable</button>
+          <button class="lm-btn lm-btn--secondary" type="button" style="white-space: normal; max-width: 220px">A long label that wraps onto two lines</button>
+        </div>
+        <div class="lm-cluster"><button class="lm-btn lm-btn--primary" type="button" id="demo-busy">Click to see busy → done</button><p class="lm-caption" id="demo-busy-status" role="status"></p></div>
+      </div>
+      <div class="meta">
+        <div><h3>Accessibility</h3><ul><li>Native <code>&lt;button&gt;</code>; Enter and Space activate.</li><li>Busy and unavailable use <code>aria-disabled</code> so focus is never lost; ignore clicks in script.</li><li>Icon-only buttons need <code>aria-label</code>; icons get <code>aria-hidden</code>.</li><li>Minimum 36px tall (above the 24px AA target), 44px for primary touch actions.</li></ul></div>
+        <div class="do"><h3>Do</h3><ul><li>Name the result: "Request card", not "Submit".</li><li>Announce the outcome after the work finishes.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Use a button to navigate; use a link.</li><li>Put two primary buttons side by side.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="link" aria-labelledby="h-link">
+      <h2 class="lm-title" id="h-link">Link</h2>
+      <div class="stage"><div class="lm-cluster"><a class="lm-link" href="#link">Take the tour</a><span class="lm-prose">Inside prose, links are <a href="#link">underlined text</a>.</span></div></div>
+      <div class="meta"><div><h3>Rules</h3><ul><li><code>.lm-link</code> for standalone links next to buttons; prose links stay underlined.</li><li>Link text says where it goes; never "click here".</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="header" aria-labelledby="h-header">
+      <h2 class="lm-title" id="h-header">Header and navigation</h2>
+      <p class="lm-body">Fixed header with a wordmark, primary nav and one call to action. Below 900px the nav moves into a disclosure menu. See it live on both example sites.</p>
+<pre><code>&lt;header class="lm-header" id="header"&gt;
+  &lt;div class="lm-container lm-header__bar"&gt;
+    &lt;a class="lm-wordmark" href="#main"&gt;…&lt;/a&gt;
+    &lt;nav class="lm-nav" aria-label="Main"&gt;&lt;a href="#a"&gt;A&lt;/a&gt;…&lt;/nav&gt;
+    &lt;div class="lm-header__end"&gt;
+      &lt;a class="lm-btn lm-btn--primary lm-btn--sm" href="#join"&gt;Join&lt;/a&gt;
+      &lt;button class="lm-menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;nav class="lm-mobile-menu" id="mobile-menu" aria-label="Mobile" hidden&gt;…&lt;/nav&gt;
+&lt;/header&gt;
+&lt;script type="module"&gt;
+  import { initDisclosureMenu, initHeader } from '@larkmoor/design-system';
+  initDisclosureMenu(document.querySelector('.lm-menu-button'));
+  initHeader(document.getElementById('header'));
+&lt;/script&gt;</code></pre>
+      <div class="meta">
+        <div><h3>Keyboard and focus</h3><ul><li>Menu button follows the APG disclosure pattern: <code>aria-expanded</code>, <code>aria-controls</code>.</li><li>Escape closes the menu and returns focus to the button; picking a link closes it.</li><li>The header slides back whenever anything inside it gets focus, so focus is never hidden under it.</li><li><code>scroll-padding-top</code> keeps anchored headings clear of the header.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Hide the header on scroll when reduced motion is on (the behaviour already skips it).</li><li>Put more than six items in the main nav.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="segmented" aria-labelledby="h-segmented">
+      <h2 class="lm-title" id="h-segmented">Segmented control</h2>
+      <div class="stage">
+        <fieldset class="lm-segmented" style="--_n: 3; max-width: 420px">
+          <legend class="lm-sr-only">Density</legend>
+          <input type="radio" name="density" id="d-c"><label for="d-c">Compact</label>
+          <input type="radio" name="density" id="d-r" checked><label for="d-r">Regular</label>
+          <input type="radio" name="density" id="d-l"><label for="d-l">Relaxed and roomy</label>
+        </fieldset>
+      </div>
+      <div class="meta">
+        <div><h3>Accessibility</h3><ul><li>A real radio group in a <code>fieldset</code> with a <code>legend</code> (can be visually hidden).</li><li>Tab enters the group; arrow keys move and select (APG radio group).</li><li>In forced colours the selected option uses the system Highlight colour.</li></ul></div>
+        <div class="do"><h3>Do</h3><ul><li>2 to 5 short options that change a view immediately.</li><li>Set <code>--_n</code> to the option count.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Use it for actions or navigation between pages.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="accordion" aria-labelledby="h-accordion">
+      <h2 class="lm-title" id="h-accordion">Accordion</h2>
+      <div class="stage">
+        <div class="lm-accordion">
+          <details open><summary>Open by default</summary><p>Native details and summary: Enter or Space toggles, and screen readers announce expanded or collapsed.</p></details>
+          <details><summary>A long question that wraps across two lines on a phone to show the plus sign stays aligned with the first line</summary><p>The marker sits on the first baseline.</p></details>
+        </div>
+      </div>
+      <div class="meta"><div><h3>Rules</h3><ul><li>For optional detail people can skip; never hide required steps.</li><li>Height animates where <code>::details-content</code> is supported; elsewhere it opens instantly.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="field" aria-labelledby="h-field">
+      <h2 class="lm-title" id="h-field">Form field</h2>
+      <div class="stage">
+        <div class="lm-grid" style="--lm-grid-min: 240px">
+          <div class="lm-field"><label class="lm-field__label" for="f1">Default</label><input class="lm-input" id="f1" autocomplete="off"><p class="lm-field__message"></p></div>
+          <div class="lm-field"><label class="lm-field__label" for="f2">With hint <span class="lm-field__optional">(optional)</span></label><p class="lm-field__hint" id="f2-h">Shown before the input so it's read first.</p><input class="lm-input" id="f2" aria-describedby="f2-h"></div>
+          <div class="lm-field"><label class="lm-field__label" for="f3">Invalid</label><input class="lm-input" id="f3" value="LM4" aria-invalid="true" aria-describedby="f3-m"><p class="lm-field__message lm-field__message--error" id="f3-m">Postcodes are 5 to 8 letters and numbers</p></div>
+          <div class="lm-field"><label class="lm-field__label" for="f4">Success</label><input class="lm-input" id="f4" value="LM4 7QA" aria-describedby="f4-m"><p class="lm-field__message lm-field__message--success" id="f4-m">We deliver there.</p></div>
+          <div class="lm-field"><label class="lm-field__label" for="f5">Disabled</label><input class="lm-input" id="f5" disabled value="Can't change"></div>
+          <div class="lm-field"><label class="lm-field__label" for="f6">Read-only</label><input class="lm-input" id="f6" readonly value="Member since 2024"></div>
+          <div class="lm-field"><label class="lm-field__label" for="f7">Select</label><select class="lm-select" id="f7"><option>Main branch</option><option>Harbour branch</option></select></div>
+          <div class="lm-field"><label class="lm-field__label" for="f8">Textarea</label><textarea class="lm-textarea" id="f8"></textarea></div>
+        </div>
+        <label class="lm-check"><input type="checkbox" checked> Checkbox row with a label that can wrap onto a second line on narrow screens</label>
+        <div class="lm-error-summary" tabindex="-1"><p class="lm-alert__title">Please fix these before sending</p><ul><li><a href="#f3">Postcodes are 5 to 8 letters and numbers</a></li></ul></div>
+      </div>
+      <div class="meta">
+        <div><h3>Accessibility</h3><ul><li>Labels are always visible; placeholders are examples, never labels.</li><li>Hint and message are linked with <code>aria-describedby</code>; errors set <code>aria-invalid</code> and show an icon as well as colour.</li><li>Inputs are 16px so iOS doesn't zoom on focus.</li><li>Use <code>type</code>, <code>inputmode</code> and <code>autocomplete</code> for the right keyboard and autofill.</li></ul></div>
+        <div><h3>Validation (initForm)</h3><ul><li>Validate on submit; afterwards a wrong field re-checks as you type, so its error clears once fixed. Nothing changes on blur, so the layout never shifts under the pointer.</li><li>On failure: summary gets focus, each item links to its field.</li><li>Input is kept on failure; success shows only after the request resolves.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Validate while the person is still typing their first attempt.</li><li>Disable the submit button to signal errors.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="input-group" aria-labelledby="h-ig">
+      <h2 class="lm-title" id="h-ig">Input group</h2>
+      <div class="stage"><div class="lm-input-group"><label class="lm-sr-only" for="ig">Message</label><input id="ig" placeholder="Type a message" enterkeyhint="send"><button class="lm-btn lm-btn--primary lm-btn--sm" type="button">Send</button></div></div>
+      <div class="meta"><div><h3>Rules</h3><ul><li>One input and one action. The focus ring wraps the whole group (also in forced colours).</li><li>Needs a label, even if visually hidden.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="badge" aria-labelledby="h-badge">
+      <h2 class="lm-title" id="h-badge">Badge</h2>
+      <div class="stage"><div class="lm-cluster"><span class="lm-badge">Neutral</span><span class="lm-badge lm-badge--success">Built</span><span class="lm-badge lm-badge--accent">In progress</span><span class="lm-badge lm-badge--warning">Planned</span><span class="lm-badge lm-badge--danger">Full</span><span class="lm-badge lm-badge--outline">In private testing</span></div></div>
+      <div class="meta"><div><h3>Rules</h3><ul><li>Status words, one or two. The text carries the meaning; the dot is a second cue.</li><li>Not interactive. Don't make a badge a link or button.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="surfaces" aria-labelledby="h-surfaces">
+      <h2 class="lm-title" id="h-surfaces">Panel, card, alert</h2>
+      <div class="stage">
+        <div class="lm-grid" style="--lm-grid-min: 220px">
+          <article class="lm-card"><div class="lm-card__media" aria-hidden="true"></div><h3 class="lm-subheading">Card with missing media</h3><p class="lm-caption">The media slot keeps its 16:10 ratio and a neutral fill, so nothing jumps.</p></article>
+          <a class="lm-card" href="#surfaces"><h3 class="lm-subheading">Linked card</h3><p class="lm-caption">The whole card is one link with one accessible name.</p></a>
+          <div class="lm-panel"><p class="lm-caption">Panel: groups a demo or summary.</p></div>
+        </div>
+        <div class="lm-alert lm-alert--success" role="status"><span aria-hidden="true">✓</span><div><p class="lm-alert__title">Saved</p><p>Status alerts are polite announcements.</p></div></div>
+        <div class="lm-alert lm-alert--danger"><span aria-hidden="true">!</span><div><p class="lm-alert__title">Couldn't send</p><p>Use role="alert" only when something failed and needs attention now.</p></div></div>
+      </div>
+    </section>
+
+    <section class="doc" id="rows" aria-labelledby="h-rows">
+      <h2 class="lm-title" id="h-rows">Rows</h2>
+      <div class="stage"><dl class="lm-rows"><div><dt>Key exchange</dt><dd>Hybrid X25519 + ML-KEM-768</dd></div><div><dt>A long term that wraps</dt><dd>Rows stack below 520px so long terms never squeeze the detail.</dd></div></dl></div>
+    </section>
+
+    <section class="doc" id="footer" aria-labelledby="h-footer">
+      <h2 class="lm-title" id="h-footer">Footer</h2>
+      <p class="lm-body">Brand block plus up to three link columns: four tracks from 900px, three below 900px (brand on its own row), two below 520px. Usually paired with a dark theme via <code>data-lm-theme</code>. Live on both examples.</p>
+    </section>
+
+    <section class="doc" id="motion-toggle" aria-labelledby="h-mt">
+      <h2 class="lm-title" id="h-mt">Motion toggle</h2>
+      <div class="stage"><div class="lm-cluster"><button class="lm-motion-toggle" type="button" aria-pressed="false" id="mt" data-lm-requires-js>
+        <svg class="when-playing" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <svg class="when-paused" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>
+        <span class="when-playing">Pause motion</span><span class="when-paused">Play motion</span></button>
+        <span class="lm-btn lm-btn--secondary" aria-hidden="true" style="animation: lm-spin 3s linear infinite">↻</span></div></div>
+      <div class="meta"><div><h3>Accessibility</h3><ul><li>Toggle button with <code>aria-pressed</code>; satisfies WCAG 2.2.2 for anything that moves longer than 5 seconds.</li><li>Pausing freezes CSS animations site-wide and fires <code>lm:motionchange</code> for canvas or JS animation.</li><li>Hidden without JavaScript, because it would do nothing.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="behaviours" aria-labelledby="h-js">
+      <h2 class="lm-title" id="h-js">Behaviours (JavaScript)</h2>
+      <p class="lm-body">Optional ES modules with TypeScript types. Every function accepts missing markup and returns a cleanup function.</p>
+<pre><code>import { initMotionToggle, initDisclosureMenu, initHeader, initReveal, initForm,
+         prefersReducedMotion, isMotionPaused, motionOff } from '@larkmoor/design-system';
+import { breakpoints, below } from '@larkmoor/design-system/breakpoints';
+
+matchMedia(below('medium')).matches;   // true under 900px</code></pre>
+    </section>
+
+    <section class="doc" id="future" aria-labelledby="h-future">
+      <h2 class="lm-title" id="h-future">Not built yet</h2>
+      <p class="lm-body">Neither example needs these, so they are documented as future work rather than shipped untested: dialog, drawer, menu button with a popup list, tooltip, tabs, toast, pagination, data table, file upload, breadcrumbs, avatar. Build them when a real page needs one, following CONTRIBUTING.md.</p>
+    </section>
+  </main>
+</div>
+</div>
+
+<script type="module">
+  import { initMotionToggle } from './vendor/larkmoor/larkmoor.js';
+  initMotionToggle(document.getElementById('mt'), { storageKey: 'lm-docs:motion' });
+
+  const root = document.getElementById('preview-root');
+  const select = document.getElementById('theme');
+  const tokens = await fetch('vendor/larkmoor/tokens.json').then((r) => r.json()).catch(() => null);
+  if (tokens) document.getElementById('version').textContent = tokens.version;
+
+  const lum = (hex) => { const n = parseInt(hex.slice(1), 16); return [n >> 16, (n >> 8) & 255, n & 255].map((v) => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }).reduce((a, v, i) => a + v * [.2126, .7152, .0722][i], 0); };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + .05) / (y + .05); };
+
+  function render() {
+    const name = select.value;
+    if (name) root.setAttribute('data-lm-theme', name); else root.removeAttribute('data-lm-theme');
+    document.documentElement.style.colorScheme = name.endsWith('dark') || name.endsWith('inverse') ? 'dark' : 'light';
+    if (!tokens) return;
+    const t = tokens.themes[name || 'default'];
+    const bg = t['color.bg'];
+    const textRoles = ['text', 'text-secondary', 'text-muted', 'text-label', 'accent-text', 'danger', 'success', 'warning'];
+    document.getElementById('swatches').innerHTML = Object.keys(t).filter((k) => k.startsWith('color.')).map((k) => {
+      const v = t[k]; const role = k.slice(6);
+      const c = textRoles.includes(role) && v.startsWith('#') ? ` · ${ratio(v, bg).toFixed(2)}:1` : '';
+      return `<div class="swatch"><i style="background:${v}"></i><div>${role}<code>${v}${c}</code></div></div>`;
+    }).join('');
+    document.getElementById('space-rows').innerHTML = Object.keys(t).filter((k) => /^space\.\d$/.test(k)).map((k) => `<div class="space-row"><span>--lm-${k.replace('.', '-')}</span><span>${t[k]}</span><i style="width:${t[k]}"></i></div>`).join('');
+  }
+  select.addEventListener('change', render);
+  render();
+
+  const busy = document.getElementById('demo-busy');
+  busy.addEventListener('click', async () => {
+    if (busy.getAttribute('aria-disabled') === 'true') return;
+    busy.setAttribute('aria-busy', 'true'); busy.setAttribute('aria-disabled', 'true');
+    document.getElementById('demo-busy-status').textContent = '';
+    await new Promise((r) => setTimeout(r, 1200));
+    busy.removeAttribute('aria-busy'); busy.removeAttribute('aria-disabled');
+    document.getElementById('demo-busy-status').textContent = 'Done.';
+  });
+</script>
+</body>
+</html>
