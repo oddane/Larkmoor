@@ -53,9 +53,9 @@
     "evidence": "node scripts/evidence.mjs"
   },
   "devDependencies": {
-    "playwright": "1.63.0",
-    "sharp": "^0.34.0",
-    "typescript": "^5.9.0"
+    "playwright": "1.64.1",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2"
   },
   "repository": {
     "type": "git",
