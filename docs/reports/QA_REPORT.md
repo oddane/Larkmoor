@@ -163,3 +163,45 @@ Each one has a test that would catch it again.
 - The React Native components rendering on a real iPhone or Android phone. They compile and type-check, but haven't been run in an app here.
 - The SwiftUI and Compose outputs inside a real app project.
 - Screen readers on the new components.
+
+## 10. Version 0.3.0: high contrast, native components, screen readers
+
+**Locally:** 30 unit tests and 57 browser tests pass (`npm test`).
+- **Unit tests (new):**
+  - the five high-contrast themes meet 7:1 for every text role on every background and surface, 4.5:1 for controls and borders, with opaque borders;
+  - every chosen theme has a partner;
+  - every native output carries the partner map;
+  - the SwiftUI and Compose components carry their accessibility semantics.
+- **Browser tests (new):**
+  - `prefers-contrast: more` on Tauawo (light) and Harbor (light and dark) switches theme, and all measurable text is 7:1;
+  - without it, nothing changes;
+  - six accessibility-tree tests cover tabs, dialog (modal, background inert, focus in and back), toast (region before message), breadcrumbs (separators silent), pagination, table and tab bar.
+
+**GitHub Actions:**
+
+| Job | Result |
+|---|---|
+| Build and test | ✅ |
+| React Native type check (0.88.1) | ✅ |
+| SwiftUI: macOS 14 and iOS 16 simulator SDK type-checks (tokens and components) | ✅ |
+| Kotlin: tokens with `kotlinc`; `LarkmoorAndroid.kt` against the runner's `android.jar` | ✅ |
+| Jetpack Compose: theme, components and a sample screen | ✅ |
+| VoiceOver (macOS 15, WebKit) | 6 of 7 verified; toast is a known gap |
+| NVDA 2026.3 (Windows, Chromium) | 5 of 7 verified; breadcrumbs and table reading are known gaps |
+
+The details, including the actual phrases, are in [ACCESSIBILITY.md](../guides/ACCESSIBILITY.md#screen-readers-in-ci).
+
+**Found by testing and fixed:** F28 to F32 in the [UI audit](UI_AUDIT.md):
+- breadcrumb separators were read as "slash";
+- the first toast could be missed;
+- there were no high-contrast themes;
+- the inverse footer was below AAA;
+- unselected segments were below AAA.
+
+**Still not tested:**
+- the native components on a real phone;
+- Increase Contrast on a real iPhone;
+- VoiceOver announcing the toast in real Safari;
+- NVDA's browse-mode reading;
+- TalkBack.
+

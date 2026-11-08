@@ -49,15 +49,35 @@ The contrast checker skips text over gradients and images and lists them for man
 
 For tabs, dialog, toast, breadcrumbs, pagination, table and tab bar it checks what the screen reader actually said: names, roles, selected and current states, the dialog name on opening, focus return on Escape, the toast announcement, and that breadcrumb separators and arrow glyphs are not read. Everything spoken is uploaded as a build artifact, pass or fail.
 
-Keys are sent to the page by Playwright, so this checks what the screen readers announce, not their own key handling (for example NVDA's browse and focus modes). Those still need a person; see below.
+Everything is done through the screen reader, the way its users work:
+- VoiceOver moves with its own next-item command and presses with VO-Space, because Safari's Tab key skips links and buttons by default;
+- NVDA uses Tab, Enter and Escape, and reports the focused element after each step.
+
+**What the real screen readers said (GitHub Actions, 8 November 2026):**
+
+| Component | VoiceOver (macOS 15, WebKit) | NVDA 2026.3 (Windows, Chromium) |
+|---|---|---|
+| Tabs | ✅ "Pricing selected tab, 2 of 3" (passed on retry: the first attempt caught VoiceOver's hint instead) | ✅ "Pricing, tab, selected, 2 of 3" |
+| Dialog | ✅ name and "dialog" on opening; focus back on "Delete card button" after Escape | ✅ |
+| Toast | ❔ not announced in 6 attempts; see below | ✅ "Draft saved" |
+| Breadcrumbs | ✅ "Breadcrumb navigation", "Replace a lost card current page 3 of 3", no "slash" | ❔ browse-mode reading not captured |
+| Pagination | ✅ "link Previous page", "current page link 2" | ✅ "2, link, … current page" |
+| Table | ✅ "Loans this month table 3 columns, 3 rows", "BOOKS 4,812 column 2 of 3" | ❔ browse-mode reading not captured |
+| Tab bar | ✅ "App navigation", current page | ✅ "Home, link, … current page" |
+
+**Known gaps** (reported as "fixme" in the workflow, with the reason):
+- **VoiceOver and the toast:** VoiceOver, driving Playwright's WebKit build, never spoke the polite status message. The toast was on the page each time, and NVDA announces it. Two changes made the toast more robust anyway: `initToasts()` now creates the live region on page load, and a region made on demand waits 150ms before the first message. It still needs one check on a real iPhone or Mac with Safari.
+- **NVDA browse mode:** on the Windows runner, Guidepup records NVDA's focus announcements but not its browse-mode reading (Down arrow, next item). So the breadcrumb current-page text and the table cells are verified by VoiceOver and the accessibility-tree tests, not NVDA.
 
 ## Manual checks that need your devices
 
 | Check | How | Time |
 |---|---|---|
-| VoiceOver on iPhone (Safari) | Swipe through each page. Use the menu, privacy switch, send demo, FAQ and the Harbor form (submit empty, fix, submit). Listen for the status announcements. | 20 min |
+| VoiceOver on iPhone (Safari) | Swipe through each page. Use the menu, privacy switch, send demo, FAQ and the Harbor form (submit empty, fix, submit). Listen for the status announcements, and for "Draft saved" after Save draft on the docs page (the one gap in the automated VoiceOver run). | 20 min |
 | TalkBack on Android (Chrome) | Same as above | 20 min |
 | NVDA + Firefox on Windows | Same, plus Tab order and the Escape key | 20 min |
+| iPhone Increase Contrast | Settings → Accessibility → Display & Text Size → Increase Contrast, then open Harbor in Safari and an app using `.larkmoorTheme`. Colours should switch to the high-contrast theme. | 5 min |
+| SwiftUI and Compose components with VoiceOver and TalkBack | Render `LarkmoorField`, `LarkmoorSegmentedControl` and `LarkmoorAccordion` in a test screen; swipe through them. | 15 min |
 | Windows High Contrast (real) | Settings → Accessibility → Contrast themes. Check the privacy switch and the form errors. | 5 min |
 | Browser zoom 200% and 400% on desktop Safari and Firefox | Ctrl/Cmd + until 400%. Nothing should be cut off. | 5 min |
 | iOS text size (largest) | Settings → Display → Text Size | 5 min |

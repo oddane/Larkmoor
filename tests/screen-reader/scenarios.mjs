@@ -83,6 +83,8 @@ export function scenarios(wrap, reader, fixme) {
 
   run('tabs announce role, name, selection and position', async ({ heard, said, press, tabTo }) => {
     await tabTo('overview');
+    // the tab and its panel share the name; if the walk stopped on the panel, step back to the tab
+    if (/property page|panel/.test(said.slice(-2).join(' ').toLowerCase())) await press('Shift+Tab', 1000);
     said.length = 0;
     await press('ArrowRight', 2500);
     const t = await heard();

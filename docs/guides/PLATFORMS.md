@@ -172,6 +172,6 @@ Type sizes are in `sp`, so they follow the user's font size. CI compiles:
 
 - **Rendering on real devices:**
   - The native components type-check and compile, but haven't been run on a phone or simulator here.
-  - Before relying on them, render `Screen`, `Button`, `Field` and `SegmentedControl` once in the Tauawo app on iOS and Android.
+  - Before relying on them, render `Screen`, `Button`, `Field` and `SegmentedControl` once in the Tauawo app on iOS and Android, and the SwiftUI and Compose field, segmented control and accordion in a test screen.
 - **Not built:** SwiftUI and Compose versions of the layout and surface components (they map directly to `VStack`/`Column`, `Card` and Material 3); em-based web breakpoints.
 - **Android contrast:** Android 13 and older have no public contrast-level API, and the "High contrast text" switch is not exposed to Compose, so `prefersHighContrast()` returns false there. React Native's Android check depends on the React Native version.
