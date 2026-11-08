@@ -6,9 +6,27 @@ import { expect } from '@playwright/test';
 
 const settle = (page, ms = 1200) => page.waitForTimeout(ms);
 
-/** wrap(name, fn) must call test(name, async ({ page, <reader fixture> }) => fn(page, reader, testInfo)). */
-export function scenarios(wrap, reader) {
-  const run = (name, body) => wrap(name, async (page, s, info) => {
+// Combinations the automation could not verify, with the reason. They are reported as "fixme", not
+// hidden, and are listed in docs/guides/ACCESSIBILITY.md for a person to check by hand.
+const KNOWN_GAPS = {
+  voiceover: {
+    'toast message is announced from the live region':
+      'VoiceOver with Playwright WebKit on the macOS 15 runner never spoke the polite status message (3 tries in each of 2 runs), with or without the region present from load. NVDA announces it. Check on a real iPhone or Mac with Safari.',
+  },
+  nvda: {
+    'breadcrumbs read as a named navigation with the current page and no slashes':
+      "NVDA browse-mode reading (Down arrow or next item) is not captured by Guidepup on the Windows runner; focus announcements are. VoiceOver verifies the current-page text and that no slashes are read.",
+    'table region, caption, headers and cells are read':
+      'Same browse-mode capture limit. VoiceOver verifies the caption, column headers and cells.',
+  },
+};
+
+/**
+ * wrap(name, fn) must call test(name, async ({ page, <reader fixture> }) => fn(page, reader, testInfo));
+ * fixme(name, reason) reports a known gap.
+ */
+export function scenarios(wrap, reader, fixme) {
+  const run = (name, body) => KNOWN_GAPS[reader]?.[name] ? fixme(name, KNOWN_GAPS[reader][name]) : wrap(name, async (page, s, info) => {
     const said = [];
     const take = async () => { said.push(...(await s.spokenPhraseLog()).filter((p) => p && p.trim())); await s.clearSpokenPhraseLog(); };
     const heard = async () => { await take(); return said.join(' | ').toLowerCase(); };
