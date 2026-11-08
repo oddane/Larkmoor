@@ -242,6 +242,22 @@ export function initDialog(dialog) {
   return () => { openers.forEach((o) => o.removeEventListener('click', open)); dialog.removeEventListener('click', onClick); };
 }
 
+/** Adds the toast live region now, so screen readers (Safari's VoiceOver in particular) already
+ * track it when the first message arrives. Call once on page load; toast() also creates it if needed.
+ * @returns {HTMLElement}
+ */
+export function initToasts() {
+  let region = /** @type {HTMLElement | null} */ (document.querySelector('.lm-toast-region'));
+  if (!region) {
+    region = document.createElement('div');
+    region.className = 'lm-toast-region';
+    region.setAttribute('role', 'status');
+    region.setAttribute('aria-live', 'polite');
+    document.body.append(region);
+  }
+  return region;
+}
+
 /**
  * Shows a short, polite confirmation. Call it only after the action has actually finished.
  * Creates the live region on first use (the first message follows 150ms later so it is announced).
@@ -250,15 +266,8 @@ export function initDialog(dialog) {
  * @param {{ tone?: 'default' | 'danger', timeout?: number }} [options]
  */
 export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
-  let region = document.querySelector('.lm-toast-region');
-  const fresh = !region;
-  if (!region) {
-    region = document.createElement('div');
-    region.className = 'lm-toast-region';
-    region.setAttribute('role', 'status');
-    region.setAttribute('aria-live', 'polite');
-    document.body.append(region);
-  }
+  const fresh = !document.querySelector('.lm-toast-region');
+  const region = initToasts();
   const item = document.createElement('div');
   item.className = `lm-toast${tone === 'danger' ? ' lm-toast--danger' : ''}`;
   const text = document.createElement('span'); text.textContent = message;

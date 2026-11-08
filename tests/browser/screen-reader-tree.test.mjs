@@ -58,23 +58,29 @@ test('dialog: opens as a named modal dialog, moves focus in, Escape closes and r
   assert.deepEqual(errors, []);
 });
 
-test('toast: the message lands in a polite status live region that existed before it was written', async () => {
+test('toast: the live region exists from page load, and a region made on demand waits before the first message', async () => {
   const { page, context, errors } = await load();
-  await page.evaluate(() => {
-    window.__order = [];
-    new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) window.__order.push([n.className, performance.now()]); }).observe(document.body, { childList: true, subtree: true });
-  });
+  // initToasts() on load: the region is in the tree before anything is said
+  assert.equal(await page.getByRole('status').count(), 1);
   await page.locator('#save-draft').click();
   const status = page.getByRole('status');
   await status.getByText('Draft saved').waitFor();
   assert.equal(await status.getAttribute('aria-live'), 'polite');
   assert.match(await status.ariaSnapshot(), /- status:\n\s+- text: Draft saved\n\s+- button "Dismiss"/);
-  const order = await page.evaluate(() => window.__order);
-  const region = order.find(([c]) => c === 'lm-toast-region'); const item = order.find(([c]) => c.startsWith('lm-toast '.trim()) && c !== 'lm-toast-region');
-  assert.ok(region && item && item[1] - region[1] >= 100, `message written ${item && region ? Math.round(item[1] - region[1]) : '?'}ms after the region was created`);
-  // later messages go straight into the existing region
-  await page.evaluate(async () => { const { toast } = await import('/dist/larkmoor.js'); toast('Second'); });
-  await status.getByText('Second').waitFor({ timeout: 100 });
+  // without initToasts(): toast() creates the region, then writes the message at least 100ms later
+  const gap = await page.evaluate(async () => {
+    document.querySelector('.lm-toast-region').remove();
+    const order = [];
+    const mo = new MutationObserver((list) => { for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1) order.push([n.className, performance.now()]); });
+    mo.observe(document.body, { childList: true, subtree: true });
+    const { toast } = await import('/dist/larkmoor.js');
+    toast('Second');
+    await new Promise((r) => setTimeout(r, 400));
+    mo.disconnect();
+    const region = order.find(([c]) => c === 'lm-toast-region'); const item = order.find(([c]) => c === 'lm-toast');
+    return region && item ? item[1] - region[1] : -1;
+  });
+  assert.ok(gap >= 100, `first message written ${Math.round(gap)}ms after its region was created`);
   await context.close();
   assert.deepEqual(errors, []);
 });

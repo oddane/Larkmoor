@@ -84,9 +84,10 @@
   </nav>
 
   <script type="module">
-    import { initTabs, initDialog, toast } from '../../dist/larkmoor.js';
+    import { initTabs, initDialog, initToasts, toast } from '../../dist/larkmoor.js';
     initTabs(document.getElementById('demo-tabs'));
     initDialog(document.getElementById('demo-dialog'));
+    initToasts();
     document.getElementById('save-draft').addEventListener('click', async () => { await new Promise((r) => setTimeout(r, 300)); toast('Draft saved'); });
     document.documentElement.dataset.ready = 'true';
   </script>

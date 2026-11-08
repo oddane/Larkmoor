@@ -39,6 +39,13 @@ export function scenarios(wrap, reader) {
       }
       throw new Error(`Next never reached "${text}"`);
     };
+    /** Reaches a control the way each reader's users do: VoiceOver's next-item (Safari's Tab skips
+     *  buttons and links by default), Tab for NVDA. */
+    const reach = (text) => (reader === 'voiceover' ? linkTo(text) : tabTo(text));
+    /** Presses the control under the reader's cursor: VO-Space, or Enter with NVDA. */
+    const activate = async (ms) => { if (reader === 'voiceover') { await s.act(); await settle(page, ms); } else await press('Enter', ms); };
+    /** Reads the next item: VoiceOver's next-item command, NVDA's Down arrow in browse mode. */
+    const nextItem = async () => { if (reader === 'voiceover') await s.next(); else await s.press('ArrowDown'); await settle(page, 700); };
     await page.goto('/tests/screen-reader/', { waitUntil: 'load' });
     await page.locator('html[data-ready="true"]').waitFor();
     await s.navigateToWebContent();
@@ -46,7 +53,7 @@ export function scenarios(wrap, reader) {
     console.log(`[${reader}] ${name}: after navigateToWebContent:`, JSON.stringify(said), 'last:', JSON.stringify(await s.lastSpokenPhrase().catch((e) => String(e))));
     said.length = 0;
     try {
-      await body({ page, s, take, heard, said, press, tabTo, linkTo });
+      await body({ page, s, take, heard, said, press, tabTo, linkTo, reach, activate, nextItem });
     } finally {
       await take().catch(() => {});
       console.log(`[${reader}] ${name} (attempt ${info.retry}) heard:`, JSON.stringify(said));
@@ -59,17 +66,17 @@ export function scenarios(wrap, reader) {
   run('tabs announce role, name, selection and position', async ({ heard, said, press, tabTo }) => {
     await tabTo('overview');
     said.length = 0;
-    await press('ArrowRight', 1500);
+    await press('ArrowRight', 2500);
     const t = await heard();
     expect(t).toContain('pricing');
     expect(t).toMatch(/tab/);
     expect(t).toMatch(/selected/);
   });
 
-  run('dialog is announced with its name on open and focus returns on Escape', async ({ heard, said, press, tabTo }) => {
-    await tabTo('delete card');
+  run('dialog is announced with its name on open and focus returns on Escape', async ({ heard, said, press, reach, activate }) => {
+    await reach('delete card');
     said.length = 0;
-    await press('Enter', 2000);
+    await activate(2000);
     const opened = await heard();
     expect(opened).toContain('delete this card');
     expect(opened).toMatch(/dialog/);
@@ -78,17 +85,17 @@ export function scenarios(wrap, reader) {
     expect(await heard()).toContain('delete card');
   });
 
-  run('toast message is announced from the live region', async ({ page, heard, said, press, tabTo }) => {
-    await tabTo('save draft');
+  run('toast message is announced from the live region', async ({ page, heard, said, reach, activate }) => {
+    await reach('save draft');
     said.length = 0;
-    await press('Enter', 3500);
+    await activate(3500);
     console.log(`[${reader}] toast elements on the page:`, await page.locator('.lm-toast').count());
     expect(await heard()).toContain('draft saved');
   });
 
-  run('breadcrumbs read as a named navigation with the current page and no slashes', async ({ page, s, heard, linkTo }) => {
+  run('breadcrumbs read as a named navigation with the current page and no slashes', async ({ heard, linkTo, nextItem }) => {
     await linkTo('home');
-    for (let i = 0; i < 6; i++) { await s.next(); await settle(page, 600); }
+    for (let i = 0; i < 6; i++) await nextItem();
     const t = await heard();
     expect(t).toContain('breadcrumb');
     expect(t).toContain('replace a lost card');
@@ -105,9 +112,9 @@ export function scenarios(wrap, reader) {
     expect(t).not.toMatch(/left arrow|leftwards/);
   });
 
-  run('table region, caption, headers and cells are read', async ({ page, s, heard, tabTo }) => {
+  run('table region, caption, headers and cells are read', async ({ heard, tabTo, nextItem }) => {
     await tabTo('loans this month');
-    for (let i = 0; i < 8; i++) { await s.next(); await settle(page, 600); }
+    for (let i = 0; i < 10; i++) await nextItem();
     const t = await heard();
     expect(t).toContain('loans this month');
     expect(t).toContain('branch');

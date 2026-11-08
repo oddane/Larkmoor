@@ -450,11 +450,12 @@ matchMedia(below('medium')).matches;   // true under 900px</code></pre>
 </div>
 
 <script type="module">
-  import { initMotionToggle, initTabs, initDialog, toast } from './vendor/larkmoor/larkmoor.js';
+  import { initMotionToggle, initTabs, initDialog, initToasts, toast } from './vendor/larkmoor/larkmoor.js';
   initMotionToggle(document.getElementById('mt'), { storageKey: 'lm-docs:motion' });
   initTabs(document.getElementById('demo-tabs'));
   initDialog(document.getElementById('demo-dialog'));
   initDialog(document.getElementById('demo-sheet'));
+  initToasts();
   document.getElementById('demo-toast').addEventListener('click', async () => { await new Promise((r) => setTimeout(r, 300)); toast('Draft saved'); });
 
   const root = document.getElementById('preview-root');
