@@ -1,0 +1,12 @@
+/* Accordion: native <details>/<summary>. Keyboard and screen-reader behaviour come from the browser. */
+.lm-accordion > details { border-top: var(--lm-border-width) solid var(--lm-color-border-strong); interpolate-size: allow-keywords; }
+.lm-accordion > details:last-child { border-bottom: var(--lm-border-width) solid var(--lm-color-border-strong); }
+.lm-accordion summary { list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: var(--lm-space-5); padding: var(--lm-space-4) 0; font-weight: var(--lm-font-weight-medium); font-size: 17px; line-height: 1.4; letter-spacing: -.01em; }
+.lm-accordion summary::-webkit-details-marker { display: none; }
+.lm-accordion summary::after { content: "+"; flex: none; font: 300 18px var(--lm-font-family-mono); color: var(--lm-color-text-muted); transition: transform var(--lm-motion-duration-base) var(--lm-motion-easing-standard); }
+.lm-accordion details[open] summary::after { transform: rotate(45deg); }
+.lm-accordion details > :not(summary) { padding: 0 var(--lm-space-7) var(--lm-space-5) 0; color: var(--lm-color-text-secondary); max-width: 40em; font-size: var(--lm-font-size-body-sm); }
+.lm-accordion details a { color: var(--lm-color-text); text-decoration: underline; text-decoration-color: var(--lm-color-border-strong); text-underline-offset: .2em; }
+.lm-accordion details::details-content { height: 0; overflow: clip; transition: height var(--lm-motion-duration-slow) var(--lm-motion-easing-standard), content-visibility var(--lm-motion-duration-slow) allow-discrete; }
+.lm-accordion details[open]::details-content { height: auto; }
+@media (max-width: 519.98px) { .lm-accordion details > :not(summary) { padding-right: 0; } }

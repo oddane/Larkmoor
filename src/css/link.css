@@ -1,0 +1,8 @@
+/* Standalone link: navigation away from or within the page, with an always-visible underline. */
+.lm-link {
+  display: inline-flex; align-items: center; gap: var(--lm-space-2); min-height: var(--lm-size-target-min);
+  padding-block: 6px; border-bottom: var(--lm-border-width) solid var(--lm-color-border-strong);
+  font-size: var(--lm-font-size-body-sm); color: var(--lm-color-text-secondary); text-decoration: none;
+  transition: color var(--lm-motion-duration-fast), border-color var(--lm-motion-duration-fast);
+}
+.lm-link:hover { color: var(--lm-color-accent-text); border-color: var(--lm-color-accent); }

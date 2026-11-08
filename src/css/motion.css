@@ -1,0 +1,19 @@
+/* Motion. Entrances are progressive: content is visible unless script has marked it pending. */
+.lm-reveal-pending { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+.lm-reveal-in { opacity: 1; transform: none; filter: none; transition: opacity 800ms var(--lm-motion-easing-standard), transform 900ms var(--lm-motion-easing-standard), filter 800ms var(--lm-motion-easing-standard); transition-delay: var(--d, 0ms); }
+
+/* Pause control (WCAG 2.2.2). Pausing freezes every CSS animation; scripts listen for "lm:motionchange". */
+.lm-motion-toggle { display: inline-flex; align-items: center; gap: var(--lm-space-2); min-height: 32px; padding: 0 var(--lm-space-3); border: var(--lm-border-width) solid var(--lm-color-border-strong); border-radius: var(--lm-radius-pill); background: var(--lm-color-bg); color: var(--lm-color-text-secondary); font-family: var(--lm-text-label-family); font-size: var(--lm-text-label-size); letter-spacing: var(--lm-text-label-tracking); text-transform: uppercase; }
+.lm-motion-toggle:hover { border-color: var(--lm-color-accent); color: var(--lm-color-accent-text); }
+.lm-motion-toggle .when-paused { display: none; }
+.is-paused .lm-motion-toggle .when-paused { display: inline; }
+.is-paused .lm-motion-toggle .when-playing { display: none; }
+html.is-paused *, html.is-paused *::before, html.is-paused *::after { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* 0s, not .01ms: a tiny duration still runs a transition, so state read in the same frame is stale */
+  *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* Script-only controls stay out of the way when scripts don't run. */
+html:not(.js) [data-lm-requires-js] { display: none !important; }

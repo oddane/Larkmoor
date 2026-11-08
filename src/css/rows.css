@@ -1,0 +1,6 @@
+/* Rows: a term-and-detail list with hairlines, for specs, settings and opening hours. */
+.lm-rows { border-top: var(--lm-border-width) solid var(--lm-color-border); }
+.lm-rows > div { display: grid; grid-template-columns: var(--lm-rows-term, 148px) minmax(0, 1fr); gap: var(--lm-space-4); padding: var(--lm-space-3) 0; border-bottom: var(--lm-border-width) solid var(--lm-color-border); font-size: var(--lm-font-size-caption); }
+.lm-rows dt, .lm-rows b { font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text); }
+.lm-rows dd, .lm-rows span { color: var(--lm-color-text-muted); }
+@media (max-width: 519.98px) { .lm-rows > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }

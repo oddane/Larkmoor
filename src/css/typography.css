@@ -1,0 +1,26 @@
+/* Semantic text roles. Pick the role for its look; pick h1-h6 for the document outline. */
+.lm-display, .lm-title, .lm-heading, .lm-subheading { text-wrap: balance; }
+.lm-display { font-family: var(--lm-text-display-family); font-size: var(--lm-text-display-size); font-weight: var(--lm-text-display-weight); line-height: var(--lm-text-display-line-height); letter-spacing: var(--lm-text-display-tracking); font-stretch: var(--lm-text-display-stretch); }
+.lm-title { font-family: var(--lm-text-title-family); font-size: var(--lm-text-title-size); font-weight: var(--lm-text-title-weight); line-height: var(--lm-text-title-line-height); letter-spacing: var(--lm-text-title-tracking); font-stretch: var(--lm-text-display-stretch); }
+.lm-heading { font-family: var(--lm-text-heading-family); font-size: var(--lm-text-heading-size); font-weight: var(--lm-text-heading-weight); line-height: var(--lm-text-heading-line-height); letter-spacing: var(--lm-text-heading-tracking); font-stretch: var(--lm-text-display-stretch); }
+.lm-subheading { font-family: var(--lm-text-subheading-family); font-size: var(--lm-text-subheading-size); font-weight: var(--lm-text-subheading-weight); line-height: var(--lm-text-subheading-line-height); letter-spacing: var(--lm-text-subheading-tracking); font-stretch: var(--lm-text-display-stretch); }
+/* The accent phrase inside a headline: lighter weight, accent colour. Never the only carrier of meaning. */
+:is(.lm-display, .lm-title) em { font-style: normal; font-weight: var(--lm-font-weight-light); color: var(--lm-color-accent-text); }
+
+.lm-lead { font-size: var(--lm-font-size-lead); line-height: 1.6; color: var(--lm-color-text-secondary); max-width: 36em; text-wrap: pretty; }
+.lm-body { font-size: var(--lm-font-size-body); color: var(--lm-color-text-secondary); }
+.lm-caption { font-size: var(--lm-font-size-caption); line-height: 1.55; color: var(--lm-color-text-muted); }
+.lm-label { font-family: var(--lm-text-label-family); font-size: var(--lm-text-label-size); font-weight: var(--lm-text-label-weight); line-height: var(--lm-text-label-line-height); letter-spacing: var(--lm-text-label-tracking); text-transform: uppercase; color: var(--lm-color-text-muted); }
+.lm-label--accent { color: var(--lm-color-text-label); }
+.lm-code, .lm-prose code { font-family: var(--lm-text-code-family); font-size: .8125em; }
+.lm-tabular { font-variant-numeric: tabular-nums; }
+.lm-nowrap { white-space: nowrap; }
+
+/* Long-form text: measure, paragraph rhythm, lists, links. */
+.lm-prose { max-width: var(--lm-size-prose); color: var(--lm-color-text-secondary); }
+.lm-prose > * + * { margin-top: 1em; }
+.lm-prose :is(h2, h3) { margin-top: 1.6em; color: var(--lm-color-text); }
+.lm-prose :is(ul, ol) { padding-left: 1.25em; }
+.lm-prose li + li { margin-top: .35em; }
+.lm-prose a { color: var(--lm-color-text); text-decoration: underline; text-decoration-color: var(--lm-color-border-strong); text-underline-offset: .2em; }
+.lm-prose a:hover { text-decoration-color: currentColor; }

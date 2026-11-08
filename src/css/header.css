@@ -1,0 +1,29 @@
+/* Site header with primary navigation and a disclosure menu below the medium breakpoint (900px). */
+.lm-header { position: fixed; inset: 0 0 auto; z-index: var(--lm-layer-sticky); border-bottom: var(--lm-border-width) solid transparent; transition: background-color var(--lm-motion-duration-base), border-color var(--lm-motion-duration-base), transform var(--lm-motion-duration-slow) var(--lm-motion-easing-standard); }
+.lm-header.is-scrolled { background: var(--lm-color-header-scrim); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--lm-color-border); }
+.lm-header.is-hidden { transform: translateY(-100%); }
+.lm-header__bar { height: var(--lm-size-header); display: flex; align-items: center; gap: var(--lm-space-6); }
+.lm-header__end { display: flex; align-items: center; gap: var(--lm-space-2); }
+.lm-wordmark { display: inline-flex; align-items: center; gap: var(--lm-space-2); min-height: var(--lm-size-target-min); font-weight: var(--lm-font-weight-semibold); font-size: var(--lm-font-size-body); letter-spacing: -.02em; text-decoration: none; }
+.lm-wordmark svg { flex: none; }
+
+.lm-nav { display: flex; gap: var(--lm-space-5); margin-left: auto; font-size: var(--lm-font-size-caption); color: var(--lm-color-text-secondary); }
+.lm-nav a { padding-block: var(--lm-space-2); text-decoration: none; background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px; transition: color var(--lm-motion-duration-fast), background-size var(--lm-motion-duration-base) var(--lm-motion-easing-standard); }
+.lm-nav a:hover, .lm-nav a[aria-current] { color: var(--lm-color-text); background-size: 100% 1px; }
+
+.lm-menu-button, .lm-mobile-menu { display: none; }
+@media (max-width: 899.98px) {
+  .lm-nav { display: none; }
+  .lm-header__end { margin-left: auto; }
+  .lm-menu-button { display: grid; place-content: center; gap: 6px; width: var(--lm-size-target); height: var(--lm-size-target); margin-right: -10px; background: none; border: 0; }
+  .lm-menu-button span { display: block; width: 20px; height: 1.5px; background: currentColor; transition: transform var(--lm-motion-duration-base) var(--lm-motion-easing-standard); }
+  .lm-menu-button[aria-expanded="true"] span:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .lm-menu-button[aria-expanded="true"] span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+  .lm-mobile-menu:not([hidden]) { display: grid; padding: var(--lm-space-1) var(--lm-space-gutter) var(--lm-space-5); background: var(--lm-color-bg); border-bottom: var(--lm-border-width) solid var(--lm-color-border); max-height: calc(100svh - var(--lm-size-header)); overflow-y: auto; }
+  .lm-mobile-menu a { font-family: var(--lm-text-subheading-family); font-stretch: var(--lm-text-display-stretch); font-size: var(--lm-font-size-subheading); letter-spacing: var(--lm-text-subheading-tracking); padding: var(--lm-space-3) 0; border-bottom: var(--lm-border-width) solid var(--lm-color-border); text-decoration: none; }
+  .lm-mobile-menu a:last-child { border-bottom: 0; }
+  .lm-header:has(.lm-mobile-menu:not([hidden])) { background: var(--lm-color-bg); }
+}
+
+/* Reading progress along the top edge. Decorative: aria-hidden. */
+.lm-progress { position: fixed; inset: 0 0 auto; z-index: var(--lm-layer-progress); height: 2px; pointer-events: none; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: var(--lm-color-accent); }

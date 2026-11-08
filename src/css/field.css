@@ -1,0 +1,41 @@
+/* Form field: persistent label, optional hint, input, and a message slot that is always in the layout. */
+.lm-field { display: grid; gap: var(--lm-space-2); }
+.lm-field__label { font-size: var(--lm-font-size-caption); font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text); }
+.lm-field__label .lm-field__optional { font-weight: var(--lm-font-weight-regular); color: var(--lm-color-text-muted); }
+.lm-field__hint { font-size: var(--lm-font-size-caption); color: var(--lm-color-text-muted); }
+.lm-field__message { display: flex; gap: var(--lm-space-2); align-items: flex-start; min-height: 1.4em; font-size: var(--lm-font-size-caption); }
+.lm-field__message:empty { min-height: 0; }
+.lm-field__message--error { color: var(--lm-color-danger); }
+.lm-field__message--success { color: var(--lm-color-success); }
+.lm-field__message--error::before { content: "!"; flex: none; display: grid; place-items: center; width: 1.2em; height: 1.2em; margin-top: .1em; border-radius: 50%; background: currentColor; color: var(--lm-color-bg); font-weight: 700; font-size: .85em; }
+
+.lm-input, .lm-select, .lm-textarea {
+  width: 100%; min-height: var(--lm-size-control); padding: var(--lm-space-2) var(--lm-space-4);
+  border: var(--lm-border-width) solid var(--lm-color-border-strong); border-radius: var(--lm-radius-md);
+  background: var(--lm-color-surface); color: var(--lm-color-text); font-size: var(--lm-font-size-body); /* 16px stops iOS zooming on focus */
+  transition: border-color var(--lm-motion-duration-fast), box-shadow var(--lm-motion-duration-fast);
+}
+.lm-textarea { min-height: 120px; resize: vertical; }
+.lm-input::placeholder, .lm-textarea::placeholder { color: var(--lm-color-text-muted); }
+.lm-input:hover, .lm-select:hover, .lm-textarea:hover { border-color: var(--lm-color-text-muted); }
+.lm-input:focus-visible, .lm-select:focus-visible, .lm-textarea:focus-visible { outline: var(--lm-border-focus) solid var(--lm-color-focus); outline-offset: 1px; border-color: var(--lm-color-focus); }
+.lm-input[aria-invalid="true"], .lm-select[aria-invalid="true"], .lm-textarea[aria-invalid="true"] { border-color: var(--lm-color-danger); border-width: 2px; }
+.lm-input:disabled, .lm-select:disabled, .lm-textarea:disabled { opacity: .55; cursor: not-allowed; }
+.lm-input[readonly] { background: var(--lm-color-bg-subtle); border-style: dashed; }
+
+/* Checkbox and radio rows */
+.lm-check { display: flex; gap: var(--lm-space-3); align-items: flex-start; font-size: var(--lm-font-size-body-sm); }
+.lm-check input { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--lm-color-accent); }
+
+/* Input group: an input and its button inside one pill, e.g. a message composer or newsletter box. */
+.lm-input-group { display: flex; gap: var(--lm-space-2); padding: var(--lm-space-1); border: var(--lm-border-width) solid var(--lm-color-border-strong); border-radius: var(--lm-radius-pill); background: var(--lm-color-bg-subtle); max-width: 560px; transition: border-color var(--lm-motion-duration-fast); }
+.lm-input-group:focus-within { border-color: var(--lm-color-focus); outline: var(--lm-border-focus) solid var(--lm-color-focus); outline-offset: 2px; }
+.lm-input-group input { flex: 1; width: 0; min-width: 0; /* width 0 keeps the input from setting the group's minimum width */ border: 0; background: none; padding: 0 var(--lm-space-4); font-size: var(--lm-font-size-body); color: var(--lm-color-text); outline: none; }
+.lm-input-group input::placeholder { color: var(--lm-color-text-muted); }
+.lm-input-group .lm-btn { --_h: 40px; }
+
+/* Error summary at the top of a form */
+.lm-error-summary { padding: var(--lm-space-4) var(--lm-space-5); border: 2px solid var(--lm-color-danger); border-radius: var(--lm-radius-md); }
+.lm-error-summary:focus { outline: var(--lm-border-focus) solid var(--lm-color-focus); outline-offset: 2px; }
+.lm-error-summary ul { margin-top: var(--lm-space-2); padding-left: 1.2em; }
+.lm-error-summary a { color: var(--lm-color-danger); }

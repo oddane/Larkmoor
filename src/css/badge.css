@@ -1,0 +1,9 @@
+/* Badge: a short status. Always has a text label; the dot is a second cue, never the only one. */
+.lm-badge { display: inline-flex; width: fit-content; justify-self: start; align-items: center; gap: 6px; flex: none; font-family: var(--lm-text-label-family); font-size: var(--lm-font-size-meta); letter-spacing: .02em; color: var(--lm-color-text-muted); white-space: nowrap; }
+.lm-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.lm-badge--success { color: var(--lm-color-success); }
+.lm-badge--accent { color: var(--lm-color-accent-text); }
+.lm-badge--warning { color: var(--lm-color-warning); }
+.lm-badge--danger { color: var(--lm-color-danger); }
+.lm-badge--outline { padding: 7px 12px; border: var(--lm-border-width) solid var(--lm-color-border-strong); border-radius: var(--lm-radius-pill); color: var(--lm-color-text-secondary); }
+.lm-badge--outline::before { background: var(--lm-color-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--lm-color-accent) 20%, transparent); }

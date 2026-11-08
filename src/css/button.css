@@ -1,0 +1,29 @@
+/* Button: an action. Use .lm-link or a plain <a> to navigate; style an <a> as a button only when it is the page's main call to action. */
+.lm-btn {
+  --_h: var(--lm-size-control);
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--lm-space-2);
+  min-height: var(--_h); padding: 0 var(--lm-space-5); border: var(--lm-border-width) solid transparent; /* transparent border becomes visible in forced colours */
+  border-radius: var(--lm-radius-pill); background: transparent; color: inherit;
+  font-size: var(--lm-font-size-body-sm); font-weight: var(--lm-font-weight-medium); line-height: 1.2; text-align: center; text-decoration: none;
+  transition: background-color var(--lm-motion-duration-fast) var(--lm-motion-easing-standard), color var(--lm-motion-duration-fast) var(--lm-motion-easing-standard), border-color var(--lm-motion-duration-fast) var(--lm-motion-easing-standard), box-shadow var(--lm-motion-duration-base) var(--lm-motion-easing-standard), transform var(--lm-motion-duration-base) var(--lm-motion-easing-standard);
+}
+.lm-btn svg { flex: none; transition: transform var(--lm-motion-duration-base) var(--lm-motion-easing-standard); }
+.lm-btn:hover svg[data-lm-nudge] { transform: translateX(3px); }
+.lm-btn:active { transform: scale(.97); }
+
+.lm-btn--primary { background: var(--lm-color-action); color: var(--lm-color-on-action); box-shadow: var(--lm-elevation-2); }
+.lm-btn--primary:hover { background: var(--lm-color-accent); color: var(--lm-color-on-accent); }
+.lm-btn--secondary { border-color: var(--lm-color-border-strong); }
+.lm-btn--secondary:hover { border-color: var(--lm-color-accent); color: var(--lm-color-accent-text); }
+.lm-btn--danger { background: var(--lm-color-danger); color: #fff; }
+.lm-btn--sm { --_h: var(--lm-size-control-sm); padding: 0 var(--lm-space-4); font-size: var(--lm-font-size-caption); }
+.lm-btn--block { width: 100%; }
+
+/* Busy and unavailable. aria-disabled keeps the button focusable, so keyboard users don't lose their place. */
+.lm-btn[aria-disabled="true"], .lm-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.lm-btn[aria-busy="true"] { cursor: progress; }
+.lm-btn[aria-busy="true"]::after {
+  content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent;
+  animation: lm-spin .8s linear infinite;
+}
+@keyframes lm-spin { to { transform: rotate(1turn); } }

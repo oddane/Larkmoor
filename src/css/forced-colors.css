@@ -1,0 +1,10 @@
+/* Windows high contrast: keep meaning that colour alone was carrying. */
+@media (forced-colors: active) {
+  .lm-progress { display: none; }
+  .lm-segmented::before { display: none; }
+  .lm-segmented input:checked + label { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+  .lm-badge::before, .lm-badge--outline::before { forced-color-adjust: none; background: Highlight; }
+  :is(.lm-display, .lm-title) em { color: Highlight; }
+  .lm-input-group:focus-within { outline-color: Highlight; }
+  .lm-field__message--error::before { forced-color-adjust: none; background: Mark; color: MarkText; }
+}

@@ -1,0 +1,31 @@
+/* Layout primitives. The parent owns the gap; children never add outer margins. */
+.lm-container { width: 100%; max-width: var(--lm-size-container); margin-inline: auto; padding-inline: var(--lm-space-gutter); }
+
+/* Stack: vertical flow with one gap. Set --lm-stack-gap to any space token. */
+.lm-stack { display: flex; flex-direction: column; gap: var(--lm-stack-gap, var(--lm-space-4)); }
+.lm-stack > * { min-width: 0; }
+
+/* Cluster (inline): a wrapping row of items such as actions and tags. */
+.lm-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-cluster-gap, var(--lm-space-3) var(--lm-space-5)); }
+
+/* Grid: as many equal columns as fit, never narrower than --lm-grid-min. */
+.lm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--lm-grid-min, 240px)), 1fr)); gap: var(--lm-grid-gap, var(--lm-space-6)); }
+
+/* Fill: keep the column width when there are fewer items than columns, instead of stretching them. */
+.lm-grid--fill { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--lm-grid-min, 240px)), 1fr)); }
+
+/* Split: a 4/8 aside-and-content pair that stacks below the medium breakpoint (900px). */
+.lm-split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--lm-space-3) var(--lm-space-7); align-items: start; }
+@media (max-width: 899.98px) { .lm-split { grid-template-columns: minmax(0, 1fr); } }
+
+/* Section: vertical rhythm between page sections, with a hairline between neighbours. */
+.lm-section { padding-block: var(--lm-space-section); position: relative; }
+.lm-section + .lm-section { border-top: var(--lm-border-width) solid var(--lm-color-border); }
+.lm-section[data-lm-theme], [data-lm-theme] + .lm-section { border-top: 0; }
+.lm-section-head { margin-bottom: var(--lm-space-head-gap); }
+.lm-section-head > .lm-label { padding-top: .7em; }
+.lm-section-head .lm-lead { margin-top: var(--lm-space-4); }
+@media (max-width: 899.98px) { .lm-section-head > .lm-label { padding-top: 0; } }
+
+/* Page shell: header, main that grows, footer. */
+.lm-shell { min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; }
