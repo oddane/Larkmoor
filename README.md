@@ -153,6 +153,29 @@ To release:
 
 The release workflow runs the full test suite and publishes a GitHub release with the package tarball.
 
+## Repository settings (one-time, by the owner)
+
+These need owner rights in the GitHub web interface:
+
+1. **About** (gear icon on the repo page):
+   - Description: "Accessible design system: DTCG tokens, layout primitives, components and themes."
+   - Topics: `design-system`, `design-tokens`, `css`, `accessibility`, `wcag`.
+2. **Releases → Draft a new release:**
+   - Tag: `v0.1.0`, target `main`.
+   - Title: "Larkmoor v0.1.0".
+   - Notes: paste the 0.1.0 section of CHANGELOG.md.
+   - Publish. The release workflow attaches the package tarball.
+3. **Settings → General:**
+   - allow squash merging only;
+   - automatically delete head branches.
+4. **Settings → Branches → Add rule for `main`:**
+   - require the **Build and test** check;
+   - require a pull request.
+
+   On a free plan, rules on private repositories may need GitHub Pro.
+
+With the GitHub CLI and admin rights, `REPO=oddane/Larkmoor scripts/github-setup.sh` does steps 1, 3 and 4.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Issues and pull requests use templates, and every change needs `npm test` to pass.

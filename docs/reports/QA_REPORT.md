@@ -20,7 +20,7 @@ Everything below was measured in **Chromium only**.
 |---|---|
 | ✅ Passed | 10 unit tests + 41 browser tests + type check + install check |
 | ❌ Failed | 0 (the last run; failures found during the work are in UI_AUDIT §3) |
-| ⛔ Blocked | GitHub upload (repository access not granted yet); axe-core (registry unreachable); app network capture (needs your phone) |
+| ⛔ Blocked | axe-core (registry unreachable here); app network capture (needs your phone); tag and repo settings (GitHub refuses them from this session) |
 | ⚪ Untested | Real screen readers, Safari, Firefox, real phones, field Core Web Vitals, RTL |
 
 ## 2. How to reproduce
@@ -64,7 +64,23 @@ npm run screenshots           # docs/screenshots/
 | 26 | Screen readers | — | — | — | — | ⚪ needs your devices |
 | 27 | Safari, Firefox, real phones | — | — | — | — | ⚪ needs your devices |
 
-## 4. Measured performance (lab)
+## 4. Continuous integration (GitHub Actions)
+
+Every push to `main` and every pull request runs these on GitHub's Ubuntu runners:
+- the build;
+- a check that generated files are committed;
+- the type check;
+- 10 unit tests and 41 browser tests;
+- the install check.
+
+The run on commit `94c39b7` passed every step.
+
+Two adjustments for CI, both documented in the test files:
+
+- **Its own visual baselines.** Fonts render differently on GitHub's machines. CI recorded `tests/baselines/ci/` once (commit `a0866db`), and I reviewed it; later runs compare against those.
+- **A looser blocking-time guard: 450ms instead of 200ms.** Shared runners measured 336ms in one run and under 200ms in another for the same code. The 200ms budget still applies on the reference machine.
+
+## 5. Measured performance (lab)
 
 **Profile:** phone 390×844 @3x, CPU slowed 4×, about 1.6 Mbps down with 150 ms latency, cache off. Median of 3 runs.
 
@@ -83,7 +99,7 @@ npm run screenshots           # docs/screenshots/
 - They are lab numbers. INP and the 75th-percentile field values can only come from real visits.
 - Plan: after launch, check PageSpeed Insights or Search Console's Core Web Vitals report monthly.
 
-## 5. Screenshots
+## 6. Screenshots
 
 In `docs/screenshots/`, both full page and first screen:
 - Tauawo at 320, 390, 768, 1024, 1440 and 1920;
@@ -92,7 +108,7 @@ In `docs/screenshots/`, both full page and first screen:
 
 The visual baselines (`tests/baselines/`) add the docs page in Harbor dark. Captures use reduced motion, so states are settled; the hero cipher field is random by design, so it is hidden in baselines only.
 
-## 6. Problems found by testing and fixed
+## 7. Problems found by testing and fixed
 
 These are F12–F20 in UI_AUDIT.md:
 - privacy demo cramped at tablet widths;
@@ -104,15 +120,14 @@ These are F12–F20 in UI_AUDIT.md:
 
 Each one has a test that would catch it again.
 
-## 7. Blocked and untested
+## 8. Blocked and untested
 
 | Item | Status | What unblocks it |
 |---|---|---|
-| GitHub upload | ⛔ The repository oddane/Larkmoor exists, but the Claude GitHub app hasn't been given access. The local repository is committed. | Grant access (README → "Upload to GitHub"), then the push takes one command |
+| GitHub tag and settings | ⛔ The code is pushed and CI is green, but this session can't push tags or change settings | README → Repository settings |
 | axe-core | ⛔ registry unreachable here | Run the axe DevTools extension, or run CI on GitHub (it installs dependencies) |
 | App network capture | ⛔ needs your phone | PRIVACY_EVIDENCE.md §4 |
 | Screen readers, Safari, Firefox, real devices | ⚪ | ACCESSIBILITY.md manual checklist (about 1.5 hours total) |
 | Field Core Web Vitals | ⚪ no visitors yet | After launch |
-| Lockfile | ⚪ `package-lock.json` can't be generated without the registry | First `npm install` on your machine or in CI creates it. Commit it, then switch CI to `npm ci`. |
-| Visual baselines in CI | ⚪ | Baselines come from this Linux container. If CI's fonts render differently, regenerate them once in CI and review. |
+| Lockfile | ⚪ `package-lock.json` can't be generated here without the registry | Run `npm install` once on your computer and commit the lockfile. Dependabot will keep it current. |
 | Hosted previews | ⚪ | Published to claude.ai artifact pages. Module scripts and fonts load from relative paths there, but that hosting wasn't automatically tested here. Open each preview once. |
