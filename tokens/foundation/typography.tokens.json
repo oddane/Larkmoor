@@ -1,0 +1,187 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "display": {
+        "$value": [
+          "Martian Mono",
+          "ui-monospace",
+          "SF Mono",
+          "Menlo",
+          "monospace"
+        ]
+      },
+      "sans": {
+        "$value": [
+          "Geist",
+          "Inter",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif"
+        ]
+      },
+      "mono": {
+        "$value": [
+          "Martian Mono",
+          "ui-monospace",
+          "SF Mono",
+          "Menlo",
+          "monospace"
+        ]
+      },
+      "serif": {
+        "$value": [
+          "Charter",
+          "Bitstream Charter",
+          "Sitka Text",
+          "Cambria",
+          "Georgia",
+          "serif"
+        ]
+      },
+      "system": {
+        "$value": [
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif"
+        ]
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": {
+        "$value": 300
+      },
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "display": {
+        "$value": {
+          "value": 30,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.fluid": {
+            "min": {
+              "value": 30,
+              "unit": "px"
+            },
+            "max": {
+              "value": 60,
+              "unit": "px"
+            },
+            "preferred": "2.6vw + 21px"
+          }
+        }
+      },
+      "title": {
+        "$value": {
+          "value": 26,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.fluid": {
+            "min": {
+              "value": 26,
+              "unit": "px"
+            },
+            "max": {
+              "value": 38,
+              "unit": "px"
+            },
+            "preferred": "1.1vw + 19px"
+          }
+        }
+      },
+      "heading": {
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.fluid": {
+            "min": {
+              "value": 20,
+              "unit": "px"
+            },
+            "max": {
+              "value": 26,
+              "unit": "px"
+            },
+            "preferred": ".55vw + 16px"
+          }
+        }
+      },
+      "subheading": {
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        }
+      },
+      "lead": {
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.fluid": {
+            "min": {
+              "value": 16,
+              "unit": "px"
+            },
+            "max": {
+              "value": 18,
+              "unit": "px"
+            },
+            "preferred": ".25vw + 15px"
+          }
+        }
+      },
+      "body": {
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "body-sm": {
+        "$value": {
+          "value": 15,
+          "unit": "px"
+        }
+      },
+      "caption": {
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "meta": {
+        "$value": {
+          "value": 11,
+          "unit": "px"
+        }
+      },
+      "code": {
+        "$value": {
+          "value": 13,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

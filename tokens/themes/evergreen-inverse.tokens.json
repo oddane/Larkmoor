@@ -1,0 +1,102 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "evergreen-inverse",
+      "scheme": "dark",
+      "description": "Dark forest band used for closing sections and footers."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.forest.900}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.forest.800}"
+    },
+    "surface": {
+      "$value": "{palette.forest.700}"
+    },
+    "control-track": {
+      "$value": "{palette.forest.700}"
+    },
+    "text": {
+      "$value": "{palette.cream.50}"
+    },
+    "text-secondary": {
+      "$value": "{palette.cream.200}"
+    },
+    "text-muted": {
+      "$value": "{palette.neutral.400}"
+    },
+    "text-label": {
+      "$value": "{palette.gold.300}"
+    },
+    "border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9569,
+          0.9451,
+          0.9098
+        ],
+        "alpha": 0.1,
+        "hex": "#f4f1e8"
+      }
+    },
+    "border-strong": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9569,
+          0.9451,
+          0.9098
+        ],
+        "alpha": 0.2,
+        "hex": "#f4f1e8"
+      }
+    },
+    "accent": {
+      "$value": "{palette.green.300}"
+    },
+    "accent-hover": {
+      "$value": "{palette.white}"
+    },
+    "accent-text": {
+      "$value": "{palette.green.300}"
+    },
+    "on-accent": {
+      "$value": "{palette.forest.950}"
+    },
+    "action": {
+      "$value": "{palette.cream.50}"
+    },
+    "on-action": {
+      "$value": "{palette.forest.900}"
+    },
+    "focus": {
+      "$value": "{palette.green.300}"
+    },
+    "success": {
+      "$value": "{palette.green.300}"
+    },
+    "warning": {
+      "$value": "{palette.gold.300}"
+    },
+    "danger": {
+      "$value": "{palette.red.300}"
+    },
+    "header-scrim": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0784,
+          0.1412,
+          0.1098
+        ],
+        "alpha": 0.85,
+        "hex": "#14241c"
+      }
+    }
+  }
+}

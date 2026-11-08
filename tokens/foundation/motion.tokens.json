@@ -1,0 +1,141 @@
+{
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": {
+          "value": 150,
+          "unit": "ms"
+        },
+        "$description": "Colour and border feedback."
+      },
+      "base": {
+        "$value": {
+          "value": 250,
+          "unit": "ms"
+        },
+        "$description": "Small movements, toggles."
+      },
+      "slow": {
+        "$value": {
+          "value": 400,
+          "unit": "ms"
+        },
+        "$description": "Panels, disclosure."
+      },
+      "slower": {
+        "$value": {
+          "value": 600,
+          "unit": "ms"
+        },
+        "$description": "Entrances. Never block a task."
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [
+          0.22,
+          0.8,
+          0.2,
+          1
+        ]
+      },
+      "in-out": {
+        "$value": [
+          0.65,
+          0,
+          0.35,
+          1
+        ]
+      }
+    }
+  },
+  "layer": {
+    "$type": "number",
+    "$description": "z-index scale. Create a new stacking context rather than adding values.",
+    "base": {
+      "$value": 0
+    },
+    "raised": {
+      "$value": 10
+    },
+    "sticky": {
+      "$value": 50
+    },
+    "progress": {
+      "$value": 60
+    },
+    "overlay": {
+      "$value": 80
+    },
+    "skip-link": {
+      "$value": 100
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "1": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.078,
+            0.141,
+            0.11
+          ],
+          "alpha": 0.35,
+          "hex": "#14241c"
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 30,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 60,
+          "unit": "px"
+        },
+        "spread": {
+          "value": -40,
+          "unit": "px"
+        }
+      },
+      "$description": "Raised cards and demos."
+    },
+    "2": {
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [
+            0.078,
+            0.141,
+            0.11
+          ],
+          "alpha": 0.55,
+          "hex": "#14241c"
+        },
+        "offsetX": {
+          "value": 0,
+          "unit": "px"
+        },
+        "offsetY": {
+          "value": 10,
+          "unit": "px"
+        },
+        "blur": {
+          "value": 24,
+          "unit": "px"
+        },
+        "spread": {
+          "value": -14,
+          "unit": "px"
+        }
+      },
+      "$description": "Primary buttons."
+    }
+  }
+}

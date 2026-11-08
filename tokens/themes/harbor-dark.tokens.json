@@ -1,0 +1,106 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "harbor-dark",
+      "scheme": "dark",
+      "extends": "harbor",
+      "description": "Harbor's dark scheme. Verified independently, not an inversion."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.navy.950}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.navy.900}"
+    },
+    "surface": {
+      "$value": "{palette.navy.800}"
+    },
+    "control-track": {
+      "$value": "{palette.navy.800}"
+    },
+    "text": {
+      "$value": "{palette.paper.50}"
+    },
+    "text-secondary": {
+      "$value": "{palette.navy.100}"
+    },
+    "text-muted": {
+      "$value": "{palette.navy.300}"
+    },
+    "text-label": {
+      "$value": "{palette.terracotta.300}"
+    },
+    "border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9686,
+          0.9451
+        ],
+        "alpha": 0.12,
+        "hex": "#fbf7f1"
+      }
+    },
+    "border-strong": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9686,
+          0.9451
+        ],
+        "alpha": 0.24,
+        "hex": "#fbf7f1"
+      }
+    },
+    "accent": {
+      "$value": "{palette.terracotta.300}"
+    },
+    "accent-hover": {
+      "$value": "{palette.white}"
+    },
+    "accent-text": {
+      "$value": "{palette.terracotta.300}"
+    },
+    "on-accent": {
+      "$value": "{palette.navy.950}"
+    },
+    "action": {
+      "$value": "{palette.paper.50}"
+    },
+    "on-action": {
+      "$value": "{palette.navy.950}"
+    },
+    "focus": {
+      "$value": "{palette.terracotta.300}"
+    },
+    "brand": {
+      "$value": "{palette.paper.50}"
+    },
+    "success": {
+      "$value": "{palette.green.300}"
+    },
+    "warning": {
+      "$value": "{palette.gold.300}"
+    },
+    "danger": {
+      "$value": "{palette.red.300}"
+    },
+    "header-scrim": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0706,
+          0.1098,
+          0.2196
+        ],
+        "alpha": 0.88,
+        "hex": "#121c38"
+      }
+    }
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "space": {
+    "$type": "dimension",
+    "$description": "4px-based spacing scale. Gaps, padding and margins come from here.",
+    "0": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
+    },
+    "1": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "2": {
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "3": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "4": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "5": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "6": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    },
+    "7": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    },
+    "8": {
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      }
+    },
+    "9": {
+      "$value": {
+        "value": 96,
+        "unit": "px"
+      }
+    },
+    "section": {
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      },
+      "$description": "Vertical padding of a page section.",
+      "$extensions": {
+        "com.larkmoor.fluid": {
+          "min": {
+            "value": 64,
+            "unit": "px"
+          },
+          "max": {
+            "value": 112,
+            "unit": "px"
+          },
+          "preferred": "4.5vw + 40px"
+        }
+      }
+    },
+    "head-gap": {
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      },
+      "$description": "Section heading to its content.",
+      "$extensions": {
+        "com.larkmoor.fluid": {
+          "min": {
+            "value": 32,
+            "unit": "px"
+          },
+          "max": {
+            "value": 56,
+            "unit": "px"
+          },
+          "preferred": "2vw + 24px"
+        }
+      }
+    },
+    "gutter": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Page side padding.",
+      "$extensions": {
+        "com.larkmoor.fluid": {
+          "min": {
+            "value": 16,
+            "unit": "px"
+          },
+          "max": {
+            "value": 32,
+            "unit": "px"
+          },
+          "preferred": "3.5vw"
+        }
+      }
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "container": {
+      "$value": {
+        "value": 1200,
+        "unit": "px"
+      },
+      "$description": "Max content width including gutters."
+    },
+    "prose": {
+      "$value": {
+        "value": 640,
+        "unit": "px"
+      },
+      "$description": "About 65 characters of body text.",
+      "$extensions": {
+        "com.larkmoor.css": "65ch"
+      }
+    },
+    "target-min": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      },
+      "$description": "WCAG 2.5.8 AA minimum pointer target."
+    },
+    "target": {
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      },
+      "$description": "Preferred size for primary touch controls."
+    },
+    "control-sm": {
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "control": {
+      "$value": {
+        "value": 44,
+        "unit": "px"
+      }
+    },
+    "header": {
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "sm": {
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "pill": {
+      "$value": {
+        "value": 999,
+        "unit": "px"
+      }
+    }
+  },
+  "border": {
+    "$type": "dimension",
+    "width": {
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "focus": {
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Content-driven. Custom properties cannot be used in media queries, so these are exported as JS/SCSS/JSON constants; CSS repeats the literal values.",
+    "compact": {
+      "$value": {
+        "value": 520,
+        "unit": "px"
+      },
+      "$description": "Below this: single column for small two-column groups."
+    },
+    "narrow": {
+      "$value": {
+        "value": 760,
+        "unit": "px"
+      },
+      "$description": "Below this: stacked editorial rows."
+    },
+    "medium": {
+      "$value": {
+        "value": 900,
+        "unit": "px"
+      },
+      "$description": "Below this: mobile navigation, single-column section heads."
+    },
+    "wide": {
+      "$value": {
+        "value": 1100,
+        "unit": "px"
+      },
+      "$description": "At or above this: secondary wayfinding such as side rails."
+    }
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "harbor",
+      "scheme": "light",
+      "description": "Second brand: warm paper, navy type, terracotta accent, system serif headings."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.paper.50}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.paper.100}"
+    },
+    "surface": {
+      "$value": "{palette.white}"
+    },
+    "control-track": {
+      "$value": "{palette.navy.100}"
+    },
+    "text": {
+      "$value": "{palette.navy.950}"
+    },
+    "text-secondary": {
+      "$value": "{palette.navy.800}"
+    },
+    "text-muted": {
+      "$value": "{palette.navy.600}"
+    },
+    "text-label": {
+      "$value": "{palette.terracotta.700}"
+    },
+    "border": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1137,
+          0.1686,
+          0.3255
+        ],
+        "alpha": 0.12,
+        "hex": "#1d2b53"
+      }
+    },
+    "border-strong": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1137,
+          0.1686,
+          0.3255
+        ],
+        "alpha": 0.28,
+        "hex": "#1d2b53"
+      }
+    },
+    "accent": {
+      "$value": "{palette.terracotta.600}"
+    },
+    "accent-hover": {
+      "$value": "{palette.terracotta.700}"
+    },
+    "accent-text": {
+      "$value": "{palette.terracotta.700}"
+    },
+    "on-accent": {
+      "$value": "{palette.white}"
+    },
+    "action": {
+      "$value": "{palette.navy.900}"
+    },
+    "on-action": {
+      "$value": "{palette.white}"
+    },
+    "focus": {
+      "$value": "{palette.terracotta.600}"
+    },
+    "brand": {
+      "$value": "{palette.navy.900}"
+    },
+    "success": {
+      "$value": "{palette.green.650}"
+    },
+    "warning": {
+      "$value": "{palette.gold.700}"
+    },
+    "danger": {
+      "$value": "{palette.red.600}"
+    },
+    "header-scrim": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9843,
+          0.9686,
+          0.9451
+        ],
+        "alpha": 0.9,
+        "hex": "#fbf7f1"
+      }
+    }
+  },
+  "text": {
+    "display": {
+      "family": {
+        "$value": "{font.family.serif}"
+      },
+      "weight": {
+        "$value": "{font.weight.bold}"
+      },
+      "tracking": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.css": "-0.02em"
+        }
+      },
+      "stretch": {
+        "$type": "number",
+        "$value": 100,
+        "$extensions": {
+          "com.larkmoor.css": "100%"
+        }
+      },
+      "line-height": {
+        "$type": "number",
+        "$value": 1.08
+      }
+    },
+    "title": {
+      "family": {
+        "$value": "{font.family.serif}"
+      },
+      "weight": {
+        "$value": "{font.weight.bold}"
+      },
+      "tracking": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.css": "-0.015em"
+        }
+      }
+    },
+    "heading": {
+      "family": {
+        "$value": "{font.family.serif}"
+      },
+      "weight": {
+        "$value": "{font.weight.bold}"
+      },
+      "tracking": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.css": "-0.01em"
+        }
+      }
+    },
+    "subheading": {
+      "family": {
+        "$value": "{font.family.system}"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.css": "0em"
+        }
+      }
+    },
+    "body": {
+      "family": {
+        "$value": "{font.family.system}"
+      }
+    },
+    "label": {
+      "family": {
+        "$value": "{font.family.system}"
+      },
+      "weight": {
+        "$value": "{font.weight.semibold}"
+      },
+      "tracking": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.larkmoor.css": "0.08em"
+        }
+      }
+    }
+  }
+}
