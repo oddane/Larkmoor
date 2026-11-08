@@ -1,0 +1,22 @@
+name: Release
+on:
+  push: { tags: ["v*.*.*"] }
+permissions: { contents: write }
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc }
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - name: Tag matches package.json
+        run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
+      - run: npm pack
+      - name: Create GitHub release with the package tarball
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          notes=$(awk "/^## ${GITHUB_REF_NAME#v} /{f=1;next} /^## /{f=0} f" CHANGELOG.md)
+          gh release create "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --title "Larkmoor $GITHUB_REF_NAME" --notes "$notes"

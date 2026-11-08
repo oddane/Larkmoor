@@ -1,0 +1,27 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+permissions: { contents: read }
+concurrency: { group: "ci-${{ github.ref }}", cancel-in-progress: true }
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc }
+      - run: npm install --no-audit --no-fund   # switch to `npm ci` once package-lock.json is committed
+      - run: npx playwright install --with-deps chromium
+      - name: Generated files are committed
+        run: npm run build && npm run examples && git diff --exit-code -- dist docs/vendor examples
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npm run test:browser
+      - run: npm run pack:check
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: reports, path: reports/, retention-days: 14 }

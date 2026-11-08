@@ -1,0 +1,37 @@
+name: Bug report
+description: Something in Larkmoor looks or behaves wrong.
+labels: ["type: bug", "status: triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. A clear reproduction is the fastest way to a fix.
+  - type: input
+    id: version
+    attributes: { label: Larkmoor version, placeholder: "0.1.0" }
+    validations: { required: true }
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Tokens, Theme, Layout primitive, Component, Behaviour (JS), Docs, Build or tooling]
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "Include the component, theme and screen width." }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: What you expected }
+    validations: { required: true }
+  - type: textarea
+    id: repro
+    attributes: { label: Steps or minimal HTML to reproduce, render: html }
+  - type: input
+    id: env
+    attributes: { label: Browser, OS and assistive technology, placeholder: "Safari 19 on iOS 26 with VoiceOver" }
+  - type: checkboxes
+    id: a11y
+    attributes:
+      label: Accessibility impact
+      options:
+        - label: This blocks keyboard, screen-reader, zoom or high-contrast users
