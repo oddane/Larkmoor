@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-inverse.css">
   <link rel="stylesheet" href="vendor/larkmoor/themes/harbor.css">
   <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-dark.css">
   <style>
     /* Documentation chrome only. */
     ul, ol { list-style: none; }
@@ -59,6 +60,7 @@
       <label class="lm-field__label" for="theme">Theme</label>
       <select class="lm-select" id="theme" style="max-width: 260px">
         <option value="">Evergreen (default)</option>
+        <option value="evergreen-dark">Evergreen dark</option>
         <option value="evergreen-inverse">Evergreen inverse</option>
         <option value="harbor">Harbor</option>
         <option value="harbor-dark">Harbor dark</option>
@@ -74,9 +76,9 @@
     <p class="lm-label">Foundations</p>
     <a href="#color">Colour</a><a href="#type">Typography</a><a href="#space">Spacing</a><a href="#layout">Layout primitives</a><a href="#motion">Motion</a>
     <p class="lm-label">Components</p>
-    <a href="#button">Button</a><a href="#link">Link</a><a href="#header">Header and navigation</a><a href="#segmented">Segmented control</a><a href="#accordion">Accordion</a><a href="#field">Form field</a><a href="#input-group">Input group</a><a href="#badge">Badge</a><a href="#surfaces">Panel, card, alert</a><a href="#rows">Rows</a><a href="#footer">Footer</a><a href="#motion-toggle">Motion toggle</a>
+    <a href="#button">Button</a><a href="#link">Link</a><a href="#header">Header and navigation</a><a href="#segmented">Segmented control</a><a href="#accordion">Accordion</a><a href="#field">Form field</a><a href="#input-group">Input group</a><a href="#badge">Badge</a><a href="#surfaces">Panel, card, alert</a><a href="#rows">Rows</a><a href="#footer">Footer</a><a href="#motion-toggle">Motion toggle</a><a href="#tabs">Tabs</a><a href="#dialog">Dialog and sheet</a><a href="#toast">Toast</a><a href="#breadcrumbs">Breadcrumbs</a><a href="#pagination">Pagination</a><a href="#table">Table</a><a href="#tabbar">Tab bar</a>
     <p class="lm-label">Code</p>
-    <a href="#behaviours">Behaviours (JS)</a><a href="#future">Not built yet</a>
+    <a href="#behaviours">Behaviours (JS)</a><a href="#native">Mobile apps</a><a href="#future">Not built yet</a>
   </nav>
 
   <main id="main">
@@ -311,27 +313,141 @@
       <div class="meta"><div><h3>Accessibility</h3><ul><li>Toggle button with <code>aria-pressed</code>; satisfies WCAG 2.2.2 for anything that moves longer than 5 seconds.</li><li>Pausing freezes CSS animations site-wide and fires <code>lm:motionchange</code> for canvas or JS animation.</li><li>Hidden without JavaScript, because it would do nothing.</li></ul></div></div>
     </section>
 
+
+    <section class="doc" id="tabs" aria-labelledby="h-tabs">
+      <h2 class="lm-title" id="h-tabs">Tabs</h2>
+      <div class="stage">
+        <div class="lm-tabs" id="demo-tabs">
+          <div class="lm-tabs__list" aria-label="Plan details">
+            <button class="lm-tabs__tab" type="button" id="t-overview" aria-controls="p-overview" aria-selected="true">Overview</button>
+            <button class="lm-tabs__tab" type="button" id="t-pricing" aria-controls="p-pricing">Pricing</button>
+            <button class="lm-tabs__tab" type="button" id="t-faq" aria-controls="p-faq">A much longer tab label</button>
+          </div>
+          <div class="lm-tabs__panel" id="p-overview"><p class="lm-body">Panels switch as the selection moves (automatic activation).</p></div>
+          <div class="lm-tabs__panel" id="p-pricing"><p class="lm-body">Free while in testing.</p></div>
+          <div class="lm-tabs__panel" id="p-faq"><p class="lm-body">The tab list scrolls sideways on narrow screens instead of wrapping.</p></div>
+        </div>
+      </div>
+      <div class="meta">
+        <div><h3>Keyboard</h3><ul><li>Tab moves into the tab list, then to the panel.</li><li>← → move between tabs; Home and End jump to the first and last.</li><li>Roles, <code>aria-selected</code> and roving tabindex are set by <code>initTabs()</code>.</li></ul></div>
+        <div class="do"><h3>Do</h3><ul><li>Use for peer views of the same thing.</li><li>Keep labels short; the list scrolls instead of wrapping.</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Use tabs as site navigation (that's links).</li><li>Hide content people must read in order.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="dialog" aria-labelledby="h-dialog">
+      <h2 class="lm-title" id="h-dialog">Dialog and sheet</h2>
+      <div class="stage"><div class="lm-cluster">
+        <button class="lm-btn lm-btn--secondary" type="button" data-lm-dialog-open="demo-dialog">Open dialog</button>
+        <button class="lm-btn lm-btn--secondary" type="button" data-lm-dialog-open="demo-sheet">Open sheet</button>
+      </div></div>
+      <dialog class="lm-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+        <div class="lm-dialog__header"><h2 class="lm-subheading" id="demo-dialog-title">Delete this card?</h2><button class="lm-dialog__close" type="button" data-lm-dialog-close aria-label="Close">✕</button></div>
+        <div class="lm-dialog__body"><p>This can't be undone. Loans on the card are returned to the library first.</p></div>
+        <div class="lm-dialog__footer"><button class="lm-btn lm-btn--secondary lm-btn--sm" type="button" data-lm-dialog-close>Cancel</button><button class="lm-btn lm-btn--danger lm-btn--sm" type="button" data-lm-dialog-close>Delete card</button></div>
+      </dialog>
+      <dialog class="lm-dialog lm-dialog--sheet" id="demo-sheet" aria-labelledby="demo-sheet-title">
+        <div class="lm-dialog__header"><h2 class="lm-subheading" id="demo-sheet-title">Share</h2><button class="lm-dialog__close" type="button" data-lm-dialog-close aria-label="Close">✕</button></div>
+        <div class="lm-dialog__body"><p>On phones this slides up from the bottom and stays clear of the home indicator.</p></div>
+      </dialog>
+      <div class="meta">
+        <div><h3>Accessibility</h3><ul><li>Native <code>&lt;dialog&gt;</code> with <code>showModal()</code>: focus moves in, the page behind is inert, Escape closes, focus returns to the opener.</li><li>Name it with <code>aria-labelledby</code> pointing at its heading.</li></ul></div>
+        <div class="do"><h3>Do</h3><ul><li>Use for a decision that interrupts: confirm, choose, short form.</li><li>Use the sheet variant for phone-first actions (share, filters).</li></ul></div>
+        <div class="dont"><h3>Don't</h3><ul><li>Open dialogs on page load.</li><li>Nest dialogs.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="toast" aria-labelledby="h-toast">
+      <h2 class="lm-title" id="h-toast">Toast</h2>
+      <div class="stage"><div class="lm-cluster"><button class="lm-btn lm-btn--secondary" type="button" id="demo-toast">Save draft</button></div></div>
+      <div class="meta">
+        <div><h3>Rules</h3><ul><li><code>toast(message)</code> after an action has finished. It's announced politely through a live region.</li><li>Never the only place important information appears; errors that block a task belong next to the task.</li><li>Stays clear of the home indicator; has a dismiss button.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="breadcrumbs" aria-labelledby="h-bc">
+      <h2 class="lm-title" id="h-bc">Breadcrumbs</h2>
+      <div class="stage">
+        <nav class="lm-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="#breadcrumbs">Home</a></li><li><a href="#breadcrumbs">Services</a></li><li><a href="#breadcrumbs">Library cards</a></li><li><span aria-current="page">Replace a lost card</span></li></ol></nav>
+      </div>
+      <div class="meta"><div><h3>Rules</h3><ul><li>For pages two or more levels deep. On phones only the parent and current page show.</li><li>The current page is plain text with <code>aria-current="page"</code>.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="pagination" aria-labelledby="h-pg">
+      <h2 class="lm-title" id="h-pg">Pagination</h2>
+      <div class="stage">
+        <nav class="lm-pagination" aria-label="Pagination"><ul>
+          <li class="lm-pagination__prev"><a href="#pagination" rel="prev" aria-label="Previous page">←</a></li>
+          <li><a href="#pagination">1</a></li><li><a href="#pagination" aria-current="page">2</a></li><li><a href="#pagination">3</a></li><li><span aria-hidden="true">…</span></li><li><a href="#pagination">9</a></li>
+          <li class="lm-pagination__summary"><span>Page 2 of 9</span></li>
+          <li class="lm-pagination__next"><a href="#pagination" rel="next" aria-label="Next page">→</a></li>
+        </ul></nav>
+      </div>
+      <div class="meta"><div><h3>Rules</h3><ul><li>Links, not buttons: each page has a URL.</li><li>Phones show "Page 2 of 9" with previous and next only.</li></ul></div></div>
+    </section>
+
+    <section class="doc" id="table" aria-labelledby="h-table">
+      <h2 class="lm-title" id="h-table">Table</h2>
+      <div class="stage lm-cq">
+        <div class="lm-table-wrap" role="region" aria-labelledby="demo-table-caption" tabindex="0">
+          <table class="lm-table lm-table--stack">
+            <caption id="demo-table-caption">Loans this month</caption>
+            <thead><tr><th scope="col">Branch</th><th scope="col" class="lm-num">Books</th><th scope="col" class="lm-num">Tools</th><th scope="col">Busiest day</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" data-label="Branch">Quay Lane</th><td class="lm-num" data-label="Books">4,812</td><td class="lm-num" data-label="Tools">196</td><td data-label="Busiest day">Saturday</td></tr>
+              <tr><th scope="row" data-label="Branch">Harbour Road</th><td class="lm-num" data-label="Books">2,077</td><td class="lm-num" data-label="Tools">41</td><td data-label="Busiest day">Tuesday</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="meta">
+        <div><h3>Accessibility</h3><ul><li>Real <code>&lt;table&gt;</code> with caption, <code>scope</code>d headers and tabular numbers.</li><li>The wrapper is a named, focusable region so keyboard users can scroll wide tables.</li><li><code>.lm-table--stack</code> turns rows into cards when its container is under 520px.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="doc" id="tabbar" aria-labelledby="h-tabbar">
+      <h2 class="lm-title" id="h-tabbar">Tab bar</h2>
+      <p class="lm-body">App-style bottom navigation for phone-sized web apps (<code>.lm-tabbar</code>, links with <code>aria-current="page"</code>). It sits above the home indicator and hides from 760px up, where the header navigation takes over. Add <code>.lm-tabbar-spacer</code> at the end of the page so it never covers content.</p>
+    </section>
+
     <section class="doc" id="behaviours" aria-labelledby="h-js">
       <h2 class="lm-title" id="h-js">Behaviours (JavaScript)</h2>
       <p class="lm-body">Optional ES modules with TypeScript types. Every function accepts missing markup and returns a cleanup function.</p>
-<pre><code>import { initMotionToggle, initDisclosureMenu, initHeader, initReveal, initForm,
+<pre><code>import { initMotionToggle, initDisclosureMenu, initHeader, initReveal, initForm, initTabs, initDialog, toast,
          prefersReducedMotion, isMotionPaused, motionOff } from '@larkmoor/design-system';
 import { breakpoints, below } from '@larkmoor/design-system/breakpoints';
 
 matchMedia(below('medium')).matches;   // true under 900px</code></pre>
     </section>
 
+    <section class="doc" id="native" aria-labelledby="h-native">
+      <h2 class="lm-title" id="h-native">Mobile apps</h2>
+      <p class="lm-body">The same tokens build native code: React Native components (<code>@larkmoor/design-system/react-native</code>), SwiftUI (<code>dist/ios/Larkmoor.swift</code>) and Kotlin / Jetpack Compose (<code>dist/android</code>). Native apps use 44pt (iOS) and 48dp (Android) touch targets, follow the system text size, switch with the system dark setting and respect safe areas. See <code>docs/guides/PLATFORMS.md</code>.</p>
+<pre><code>import { LarkmoorProvider, Screen, Container, Stack, Text, Button } from '@larkmoor/design-system/react-native';
+
+&lt;LarkmoorProvider theme="harbor" darkTheme="harbor-dark"&gt;
+  &lt;Screen&gt;&lt;Container&gt;&lt;Stack gap="5"&gt;
+    &lt;Text variant="display"&gt;Borrow a book&lt;/Text&gt;
+    &lt;Button label="Get a library card" onPress={join} /&gt;
+  &lt;/Stack&gt;&lt;/Container&gt;&lt;/Screen&gt;
+&lt;/LarkmoorProvider&gt;</code></pre>
+    </section>
+
     <section class="doc" id="future" aria-labelledby="h-future">
       <h2 class="lm-title" id="h-future">Not built yet</h2>
-      <p class="lm-body">Neither example needs these, so they are documented as future work rather than shipped untested: dialog, drawer, menu button with a popup list, tooltip, tabs, toast, pagination, data table, file upload, breadcrumbs, avatar. Build them when a real page needs one, following CONTRIBUTING.md.</p>
+      <p class="lm-body">Not shipped yet, because no page needs them: drawer, menu button with a popup list, tooltip, file upload, avatar, date picker. Build them when a real page needs one, following CONTRIBUTING.md.</p>
     </section>
   </main>
 </div>
 </div>
 
 <script type="module">
-  import { initMotionToggle } from './vendor/larkmoor/larkmoor.js';
+  import { initMotionToggle, initTabs, initDialog, toast } from './vendor/larkmoor/larkmoor.js';
   initMotionToggle(document.getElementById('mt'), { storageKey: 'lm-docs:motion' });
+  initTabs(document.getElementById('demo-tabs'));
+  initDialog(document.getElementById('demo-dialog'));
+  initDialog(document.getElementById('demo-sheet'));
+  document.getElementById('demo-toast').addEventListener('click', async () => { await new Promise((r) => setTimeout(r, 300)); toast('Draft saved'); });
 
   const root = document.getElementById('preview-root');
   const select = document.getElementById('theme');
@@ -345,6 +461,7 @@ matchMedia(below('medium')).matches;   // true under 900px</code></pre>
     const name = select.value;
     if (name) root.setAttribute('data-lm-theme', name); else root.removeAttribute('data-lm-theme');
     document.documentElement.style.colorScheme = name.endsWith('dark') || name.endsWith('inverse') ? 'dark' : 'light';
+    for (const d of document.querySelectorAll('dialog')) { if (name) d.setAttribute('data-lm-theme', name); else d.removeAttribute('data-lm-theme'); }
     if (!tokens) return;
     const t = tokens.themes[name || 'default'];
     const bg = t['color.bg'];

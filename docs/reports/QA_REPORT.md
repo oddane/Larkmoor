@@ -130,3 +130,36 @@ Each one has a test that would catch it again.
 | Field Core Web Vitals | ⚪ no visitors yet | After launch |
 | Lockfile | ⚪ `package-lock.json` can't be generated here without the registry | Run `npm install` once on your computer and commit the lockfile. Dependabot will keep it current. |
 | Hosted previews | ⚪ | Published to claude.ai artifact pages. Module scripts and fonts load from relative paths there, but that hosting wasn't automatically tested here. Open each preview once. |
+
+## 9. Version 0.2.0: mobile apps and new components
+
+**Run:** `npm test`, logged in `docs/evidence/test-run.log`.
+
+**Locally:**
+- **Unit tests (17):**
+  - token validity;
+  - the theme contract, including `evergreen-dark`;
+  - contrast in all 5 themes;
+  - the native model (targets, window classes, type ramps, font files);
+  - every platform output carries every theme.
+- **Browser tests (47):** the earlier 41, plus tabs (keyboard), dialog and sheet (modal, focus in and back, Escape, sheet anchored at the bottom on phones), toast (only after the action, polite live region, dismiss), table (focusable named region; stacks in narrow containers), automatic dark mode (Harbor follows the device, Tauawo stays light), and 44px touch targets.
+
+**GitHub Actions, on every push:**
+- Build and test (all of the above).
+- **React Native type check:** strict, against React Native 0.88.1, React 19.3.0, TypeScript 6.0.3 and safe-area-context 5.10.1. Also run against the real Tauawo app's packages on your computer: 0 errors.
+- **SwiftUI compile:** `swiftc -typecheck` on macOS.
+- **Kotlin compile:** `kotlinc`.
+- **Jetpack Compose compile:** Gradle with Compose Multiplatform.
+
+**Found and fixed:**
+- **React Native types:** a `role` prop clash with React Native's accessibility `role`, now `variant`; a TextInput ref type change in 0.88; read-only text styles in 0.88.
+- **Breadcrumb links:** 22px tall, under the 24px minimum.
+
+**Visual review:**
+- The Tauawo site rendered pixel-identical after the move to cascade layers.
+- Harbor and the docs changed only where content was added, and were reviewed before approving the new baselines.
+
+**Not tested yet:**
+- The React Native components rendering on a real iPhone or Android phone. They compile and type-check, but haven't been run in an app here.
+- The SwiftUI and Compose outputs inside a real app project.
+- Screen readers on the new components.

@@ -5,4 +5,5 @@
   .lm-segmented label { min-height: calc(var(--lm-size-target) - 2 * var(--lm-space-1)); }
   .lm-footer__col a, .lm-mobile-menu a { padding-block: 10px; }
   .lm-pagination a, .lm-pagination span { min-width: var(--lm-size-target); min-height: var(--lm-size-target); }
+  .lm-breadcrumbs a { min-height: var(--lm-size-target); }
 }

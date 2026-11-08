@@ -4,10 +4,11 @@
 
 **A small, accessible design system for building websites that look intentional and stay honest.**
 
-Design tokens in the W3C community format · layout primitives · 17 accessible components · swappable brand themes · zero runtime dependencies
+One token source for web, React Native, iOS and Android · layout primitives · 24 accessible web components · 16 React Native components · light, dark and brand themes · zero runtime dependencies
 
 [![CI](https://github.com/oddane/Larkmoor/actions/workflows/ci.yml/badge.svg)](https://github.com/oddane/Larkmoor/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.1.0-1f7a4f)
+![version](https://img.shields.io/badge/version-0.2.0-1f7a4f)
+![platforms](https://img.shields.io/badge/platforms-web%20%C2%B7%20React%20Native%20%C2%B7%20SwiftUI%20%C2%B7%20Compose-14241c)
 ![tokens](https://img.shields.io/badge/tokens-DTCG%202025.10-14241c)
 ![a11y](https://img.shields.io/badge/target-WCAG%202.2%20AA-14241c)
 ![dependencies](https://img.shields.io/badge/runtime%20deps-0-14241c)
@@ -25,10 +26,11 @@ Design tokens in the W3C community format · layout primitives · 17 accessible 
 ## Why Larkmoor
 
 - **One source of truth.** Every colour, size, space, duration and layer is a [DTCG 2025.10](https://www.designtokens.org/TR/2025.10/) token. One dependency-free script builds CSS custom properties, themes, JSON and breakpoint constants from them.
+- **Websites and apps from one source.** The same tokens build CSS, React Native components, SwiftUI and Jetpack Compose. Each native output uses its platform's touch targets, text-size setting, dark mode and safe areas, and is compiled or type-checked in CI.
 - **Brands without forks.** A theme overrides semantic roles only. Components never change. Each theme is contrast-tested on its own, including dark themes.
 - **Accessible by construction.** Native elements first, ARIA Authoring Practices patterns, visible focus, 24px+ targets, reduced motion, a pause control, forced-colours support and no-JavaScript fallbacks.
 - **Private by default.** Self-hosted fonts, no cookies, no third-party requests. A test fails if a page ever calls another origin.
-- **Proven, not promised.** 10 unit tests and 41 browser tests cover contrast, 17 screen widths, keyboard focus, interactions, network traffic, lab performance and visual regression.
+- **Proven, not promised.** 17 unit tests and 47 browser tests cover contrast in every theme, 17 screen widths, keyboard focus, interactions, network traffic, lab performance and visual regression. CI also compiles the SwiftUI and Compose outputs and type-checks React Native.
 
 ## Quick start
 
@@ -60,12 +62,27 @@ Copy `dist/` into your site as `vendor/larkmoor/`:
 
 [`examples/harbor/index.html`](examples/harbor/index.html) is a complete page built exactly this way.
 
+### In a mobile app
+
+```tsx
+import { LarkmoorProvider, Screen, Container, Stack, Text, Button } from '@larkmoor/design-system/react-native';
+
+<LarkmoorProvider theme="harbor" darkTheme="harbor-dark">
+  <Screen><Container><Stack gap="5">
+    <Text variant="display">Borrow a book</Text>
+    <Button label="Get a library card" onPress={join} />
+  </Stack></Container></Screen>
+</LarkmoorProvider>
+```
+
+SwiftUI and Jetpack Compose files are in `dist/ios` and `dist/android`. See [Platforms](docs/guides/PLATFORMS.md).
+
 ### With npm
 
 The package is private and not on a registry. Install it straight from this repository:
 
 ```bash
-npm install github:oddane/Larkmoor#v0.1.0
+npm install github:oddane/Larkmoor#v0.2.0
 ```
 
 ```js
@@ -83,10 +100,12 @@ import { below } from '@larkmoor/design-system/breakpoints';  // '(max-width: 89
 | | |
 |---|---|
 | **Tokens** | palette, semantic colour roles, spacing (4px base), sizes, radii, borders, breakpoints (520 / 760 / 900 / 1100), type roles, motion, layers, elevation |
-| **Themes** | `evergreen` (default), `evergreen-inverse`, `harbor`, `harbor-dark` |
-| **Layout primitives** | container, stack, cluster, grid (+ fill), split, section, shell |
-| **Components** | button, link, header and navigation, segmented control, accordion, field, input group, error summary, check, badge, panel, card, alert, rows, footer, progress, motion toggle |
-| **Behaviours** | `initMotionToggle`, `initDisclosureMenu`, `initHeader`, `initReveal`, `initForm` (ES modules, TypeScript types) |
+| **Themes** | `evergreen` (default), `evergreen-dark`, `evergreen-inverse`, `harbor`, `harbor-dark`; `data-lm-color-scheme="auto"` follows the device |
+| **Layout primitives** | container (+ narrow 800, wide 1440), stack, cluster, grid (+ fill), columns (2/3/4), split, section, shell, query container (`.lm-cq`) |
+| **Web components** | button, link, header and navigation, segmented control, accordion, field, input group, error summary, check, badge, panel, card, alert, rows, footer, progress, motion toggle, tabs, dialog and bottom sheet, toast, breadcrumbs, pagination, table, tab bar |
+| **React Native** | Text, Button, Field, SegmentedControl, Accordion, Screen, Container, Section, Stack, Cluster, Grid, Card, Panel, Badge, Alert, Rows |
+| **SwiftUI / Compose** | tokens, themes, text styles, theme environment / `LarkmoorTheme`, button style |
+| **Behaviours** | `initMotionToggle`, `initDisclosureMenu`, `initHeader`, `initReveal`, `initForm`, `initTabs`, `initDialog`, `toast` (ES modules, TypeScript types) |
 | **Fonts** | Geist and Martian Mono, self-hosted, SIL OFL 1.1 |
 
 Browse every component with its states, keyboard behaviour and do/don't rules in the **component docs** ([`docs/index.html`](docs/index.html); run `npm run serve`).
@@ -128,6 +147,7 @@ scripts/             build, serve, sync, screenshots, pack check, GitHub setup
 | Guides | Reports |
 |---|---|
 | [Design principles](docs/guides/DESIGN_PRINCIPLES.md) | [UI audit](docs/reports/UI_AUDIT.md) |
+| [Platforms: web, React Native, iOS, Android](docs/guides/PLATFORMS.md) | [Benchmark: universities and platforms](docs/guides/BENCHMARK.md) |
 | [Guidelines: layout, spacing, type, content, motion, responsive](docs/guides/GUIDELINES.md) | [QA report](docs/reports/QA_REPORT.md) |
 | [Theming](docs/guides/THEMING.md) | [Privacy evidence](docs/reports/PRIVACY_EVIDENCE.md) |
 | [Accessibility](docs/guides/ACCESSIBILITY.md) | [Completion matrix](docs/reports/COMPLETION_MATRIX.md) |

@@ -554,3 +554,19 @@ Values are as documented on the pages read. "n/s" means not stated on those page
     - Run semantic-release with Conventional Commits per package (web, rn, swift, compose), as ASU does.
     - Publish an explicit end-of-life policy, as UCLA did for v1.0.0.
     - Avoid `@latest` CDN snippets of the kind U-M Library publishes.
+
+## 7. What Larkmoor 0.2.0 did with these findings
+
+| # | Recommendation | Status in 0.2.0 | Where |
+|---|---|---|---|
+| 1 | Native touch targets | ✅ 44pt iOS / 48dp Android: tokens, React Native components (with `hitSlop` for compact sizes), SwiftUI button style, Compose via Material 3 | `size.target`, `size.target-android`, `src/react-native/Button.tsx` |
+| 2 | Dynamic Type and fontScale | ✅ React Native: scaling stays on, roles map to iOS `dynamicTypeRamp`, and large roles are capped (display ×1.3, title ×1.4); body is never capped. SwiftUI: `Font.custom(relativeTo:)`. Compose: `sp`. ⚪ Stacking at accessibility sizes is handled per component (Rows stacks on compact) but not tested at AX5 on a device | `src/react-native/Text.tsx`, `dist/ios/Larkmoor.swift` |
+| 3 | Safe areas | ✅ React Native `Screen` (safe-area-context); web `env(safe-area-inset-*)` on container, skip link, footer, dialog footer, toast, tab bar | `layout.tsx`, `src/css/*` |
+| 4 | System dark mode for the default theme | ✅ `evergreen-dark`; the web follows the device with `data-lm-color-scheme="auto"`, and the native providers follow the system by default | `tokens/themes/evergreen-dark.tokens.json` |
+| 5 | Contrast checks in the pipeline | ✅ Every theme, both grounds, text 4.5:1, UI 3:1 (unit tests). ⚪ No Increase Contrast theme or 7:1 dark target yet | `tests/unit/tokens.test.mjs` |
+| 6 | Fixed-count columns, no 12-column grid | ✅ `.lm-columns` (2/3/4) next to auto-fit grid and split | `src/css/layout.css` |
+| 7 | Narrow and wide containers | ✅ 800 / 1200 / 1440 | `size.container-*` |
+| 8 | Window classes on native | ✅ 600 / 840 / 1200 / 1600; fluid values resolve to compact / medium / expanded | `window.*`, `scripts/native.mjs` |
+| 9 | Container queries | ✅ `.lm-cq` with columns, split, rows; tables always | `src/css/layout.css`, `table.css` |
+| 10 | Cascade layers | ✅ `lm.base < lm.layout < lm.components < lm.utilities` | `scripts/build.mjs` |
+| 11–17 | Tabs, dialog, breadcrumbs, pagination, table, sheet, toast | ✅ All seven on the web, each with docs, states and tests; plus a mobile tab bar. ⚪ Not yet ported to React Native, SwiftUI or Compose | `src/css`, `src/js/larkmoor.js` |

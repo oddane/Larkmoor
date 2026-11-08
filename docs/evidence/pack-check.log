@@ -1,4 +1,4 @@
-tarball: larkmoor-design-system-0.1.0.tgz
-installed into: /tmp/lm-consumer-yG1sRA
-resolved: {"breakpoints":{"compact":520,"narrow":760,"medium":900,"wide":1100},"below":"(max-width: 899.98px)","version":"0.1.0","css":true,"harbor":true}
+tarball: larkmoor-design-system-0.2.0.tgz
+installed into: /tmp/lm-consumer-zXdgfP
+resolved: {"breakpoints":{"compact":520,"narrow":760,"medium":900,"wide":1100},"below":"(max-width: 899.98px)","version":"0.2.0","css":true,"harbor":true}
 missing files: none

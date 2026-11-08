@@ -1,348 +1,426 @@
 
-> @larkmoor/design-system@0.1.0 test
+> @larkmoor/design-system@0.2.0 test
 > npm run build && npm run typecheck && npm run test:unit && npm run test:browser
 
 
-> @larkmoor/design-system@0.1.0 build
+> @larkmoor/design-system@0.2.0 build
 > node scripts/build.mjs
 
-Built 20 files into dist/ from 157 base tokens and 3 themes.
+Built 54 files into dist/ from 164 base tokens and 4 themes.
 
-> @larkmoor/design-system@0.1.0 typecheck
+> @larkmoor/design-system@0.2.0 typecheck
 > tsc -p tsconfig.json
 
 
-> @larkmoor/design-system@0.1.0 test:unit
+> @larkmoor/design-system@0.2.0 test:unit
 > node --test "tests/unit/*.test.mjs"
 
 TAP version 13
-# Subtest: every source file is valid JSON with .tokens.json extension (DTCG 2025.10 Format)
-ok 1 - every source file is valid JSON with .tokens.json extension (DTCG 2025.10 Format)
+# Subtest: native model has every theme, including the automatic dark partners
+ok 1 - native model has every theme, including the automatic dark partners
   ---
-  duration_ms: 1.229828
+  duration_ms: 2.042611
+  type: 'test'
+  ...
+# Subtest: native sizes are plain numbers and touch targets meet platform minimums (44pt iOS, 48dp Android)
+ok 2 - native sizes are plain numbers and touch targets meet platform minimums (44pt iOS, 48dp Android)
+  ---
+  duration_ms: 1.234641
+  type: 'test'
+  ...
+# Subtest: every text role has compact ≤ medium ≤ expanded sizes and a resolvable family
+ok 3 - every text role has compact ≤ medium ≤ expanded sizes and a resolvable family
+  ---
+  duration_ms: 0.267883
+  type: 'test'
+  ...
+# Subtest: large text roles cap font scaling; body text is never capped (Dynamic Type / fontScale)
+ok 4 - large text roles cap font scaling; body text is never capped (Dynamic Type / fontScale)
+  ---
+  duration_ms: 0.089976
+  type: 'test'
+  ...
+# Subtest: bundled native font files exist for every referenced file name
+ok 5 - bundled native font files exist for every referenced file name
+  ---
+  duration_ms: 0.384238
+  type: 'test'
+  ...
+# Subtest: Swift, Kotlin and React Native outputs contain every theme and the same version
+ok 6 - Swift, Kotlin and React Native outputs contain every theme and the same version
+  ---
+  duration_ms: 0.491935
+  type: 'test'
+  ...
+# Subtest: every source file is valid JSON with .tokens.json extension (DTCG 2025.10 Format)
+ok 7 - every source file is valid JSON with .tokens.json extension (DTCG 2025.10 Format)
+  ---
+  duration_ms: 1.308996
   type: 'test'
   ...
 # Subtest: every token resolves to a typed value and a CSS value
-ok 2 - every token resolves to a typed value and a CSS value
+ok 8 - every token resolves to a typed value and a CSS value
   ---
-  duration_ms: 3.147443
+  duration_ms: 3.712594
   type: 'test'
   ...
 # Subtest: dimension and duration values use the object form {value, unit}
-ok 3 - dimension and duration values use the object form {value, unit}
+ok 9 - dimension and duration values use the object form {value, unit}
   ---
-  duration_ms: 0.201503
+  duration_ms: 0.214536
   type: 'test'
   ...
 # Subtest: components never reference the raw palette
-ok 4 - components never reference the raw palette
+ok 10 - components never reference the raw palette
   ---
-  duration_ms: 0.635233
+  duration_ms: 0.367279
   type: 'test'
   ...
 # Subtest: every theme defines the full semantic colour contract
-ok 5 - every theme defines the full semantic colour contract
+ok 11 - every theme defines the full semantic colour contract
   ---
-  duration_ms: 1.885883
+  duration_ms: 2.275415
   type: 'test'
   ...
 # Subtest: contrast: default text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
-ok 6 - contrast: default text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+ok 12 - contrast: default text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
   ---
-  duration_ms: 1.118414
+  duration_ms: 0.76801
+  type: 'test'
+  ...
+# Subtest: contrast: evergreen-dark text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+ok 13 - contrast: evergreen-dark text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+  ---
+  duration_ms: 0.83956
   type: 'test'
   ...
 # Subtest: contrast: evergreen-inverse text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
-ok 7 - contrast: evergreen-inverse text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+ok 14 - contrast: evergreen-inverse text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
   ---
-  duration_ms: 0.876839
+  duration_ms: 0.46865
   type: 'test'
   ...
 # Subtest: contrast: harbor-dark text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
-ok 8 - contrast: harbor-dark text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+ok 15 - contrast: harbor-dark text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
   ---
-  duration_ms: 0.418511
+  duration_ms: 0.796631
   type: 'test'
   ...
 # Subtest: contrast: harbor text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
-ok 9 - contrast: harbor text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
+ok 16 - contrast: harbor text roles meet 4.5:1 on bg and bg-subtle; controls meet 3:1
   ---
-  duration_ms: 0.521453
+  duration_ms: 0.989632
   type: 'test'
   ...
 # Subtest: generated files are up to date with the sources
-ok 10 - generated files are up to date with the sources
+ok 17 - generated files are up to date with the sources
   ---
-  duration_ms: 38.382115
+  duration_ms: 101.717508
   type: 'test'
   ...
-1..10
-# tests 10
+1..17
+# tests 17
 # suites 0
-# pass 10
+# pass 17
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 98.622187
+# duration_ms 233.60822
 
-> @larkmoor/design-system@0.1.0 test:browser
+> @larkmoor/design-system@0.2.0 test:browser
 > node --test --test-concurrency=1 "tests/browser/*.test.mjs"
 
 TAP version 13
 # Subtest: tauawo @390: semantics, names, contrast, targets
 ok 1 - tauawo @390: semantics, names, contrast, targets
   ---
-  duration_ms: 1863.751438
+  duration_ms: 1866.445812
   type: 'test'
   ...
 # Subtest: tauawo @1280: semantics, names, contrast, targets
 ok 2 - tauawo @1280: semantics, names, contrast, targets
   ---
-  duration_ms: 1437.874695
+  duration_ms: 1435.289761
   type: 'test'
   ...
 # Subtest: harbor @390: semantics, names, contrast, targets
 ok 3 - harbor @390: semantics, names, contrast, targets
   ---
-  duration_ms: 867.914083
+  duration_ms: 901.435496
   type: 'test'
   ...
 # Subtest: harbor @1280: semantics, names, contrast, targets
 ok 4 - harbor @1280: semantics, names, contrast, targets
   ---
-  duration_ms: 782.576652
+  duration_ms: 794.606025
   type: 'test'
   ...
 # Subtest: docs @390: semantics, names, contrast, targets
 ok 5 - docs @390: semantics, names, contrast, targets
   ---
-  duration_ms: 2098.745293
+  duration_ms: 2543.768775
   type: 'test'
   ...
 # Subtest: docs @1280: semantics, names, contrast, targets
 ok 6 - docs @1280: semantics, names, contrast, targets
   ---
-  duration_ms: 1587.869463
+  duration_ms: 1885.272128
   type: 'test'
   ...
 # Subtest: tauawo: keyboard reaches every control with a visible focus indicator that is not hidden by the header
 ok 7 - tauawo: keyboard reaches every control with a visible focus indicator that is not hidden by the header
   ---
-  duration_ms: 381.22877
+  duration_ms: 348.057382
   type: 'test'
   ...
 # Subtest: harbor: keyboard reaches every control with a visible focus indicator that is not hidden by the header
 ok 8 - harbor: keyboard reaches every control with a visible focus indicator that is not hidden by the header
   ---
-  duration_ms: 180.646685
+  duration_ms: 201.540732
   type: 'test'
   ...
 # Subtest: docs: keyboard reaches every control with a visible focus indicator that is not hidden by the header
 ok 9 - docs: keyboard reaches every control with a visible focus indicator that is not hidden by the header
   ---
-  duration_ms: 361.873361
+  duration_ms: 596.703732
   type: 'test'
   ...
 # Subtest: tauawo: text spacing override (WCAG 1.4.12) clips nothing and adds no sideways scroll
 ok 10 - tauawo: text spacing override (WCAG 1.4.12) clips nothing and adds no sideways scroll
   ---
-  duration_ms: 394.258363
+  duration_ms: 411.00672
   type: 'test'
   ...
 # Subtest: forced colours: selected option, accent words and focus stay distinguishable
 ok 11 - forced colours: selected option, accent words and focus stay distinguishable
   ---
-  duration_ms: 193.152038
+  duration_ms: 183.356211
   type: 'test'
   ...
 # Subtest: tauawo: without JavaScript all content is readable and script-only controls are hidden
 ok 12 - tauawo: without JavaScript all content is readable and script-only controls are hidden
   ---
-  duration_ms: 451.723698
+  duration_ms: 444.643562
   type: 'test'
   ...
 # Subtest: harbor: without JavaScript all content is readable and script-only controls are hidden
 ok 13 - harbor: without JavaScript all content is readable and script-only controls are hidden
   ---
-  duration_ms: 414.97648
+  duration_ms: 420.760188
   type: 'test'
   ...
 # Subtest: mobile menu: opens, Escape closes and returns focus, choosing a link closes it
 ok 14 - mobile menu: opens, Escape closes and returns focus, choosing a link closes it
   ---
-  duration_ms: 809.929088
+  duration_ms: 684.816917
   type: 'test'
   ...
 # Subtest: segmented control: arrow keys move the selection and the preview follows
 ok 15 - segmented control: arrow keys move the selection and the preview follows
   ---
-  duration_ms: 284.520377
+  duration_ms: 202.44412
   type: 'test'
   ...
 # Subtest: accordion: Enter toggles and the state is exposed
 ok 16 - accordion: Enter toggles and the state is exposed
   ---
-  duration_ms: 283.348088
+  duration_ms: 198.936574
   type: 'test'
   ...
 # Subtest: send demo: delivers the typed message, keeps focus, announces each step
 ok 17 - send demo: delivers the typed message, keeps focus, announces each step
   ---
-  duration_ms: 327.797437
+  duration_ms: 265.967494
   type: 'test'
   ...
 # Subtest: motion toggle: pauses, survives reload, resumes
 ok 18 - motion toggle: pauses, survives reload, resumes
   ---
-  duration_ms: 2202.061218
+  duration_ms: 2168.863131
   type: 'test'
   ...
 # Subtest: header: hides while reading down, returns on scroll up and on focus
 ok 19 - header: hides while reading down, returns on scroll up and on focus
   ---
-  duration_ms: 969.506648
+  duration_ms: 1001.004271
   type: 'test'
   ...
 # Subtest: form: errors on submit with a focused summary, inline messages, input kept; success only after the request
 ok 20 - form: errors on submit with a focused summary, inline messages, input kept; success only after the request
   ---
-  duration_ms: 3022.910786
+  duration_ms: 3025.939999
   type: 'test'
   ...
 # Subtest: harbor: event filter shows the right cards without JavaScript logic
 ok 21 - harbor: event filter shows the right cards without JavaScript logic
   ---
-  duration_ms: 140.707713
+  duration_ms: 151.861643
+  type: 'test'
+  ...
+# Subtest: tabs: arrow keys, Home and End move selection; only the selected panel shows
+ok 22 - tabs: arrow keys, Home and End move selection; only the selected panel shows
+  ---
+  duration_ms: 290.94038
+  type: 'test'
+  ...
+# Subtest: dialog: opens modally, focus moves inside, Escape closes and focus returns to the opener
+ok 23 - dialog: opens modally, focus moves inside, Escape closes and focus returns to the opener
+  ---
+  duration_ms: 271.922369
+  type: 'test'
+  ...
+# Subtest: toast: appears in a polite live region only after the action finishes, and can be dismissed
+ok 24 - toast: appears in a polite live region only after the action finishes, and can be dismissed
+  ---
+  duration_ms: 1091.327341
+  type: 'test'
+  ...
+# Subtest: table: scroll region is focusable and named; rows stack into cards in a narrow container
+ok 25 - table: scroll region is focusable and named; rows stack into cards in a narrow container
+  ---
+  duration_ms: 273.343189
+  type: 'test'
+  ...
+# Subtest: auto dark mode: Harbor follows the device setting; Tauawo stays light by design
+ok 26 - auto dark mode: Harbor follows the device setting; Tauawo stays light by design
+  ---
+  duration_ms: 282.55751
+  type: 'test'
+  ...
+# Subtest: touch screens get 44px targets for compact controls
+ok 27 - touch screens get 44px targets for compact controls
+  ---
+  duration_ms: 213.278136
   type: 'test'
   ...
 # Subtest: tauawo: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
-ok 22 - tauawo: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
+ok 28 - tauawo: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
   ---
-  duration_ms: 7584.19248
+  duration_ms: 6141.296096
   type: 'test'
   ...
 # Subtest: harbor: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
-ok 23 - harbor: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
+ok 29 - harbor: every request stays on the site's own origin (no fonts CDN, analytics, trackers or beacons)
   ---
-  duration_ms: 1796.266789
+  duration_ms: 1774.16932
   type: 'test'
   ...
 # Subtest: tauawo: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
-ok 24 - tauawo: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
+ok 30 - tauawo: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
   ---
-  duration_ms: 13251.730763
+  duration_ms: 13686.900047
   type: 'test'
   ...
 # Subtest: harbor: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
-ok 25 - harbor: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
+ok 31 - harbor: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)
   ---
-  duration_ms: 9988.466378
+  duration_ms: 10237.575013
   type: 'test'
   ...
 # Subtest: tauawo: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
-ok 26 - tauawo: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
+ok 32 - tauawo: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
   ---
-  duration_ms: 3392.227313
+  duration_ms: 3353.050766
   type: 'test'
   ...
 # Subtest: harbor: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
-ok 27 - harbor: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
+ok 33 - harbor: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
   ---
-  duration_ms: 3097.798006
+  duration_ms: 3126.915798
   type: 'test'
   ...
 # Subtest: docs: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
-ok 28 - docs: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
+ok 34 - docs: no sideways scrolling and the primary action is reachable at 17 widths (320-1920, both sides of each breakpoint)
   ---
-  duration_ms: 3249.314271
+  duration_ms: 3335.389071
   type: 'test'
   ...
 # Subtest: tauawo: landscape phone (844x390) and 200% zoom equivalent (640px) keep everything
-ok 29 - tauawo: landscape phone (844x390) and 200% zoom equivalent (640px) keep everything
+ok 35 - tauawo: landscape phone (844x390) and 200% zoom equivalent (640px) keep everything
   ---
-  duration_ms: 161.827198
+  duration_ms: 189.603951
   type: 'test'
   ...
 # Subtest: visual: tauawo @390
-ok 30 - visual: tauawo @390
+ok 36 - visual: tauawo @390
   ---
-  duration_ms: 2296.770277
+  duration_ms: 2261.486264
   type: 'test'
   ...
 # Subtest: visual: tauawo @768
-ok 31 - visual: tauawo @768
+ok 37 - visual: tauawo @768
   ---
-  duration_ms: 2189.204809
+  duration_ms: 2190.657783
   type: 'test'
   ...
 # Subtest: visual: tauawo @1440
-ok 32 - visual: tauawo @1440
+ok 38 - visual: tauawo @1440
   ---
-  duration_ms: 2039.264467
+  duration_ms: 2053.787738
   type: 'test'
   ...
 # Subtest: visual: harbor @390
-ok 33 - visual: harbor @390
+ok 39 - visual: harbor @390
   ---
-  duration_ms: 966.963104
+  duration_ms: 962.110922
   type: 'test'
   ...
 # Subtest: visual: harbor @768
-ok 34 - visual: harbor @768
+ok 40 - visual: harbor @768
   ---
-  duration_ms: 947.63144
+  duration_ms: 966.050688
   type: 'test'
   ...
 # Subtest: visual: harbor @1440
-ok 35 - visual: harbor @1440
+ok 41 - visual: harbor @1440
   ---
-  duration_ms: 1055.652687
+  duration_ms: 995.057857
   type: 'test'
   ...
 # Subtest: visual: docs @390
-ok 36 - visual: docs @390
+ok 42 - visual: docs @390
   ---
-  duration_ms: 2431.149067
+  duration_ms: 2954.528149
   type: 'test'
   ...
 # Subtest: visual: docs @768
-ok 37 - visual: docs @768
+ok 43 - visual: docs @768
   ---
-  duration_ms: 2030.690337
+  duration_ms: 2573.377072
   type: 'test'
   ...
 # Subtest: visual: docs @1440
-ok 38 - visual: docs @1440
+ok 44 - visual: docs @1440
   ---
-  duration_ms: 2131.702647
+  duration_ms: 2713.398717
   type: 'test'
   ...
 # Subtest: visual: docs-harbor-dark @390
-ok 39 - visual: docs-harbor-dark @390
+ok 45 - visual: docs-harbor-dark @390
   ---
-  duration_ms: 2442.448852
+  duration_ms: 2950.421183
   type: 'test'
   ...
 # Subtest: visual: docs-harbor-dark @768
-ok 40 - visual: docs-harbor-dark @768
+ok 46 - visual: docs-harbor-dark @768
   ---
-  duration_ms: 2144.9107
+  duration_ms: 2616.135817
   type: 'test'
   ...
 # Subtest: visual: docs-harbor-dark @1440
-ok 41 - visual: docs-harbor-dark @1440
+ok 47 - visual: docs-harbor-dark @1440
   ---
-  duration_ms: 2251.44333
+  duration_ms: 2674.980459
   type: 'test'
   ...
-1..41
-# tests 41
+1..47
+# tests 47
 # suites 0
-# pass 41
+# pass 47
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 85872.764203
+# duration_ms 91305.93936
 exit 0

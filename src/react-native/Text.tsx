@@ -11,6 +11,9 @@ export interface TextProps extends RNTextProps {
   heading?: boolean;
 }
 
+/** iOS Dynamic Type ramp per role, so each role grows like the matching system text style. */
+const ramp = { display: 'largeTitle', title: 'title1', heading: 'title3', subheading: 'headline', lead: 'body', body: 'body', caption: 'footnote', label: 'caption2', code: 'footnote' } as const;
+
 const toneKey = { default: 'text', secondary: 'text-secondary', muted: 'text-muted', label: 'text-label', accent: 'accent-text', success: 'success', warning: 'warning', danger: 'danger', onAction: 'on-action' } as const;
 
 /** Text in a Larkmoor role. Scales with the user's font size, capped per role so large titles don't break layouts. */
@@ -24,6 +27,7 @@ export function Text({ variant = 'body', tone, heading, style, ...rest }: TextPr
     <RNText
       accessibilityRole={isHeading ? 'header' : rest.accessibilityRole}
       maxFontSizeMultiplier={rest.maxFontSizeMultiplier ?? maxFontSizeMultiplier}
+      dynamicTypeRamp={rest.dynamicTypeRamp ?? ramp[variant]}
       style={[s, { color }, style]}
       {...rest}
     />

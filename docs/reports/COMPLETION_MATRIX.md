@@ -123,3 +123,16 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 | 5 | Remaining browser and accessibility checks; device-only checks listed | ✅ what this environment supports · checks needing your devices in ACCESSIBILITY.md |
 | 6 | Reproducible commands, logs, screenshots | ✅ README commands, `logs/`, `reports/`, `docs/screenshots/` |
 | 7 | Privacy evidence from implementation and network | ✅ PRIVACY_EVIDENCE.md · app network capture needs your phone |
+
+## Follow-up request: mobile apps, university benchmark, modernisation (0.2.0)
+
+| Requirement | Where | Evidence | Status |
+|---|---|---|---|
+| Compare against university design systems | `docs/guides/BENCHMARK.md` | 10 university systems read (6 in depth), plus Apple, Android and React Native docs, with URLs and access dates; inaccessible pages listed | ✅ |
+| Compare layouts, grids, spacing, type, breakpoints | BENCHMARK §4 comparison table | — | ✅ |
+| Keep Larkmoor up to date with the findings | BENCHMARK §7 | 10 of the 10 top recommendations applied; gaps listed | ✅ / ⚪ high-contrast theme |
+| Works in mobile apps: React Native | `src/react-native`, `dist/react-native` | Strict type check against React Native 0.88.1 on your computer and in CI | ✅ compiled · ❔ not yet run on a device |
+| Works in mobile apps: iOS | `dist/ios/Larkmoor.swift` | `swiftc -typecheck` in CI (macOS) | ✅ compiled · ❔ not in an app yet |
+| Works in mobile apps: Android | `dist/android/*.kt` | `kotlinc` and Compose compile in CI | ✅ compiled · ❔ not in an app yet |
+| Works on mobile websites | safe areas, touch targets, container queries, sheet, tab bar | Browser tests at 17 widths plus touch emulation | ✅ |
+| Modern | cascade layers, container queries, `@starting-style`, `dvh`, native `<dialog>`, automatic dark mode | Tests and visual review | ✅ |

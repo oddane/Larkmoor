@@ -116,3 +116,71 @@ test('harbor: event filter shows the right cards without JavaScript logic', asyn
   assert.equal(await count(), 4);
   await context.close();
 });
+
+test('tabs: arrow keys, Home and End move selection; only the selected panel shows', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.docs);
+  await page.locator('#t-overview').focus();
+  await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('#t-pricing').getAttribute('aria-selected'), 'true');
+  assert.equal(await page.evaluate(() => document.activeElement.id), 't-pricing');
+  assert.equal(await page.locator('#p-pricing').isVisible(), true);
+  assert.equal(await page.locator('#p-overview').isHidden(), true);
+  await page.keyboard.press('End');
+  assert.equal(await page.locator('#t-faq').getAttribute('aria-selected'), 'true');
+  await page.keyboard.press('Home');
+  assert.equal(await page.locator('#t-overview').getAttribute('tabindex'), '0');
+  assert.equal(await page.locator('[role="tablist"]').count(), 1);
+  await context.close();
+});
+
+test('dialog: opens modally, focus moves inside, Escape closes and focus returns to the opener', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.harbor, { viewport: { width: 390, height: 800 } });
+  const opener = page.locator('[data-lm-dialog-open="access-sheet"]');
+  await opener.evaluate((e) => e.scrollIntoView({ block: 'center' }));
+  await opener.click();
+  assert.equal(await page.locator('#access-sheet').evaluate((d) => d.open && d.matches(':modal')), true);
+  assert.equal(await page.evaluate(() => !!document.activeElement.closest('#access-sheet')), true);
+  const box = await page.locator('#access-sheet').boundingBox();
+  assert.ok(Math.round(box.y + box.height) >= 799, 'sheet sits at the bottom on phones');
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(50);
+  assert.equal(await page.locator('#access-sheet').evaluate((d) => d.open), false);
+  assert.equal(await page.evaluate(() => document.activeElement.getAttribute('data-lm-dialog-open')), 'access-sheet');
+  await context.close();
+});
+
+test('toast: appears in a polite live region only after the action finishes, and can be dismissed', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.docs);
+  await page.locator('#demo-toast').click();
+  assert.equal(await page.locator('.lm-toast').count(), 0, 'no toast before the save finished');
+  await page.locator('.lm-toast').waitFor();
+  assert.equal(await page.locator('.lm-toast-region').getAttribute('aria-live'), 'polite');
+  await page.locator('.lm-toast button').click();
+  await page.waitForTimeout(50);
+  assert.equal(await page.locator('.lm-toast').count(), 0);
+  await context.close();
+});
+
+test('table: scroll region is focusable and named; rows stack into cards in a narrow container', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.docs, { viewport: { width: 390, height: 800 } });
+  const wrap = page.locator('.lm-table-wrap');
+  assert.equal(await wrap.getAttribute('tabindex'), '0');
+  assert.equal(await wrap.getAttribute('role'), 'region');
+  assert.equal(await page.locator('.lm-table--stack tbody tr').first().evaluate((r) => getComputedStyle(r).display), 'grid');
+  await page.setViewportSize({ width: 1280, height: 800 });
+  assert.equal(await page.locator('.lm-table--stack tbody tr').first().evaluate((r) => getComputedStyle(r).display), 'table-row');
+  await context.close();
+});
+
+test('auto dark mode: Harbor follows the device setting; Tauawo stays light by design', async () => {
+  const dark = async (path) => { const { page, context } = await open(env.browser, env.base + path, { colorScheme: 'dark' }); const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor); await context.close(); return bg; };
+  assert.equal(await dark(PAGES.harbor), 'rgb(18, 28, 56)');
+  assert.equal(await dark(PAGES.tauawo), 'rgb(255, 255, 255)');
+});
+
+test('touch screens get 44px targets for compact controls', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.docs, { viewport: { width: 390, height: 800 }, hasTouch: true, isMobile: true });
+  const h = await page.locator('.lm-btn--sm').first().evaluate((b) => b.getBoundingClientRect().height);
+  assert.ok(h >= 44, `small button is ${h}px on touch`);
+  await context.close();
+});

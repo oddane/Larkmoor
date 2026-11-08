@@ -167,3 +167,14 @@ Each finding gives: **where**, **problem**, **impact**, **fix**, **verified**.
 | Field Core Web Vitals | No real visitors yet | After launch |
 | axe-core scan | Package registry unreachable here | One run of the axe browser extension |
 | Privacy page on your own domain; push metadata disclosure | Content decision | You |
+
+## 6. Version 0.2.0 findings
+
+| ID | Where | Problem | Impact | Fix | Verified |
+|---|---|---|---|---|---|
+| F21 | Breadcrumb links | 22px tall | Under the WCAG 2.5.8 24px minimum | `min-height` 24px, 44px on touch | a11y target test |
+| F22 | React Native `Text` | Prop `role` clashed with React Native's accessibility `role` | Wrong prop type; could break screen-reader roles | Renamed to `variant` | Strict `tsc` against React Native 0.88.1 |
+| F23 | React Native `Field` | Ref typed for an older TextInput | Type error in apps on React Native 0.88 | `inputRef` prop with `ComponentRef<typeof TextInput>` | same |
+| F24 | React Native text styles | Mutated read-only styles | Type error on 0.88 | Built immutably | same |
+| F25 | Default theme | No dark mode | Phones in dark mode got a bright page and app | `evergreen-dark` plus automatic switching | Contrast unit test; dark-mode browser test |
+| F26 | Benchmark gaps | Missing tabs, dialog, sheet, toast, breadcrumbs, pagination, table; no safe areas; no touch sizing | Common patterns had to be hand-built | Added, each with docs and tests | Interaction tests |

@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en" data-lm-theme="harbor">
+<html lang="en" data-lm-theme="harbor" data-lm-color-scheme="auto">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Quay Lane Library · Fictional example of the Larkmoor design system</title>
   <meta name="description" content="A fictional community library site that shows the Larkmoor design system running under a second brand theme.">
   <script>document.documentElement.classList.add('js');</script>
-  <meta name="theme-color" content="#fbf7f1">
+  <meta name="theme-color" content="#fbf7f1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121c38" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d2b53'/%3E%3Cpath d='M9 8h4v13h10v3H9z' fill='%23fbf7f1'/%3E%3C/svg%3E">
   <!-- Harbor uses system fonts only, so it loads no font files at all. -->
   <link rel="stylesheet" href="vendor/larkmoor/larkmoor.css">
@@ -78,6 +79,7 @@
         <p class="lm-label lm-label--accent">01 · Visit</p>
         <h2 class="lm-title" id="visit-title">Open six days a week.</h2>
         <p class="hours-today">Closed on public holidays. Step-free entrance on Quay Lane.</p>
+        <div><button class="lm-btn lm-btn--secondary lm-btn--sm" type="button" data-lm-dialog-open="access-sheet">Accessibility details</button></div>
       </div>
       <dl class="lm-rows" style="--lm-rows-term: 160px">
         <div><dt>Monday</dt><dd>Closed</dd></div>
@@ -213,6 +215,16 @@
   </section>
 </main>
 
+<dialog class="lm-dialog lm-dialog--sheet" id="access-sheet" aria-labelledby="access-title">
+  <div class="lm-dialog__header"><h2 class="lm-subheading" id="access-title">Accessibility at Quay Lane</h2><button class="lm-dialog__close" type="button" data-lm-dialog-close aria-label="Close">✕</button></div>
+  <div class="lm-dialog__body lm-stack" style="--lm-stack-gap: var(--lm-space-3)">
+    <p>Step-free entrance on Quay Lane, with an automatic door.</p>
+    <p>A lift serves both floors. Accessible toilets are on the ground floor.</p>
+    <p>A hearing loop is fitted at the front desk. Assistance dogs are welcome.</p>
+  </div>
+  <div class="lm-dialog__footer"><button class="lm-btn lm-btn--primary lm-btn--sm" type="button" data-lm-dialog-close>Done</button></div>
+</dialog>
+
 <footer class="lm-footer" data-lm-theme="harbor-dark">
   <div class="lm-container lm-footer__grid">
     <div class="lm-footer__brand">
@@ -228,7 +240,8 @@
 </footer>
 
 <script type="module">
-  import { initDisclosureMenu, initHeader, initReveal, initForm } from './vendor/larkmoor/larkmoor.js';
+  import { initDisclosureMenu, initHeader, initReveal, initForm, initDialog, toast } from './vendor/larkmoor/larkmoor.js';
+  initDialog(document.getElementById('access-sheet'));
 
   const header = document.getElementById('header');
   const menu = document.getElementById('mobile-menu');
@@ -254,6 +267,7 @@
       if (data.get('simulate-failure')) { failure.hidden = false; return; }
       success.hidden = false;
       form.reset();
+      toast('Library card requested');
     },
   });
 </script>
