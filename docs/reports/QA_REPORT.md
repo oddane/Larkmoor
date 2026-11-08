@@ -20,7 +20,7 @@ Everything below was measured in **Chromium only**.
 |---|---|
 | ✅ Passed | 10 unit tests + 41 browser tests + type check + install check |
 | ❌ Failed | 0 (the last run; failures found during the work are in UI_AUDIT §3) |
-| ⛔ Blocked | axe-core (registry unreachable here); app network capture (needs your phone); tag and repo settings (GitHub refuses them from this session) |
+| ⛔ Blocked | axe-core (registry unreachable here); app network capture (needs your phone) |
 | ⚪ Untested | Real screen readers, Safari, Firefox, real phones, field Core Web Vitals, RTL |
 
 ## 2. How to reproduce
@@ -124,7 +124,6 @@ Each one has a test that would catch it again.
 
 | Item | Status | What unblocks it |
 |---|---|---|
-| GitHub tag and settings | ⛔ The code is pushed and CI is green, but this session can't push tags or change settings | README → Repository settings |
 | axe-core | ⛔ registry unreachable here | Run the axe DevTools extension, or run CI on GitHub (it installs dependencies) |
 | App network capture | ⛔ needs your phone | PRIVACY_EVIDENCE.md §4 |
 | Screen readers, Safari, Firefox, real devices | ⚪ | ACCESSIBILITY.md manual checklist (about 1.5 hours total) |
