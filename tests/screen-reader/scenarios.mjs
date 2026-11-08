@@ -12,9 +12,15 @@ export function scenarios(wrap, reader) {
     const said = [];
     const take = async () => { said.push(...(await s.spokenPhraseLog()).filter((p) => p && p.trim())); await s.clearSpokenPhraseLog(); };
     const heard = async () => { await take(); return said.join(' | ').toLowerCase(); };
-    const press = async (key, ms) => { await s.press(key); await settle(page, ms); };
+    // NVDA's log keeps only the first part of an utterance that starts with context ("Dialog, region"),
+    // so after each step NVDA is asked to report the focused element (NVDA+Tab), as a user would.
+    const cmds = s.keyboardCommands ?? {};
+    const focusCmd = reader === 'nvda' ? cmds.reportCurrentFocus : undefined;
+    if (reader === 'nvda' && !focusCmd) console.log('[nvda] no reportCurrentFocus; commands with "focus":', Object.keys(cmds).filter((k) => /focus/i.test(k)));
+    const reportFocus = async () => { if (focusCmd) { await s.perform(focusCmd); await settle(page, 900); } };
+    const press = async (key, ms) => { await s.press(key); await settle(page, ms); await reportFocus(); };
     /** Presses Tab until the screen reader says `text` (or gives up after `max` presses). */
-    const tabTo = async (text, max = 24) => {
+    const tabTo = async (text, max = 30) => {
       for (let i = 0; i < max; i++) {
         await press('Tab', 700);
         await take();
@@ -24,7 +30,7 @@ export function scenarios(wrap, reader) {
     };
     /** Moves with the reader's own "next item" command until it says `text`. Safari's Tab skips links
      *  by default, so VoiceOver users reach links this way; NVDA users usually Tab. */
-    const linkTo = async (text, max = 40) => {
+    const linkTo = async (text, max = 90) => {
       if (reader !== 'voiceover') return tabTo(text, max);
       for (let i = 0; i < max; i++) {
         await s.next(); await settle(page, 500);
@@ -72,7 +78,7 @@ export function scenarios(wrap, reader) {
     expect(await heard()).toContain('delete card');
   });
 
-  run('toast message is announced from the live region', async ({ heard, said, press, tabTo }) => {
+  run('toast message is announced from the live region', async ({ page, heard, said, press, tabTo }) => {
     await tabTo('save draft');
     said.length = 0;
     await press('Enter', 3500);
