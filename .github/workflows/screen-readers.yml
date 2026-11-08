@@ -7,7 +7,7 @@ on:
 permissions: { contents: read }
 concurrency: { group: "sr-${{ github.ref }}", cancel-in-progress: true }
 env:
-  SR_DEPS: "@playwright/test@1.64.1 @guidepup/guidepup@0.24.1 @guidepup/playwright"
+  SR_DEPS: "@playwright/test@1.64.1 @guidepup/playwright@0.21.0 @guidepup/guidepup"
 jobs:
   voiceover:
     name: VoiceOver (macOS, WebKit)
@@ -19,9 +19,9 @@ jobs:
         with: { node-version-file: .nvmrc }
       - run: npm install --no-audit --no-fund
       - run: npm install --no-save --no-audit --no-fund $SR_DEPS
-      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright || true
+      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright && npx --yes @guidepup/setup --version || true
       - name: Prepare VoiceOver for automation
-        run: npx --yes @guidepup/setup@0.23.0 --ci --record
+        run: npx --yes @guidepup/setup --ci --record
       - run: npx playwright install webkit
       - run: npx playwright test -c tests/screen-reader/playwright.config.mjs --project=voiceover
       - name: Upload what VoiceOver said
@@ -40,9 +40,9 @@ jobs:
         with: { node-version-file: .nvmrc }
       - run: npm install --no-audit --no-fund
       - run: npm install --no-save --no-audit --no-fund $SR_DEPS
-      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright || true
+      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright && npx --yes @guidepup/setup --version || true
       - name: Install and configure NVDA
-        run: npx --yes @guidepup/setup@0.23.0 --ci
+        run: npx --yes @guidepup/setup --ci
       - run: npx playwright install firefox
       - run: npx playwright test -c tests/screen-reader/playwright.config.mjs --project=nvda
       - name: Upload what NVDA said

@@ -4,10 +4,11 @@
 
 **A small, accessible design system for building websites that look intentional and stay honest.**
 
-One token source for web, React Native, iOS and Android · layout primitives · 24 accessible web components · 16 React Native components · light, dark and brand themes · zero runtime dependencies
+One token source for web, React Native, iOS and Android · layout primitives · 24 accessible web components · native components for React Native, SwiftUI and Compose · light, dark, high-contrast and brand themes · zero runtime dependencies
 
 [![CI](https://github.com/oddane/Larkmoor/actions/workflows/ci.yml/badge.svg)](https://github.com/oddane/Larkmoor/actions/workflows/ci.yml)
-![version](https://img.shields.io/badge/version-0.2.0-1f7a4f)
+[![Screen readers](https://github.com/oddane/Larkmoor/actions/workflows/screen-readers.yml/badge.svg)](https://github.com/oddane/Larkmoor/actions/workflows/screen-readers.yml)
+![version](https://img.shields.io/badge/version-0.3.0-1f7a4f)
 ![platforms](https://img.shields.io/badge/platforms-web%20%C2%B7%20React%20Native%20%C2%B7%20SwiftUI%20%C2%B7%20Compose-14241c)
 ![tokens](https://img.shields.io/badge/tokens-DTCG%202025.10-14241c)
 ![a11y](https://img.shields.io/badge/target-WCAG%202.2%20AA-14241c)
@@ -28,9 +29,10 @@ One token source for web, React Native, iOS and Android · layout primitives · 
 - **One source of truth.** Every colour, size, space, duration and layer is a [DTCG 2025.10](https://www.designtokens.org/TR/2025.10/) token. One dependency-free script builds CSS custom properties, themes, JSON and breakpoint constants from them.
 - **Websites and apps from one source.** The same tokens build CSS, React Native components, SwiftUI and Jetpack Compose. Each native output uses its platform's touch targets, text-size setting, dark mode and safe areas, and is compiled or type-checked in CI.
 - **Brands without forks.** A theme overrides semantic roles only. Components never change. Each theme is contrast-tested on its own, including dark themes.
-- **Accessible by construction.** Native elements first, ARIA Authoring Practices patterns, visible focus, 24px+ targets, reduced motion, a pause control, forced-colours support and no-JavaScript fallbacks.
+- **High contrast everywhere.** Every theme has a partner for Increase Contrast and `prefers-contrast: more`, held to WCAG AAA (7:1 text). Websites, SwiftUI, React Native and Compose switch automatically.
+- **Accessible by construction.** Native elements first, ARIA Authoring Practices patterns, visible focus, 24px+ targets, reduced motion, a pause control, forced-colours support and no-JavaScript fallbacks. Real VoiceOver and NVDA runs in CI check what the new components actually say.
 - **Private by default.** Self-hosted fonts, no cookies, no third-party requests. A test fails if a page ever calls another origin.
-- **Proven, not promised.** 17 unit tests and 47 browser tests cover contrast in every theme, 17 screen widths, keyboard focus, interactions, network traffic, lab performance and visual regression. CI also compiles the SwiftUI and Compose outputs and type-checks React Native.
+- **Proven, not promised.** 30 unit tests and 57 browser tests cover contrast in every theme, high contrast, 17 screen widths, keyboard focus, the accessibility tree, interactions, network traffic, lab performance and visual regression. CI also compiles the SwiftUI (macOS and iOS SDKs) and Compose outputs, type-checks React Native, and runs VoiceOver and NVDA.
 
 ## Quick start
 
@@ -75,14 +77,22 @@ import { LarkmoorProvider, Screen, Container, Stack, Text, Button } from '@larkm
 </LarkmoorProvider>
 ```
 
-SwiftUI and Jetpack Compose files are in `dist/ios` and `dist/android`. See [Platforms](docs/guides/PLATFORMS.md).
+SwiftUI and Jetpack Compose files are in `dist/ios` and `dist/android`:
+
+```swift
+LarkmoorField("Email", text: $email, error: error)
+LarkmoorSegmentedControl("Plan", options: [.init("free", "Free"), .init("plus", "Plus")], selection: $plan)
+  .larkmoorTheme(light: "harbor", dark: "harbor-dark")   // Dark Mode + Increase Contrast
+```
+
+See [Platforms](docs/guides/PLATFORMS.md).
 
 ### With npm
 
 The package is private and not on a registry. Install it straight from this repository:
 
 ```bash
-npm install github:oddane/Larkmoor#v0.2.0
+npm install github:oddane/Larkmoor#v0.3.0
 ```
 
 ```js
@@ -100,11 +110,11 @@ import { below } from '@larkmoor/design-system/breakpoints';  // '(max-width: 89
 | | |
 |---|---|
 | **Tokens** | palette, semantic colour roles, spacing (4px base), sizes, radii, borders, breakpoints (520 / 760 / 900 / 1100), type roles, motion, layers, elevation |
-| **Themes** | `evergreen` (default), `evergreen-dark`, `evergreen-inverse`, `harbor`, `harbor-dark`; `data-lm-color-scheme="auto"` follows the device |
+| **Themes** | `evergreen` (default), `evergreen-dark`, `evergreen-inverse`, `harbor`, `harbor-dark`, and a `-contrast` partner for each; `data-lm-color-scheme="auto"` and `data-lm-contrast="auto"` follow the device |
 | **Layout primitives** | container (+ narrow 800, wide 1440), stack, cluster, grid (+ fill), columns (2/3/4), split, section, shell, query container (`.lm-cq`) |
 | **Web components** | button, link, header and navigation, segmented control, accordion, field, input group, error summary, check, badge, panel, card, alert, rows, footer, progress, motion toggle, tabs, dialog and bottom sheet, toast, breadcrumbs, pagination, table, tab bar |
 | **React Native** | Text, Button, Field, SegmentedControl, Accordion, Screen, Container, Section, Stack, Cluster, Grid, Card, Panel, Badge, Alert, Rows |
-| **SwiftUI / Compose** | tokens, themes, text styles, theme environment / `LarkmoorTheme`, button style |
+| **SwiftUI / Compose** | tokens, themes (with Increase Contrast / high contrast), text styles, theme environment / `LarkmoorTheme`, button style, field, segmented control, accordion |
 | **Behaviours** | `initMotionToggle`, `initDisclosureMenu`, `initHeader`, `initReveal`, `initForm`, `initTabs`, `initDialog`, `toast` (ES modules, TypeScript types) |
 | **Fonts** | Geist and Martian Mono, self-hosted, SIL OFL 1.1 |
 
@@ -133,12 +143,14 @@ Edit `tokens/*.tokens.json` and `src/`. Never edit `dist/`, which is generated a
 tokens/              DTCG sources: foundation/ → semantic/ → themes/
 src/css/             base, typography, layout, components (order in index.txt)
 src/js/              behaviours + type definitions
+src/react-native/    React Native components
+src/ios/ src/android/ SwiftUI and Compose components
 fonts/               woff2 files and their licences
 dist/                generated package output
 docs/                component docs (index.html), guides/, reports/, screenshots/, evidence/
 examples/tauawo/     first consumer: the Tauawo website
 examples/harbor/     second consumer: fictional library, different brand, no shared code
-tests/               unit/, browser/, baselines/
+tests/               unit/, browser/, baselines/, screen-reader/ (VoiceOver + NVDA), compose/
 scripts/             build, serve, sync, screenshots, pack check, GitHub setup
 ```
 
@@ -178,7 +190,7 @@ The release workflow runs the full test suite and publishes a GitHub release wit
 These are configured:
 - the description and topics;
 - squash-only merging, with branch updates suggested and merged branches deleted;
-- the `v0.1.0` release;
+- the `v0.1.0`, `v0.2.0` releases;
 - labels;
 - issue and PR templates;
 - Dependabot.
