@@ -31,6 +31,7 @@ Larkmoor now works for apps as well as websites, and was benchmarked against ten
 
 **Fixes**
 - Breadcrumb links are at least 24px tall (44px on touch).
+- Buttons keep their label on one line; a long wordmark truncates instead of wrapping the header; the header spacing is tighter on phones.
 
 **Breaking:** none. Every 0.1 class, token and export is unchanged.
 

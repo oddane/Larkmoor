@@ -7,33 +7,33 @@
     "bytes": 614400
   },
   "median": {
-    "lcp": 856,
+    "lcp": 820,
     "cls": 0,
-    "tbt": 57,
-    "bytes": 90242,
-    "tapToPaint": 13
+    "tbt": 39,
+    "bytes": 90768,
+    "tapToPaint": 24
   },
   "runs": [
     {
-      "lcp": 860,
+      "lcp": 820,
       "cls": 0,
-      "tbt": 66,
-      "bytes": 90242,
-      "tapToPaint": 13
+      "tbt": 46,
+      "bytes": 90768,
+      "tapToPaint": 24
+    },
+    {
+      "lcp": 820,
+      "cls": 0,
+      "tbt": 34,
+      "bytes": 90768,
+      "tapToPaint": 26
     },
     {
       "lcp": 820,
       "cls": 0,
       "tbt": 39,
-      "bytes": 90242,
-      "tapToPaint": 18
-    },
-    {
-      "lcp": 856,
-      "cls": 0,
-      "tbt": 57,
-      "bytes": 90242,
-      "tapToPaint": 12
+      "bytes": 90768,
+      "tapToPaint": 14
     }
   ]
 }
