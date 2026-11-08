@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "playwright": "1.63.0",
-    "sharp": "^0.34.0",
+    "sharp": "^0.35.5",
     "typescript": "^5.9.0"
   },
   "repository": {
