@@ -72,29 +72,43 @@ export default function App() {
   - `Stack` and `Cluster` handle spacing, and `Grid` sizes columns by its own width, in effect a container query.
   - Surfaces: `Card`, `Panel`, `Badge`, `Alert` and `Rows`. `Rows` stacks on compact windows.
 
+**High contrast:** `LarkmoorProvider` follows iOS Increase Contrast (`isDarkerSystemColorsEnabled`) and, where React Native reports it, Android high-contrast text, and swaps in the partner theme. Force it with `contrast="more"` or turn it off with `contrast="standard"`. `useLarkmoor().highContrast` says which is active.
+
 ## iOS (SwiftUI)
 
-1. Add `dist/ios/Larkmoor.swift` to your target.
+1. Add `dist/ios/Larkmoor.swift` and `dist/ios/LarkmoorComponents.swift` to your target.
 2. Add the `.ttf` files from `fonts/native` to the target and list them under `UIAppFonts` in Info.plist.
 
 ```swift
-@Environment(\.colorScheme) var scheme
-var body: some View {
-  let theme = Larkmoor.themes[scheme == .dark ? "evergreen-dark" : "default"]!
-  VStack(alignment: .leading, spacing: Larkmoor.Space.s5) {
-    Text("Decide what people see.").larkmoorText(theme.title).foregroundStyle(theme.colors.text)
-    Button("Join the beta") { join() }.buttonStyle(LarkmoorButtonStyle(.primary))
+struct JoinView: View {
+  @State private var email = ""
+  @State private var plan = "free"
+  @State private var error: String?
+  var body: some View {
+    VStack(alignment: .leading, spacing: Larkmoor.Space.s5) {
+      LarkmoorField("Email", text: $email, hint: "We only use it for receipts", error: error)
+      LarkmoorSegmentedControl("Plan", options: [.init("free", "Free"), .init("plus", "Plus")], selection: $plan)
+      LarkmoorAccordion("What does Plus include?") { Text("Unlimited holds and longer loans.") }
+      Button("Join the beta") { join() }.buttonStyle(LarkmoorButtonStyle(.primary))
+    }
+    .larkmoorTheme(light: "harbor", dark: "harbor-dark")   // follows Dark Mode and Increase Contrast
   }
-  .padding(.horizontal, Larkmoor.Layout.gutter.value(for: width))
-  .environment(\.larkmoor, theme)
 }
 ```
 
-Fonts use `Font.custom(_:size:relativeTo:)`, so they scale with Dynamic Type. Buttons have a minimum height of 44pt. The file compiles in CI (`swiftc -typecheck`, macOS runner).
+**Components** (`LarkmoorComponents.swift`):
+- `LarkmoorField`: visible label, hint and error; VoiceOver reads the label, then "Error: …" and the hint; a new error is announced once; secure entry with `secure: true`.
+- `LarkmoorSegmentedControl`: each segment is a button with the Selected trait and "1 of 3"; animated thumb (off with Reduce Motion).
+- `LarkmoorAccordion`: header button with the value "Expanded" or "Collapsed"; controlled (`isExpanded:`) or self-managed.
+- All controls are at least 44pt tall and read the theme from the environment.
+
+**Increase Contrast:** `.larkmoorTheme(light:dark:)` reads `colorSchemeContrast` and swaps in the high-contrast partner (`Larkmoor.highContrast`). `Larkmoor.theme(light:dark:colorScheme:contrast:)` does the same if you manage the environment yourself.
+
+Fonts use `Font.custom(_:size:relativeTo:)`, so they scale with Dynamic Type. Both files are type-checked in CI for macOS 14 and for the iOS 16 simulator SDK (`swiftc -typecheck`, macOS runner).
 
 ## Android (Jetpack Compose)
 
-1. Copy `dist/android/*.kt` into your app module (package `design.larkmoor`).
+1. Copy `dist/android/*.kt` into your app module (packages `design.larkmoor`, `design.larkmoor.compose`, `design.larkmoor.android`).
 2. Copy the fonts from `fonts/native` into `res/font`, renamed to lowercase with underscores, as `LarkmoorTokens.FONT_FILES` lists.
 
 ```kotlin
@@ -107,7 +121,31 @@ setContent {
 }
 ```
 
-Type sizes are in `sp`, so they follow the user's font size. CI compiles both files: the tokens with `kotlinc`, and the Compose theme against Compose Multiplatform's `androidx.compose` APIs.
+**Components** (`LarkmoorComponents.kt`):
+
+```kotlin
+LarkmoorTheme(lightTheme = "harbor", darkTheme = "harbor-dark", highContrast = LocalContext.current.prefersHighContrast()) {
+    var email by remember { mutableStateOf("") }
+    var plan by remember { mutableStateOf("free") }
+    Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+        LarkmoorField(email, { email = it }, label = "Email", hint = "We only use it for receipts", error = emailError)
+        LarkmoorSegmentedControl("Plan", listOf("free" to "Free", "plus" to "Plus"), plan, { plan = it })
+        LarkmoorAccordion("What does Plus include?") { Text("Unlimited holds and longer loans.") }
+    }
+}
+```
+
+- `LarkmoorField`: visible label and hint (given to TalkBack as the field's description); the error is reported with the field (`error()` semantics) and announced once through a polite live region.
+- `LarkmoorSegmentedControl`: a selectable group of radio buttons ("Free, radio button, selected").
+- `LarkmoorAccordion`: header with role Button, an "Expanded"/"Collapsed" state and TalkBack expand and collapse actions. Controlled or self-managed (`rememberSaveable`).
+- Every control is at least 48dp tall.
+
+**High contrast:** `LarkmoorTheme(highContrast = true)` swaps in the partner theme (`LarkmoorTokens.HIGH_CONTRAST`). `Context.prefersHighContrast()` (`LarkmoorAndroid.kt`) reads Android 14's contrast level (Settings → Accessibility → Colour and motion → Contrast level, Medium or High) and returns false on older versions.
+
+Type sizes are in `sp`, so they follow the user's font size. CI compiles:
+- the tokens with `kotlinc`;
+- `LarkmoorAndroid.kt` against the runner's newest `android.jar`;
+- the theme, the components and a sample screen against Compose Multiplatform's `androidx.compose` APIs.
 
 ## Web: mobile behaviour
 
@@ -127,6 +165,7 @@ Type sizes are in `sp`, so they follow the user's font size. CI compiles both fi
 
 **Theming:**
 - **Dark mode:** add `data-lm-color-scheme="auto"` to `<html>` to follow the device setting. Default switches to `evergreen-dark` and Harbor to `harbor-dark`.
+- **More contrast:** add `data-lm-contrast="auto"` to switch to the high-contrast partner when the device reports `prefers-contrast: more` ([Theming](THEMING.md#high-contrast-themes)).
 - **Overrides:** all CSS is in cascade layers (`lm.base < lm.layout < lm.components < lm.utilities`), so a site's own unlayered CSS always wins.
 
 ## Not done yet
@@ -134,7 +173,5 @@ Type sizes are in `sp`, so they follow the user's font size. CI compiles both fi
 - **Rendering on real devices:**
   - The native components type-check and compile, but haven't been run on a phone or simulator here.
   - Before relying on them, render `Screen`, `Button`, `Field` and `SegmentedControl` once in the Tauawo app on iOS and Android.
-- **Not built:**
-  - an Increase Contrast / high-contrast theme;
-  - SwiftUI and Compose versions of the other components (Field, Segmented, Accordion);
-  - em-based web breakpoints.
+- **Not built:** SwiftUI and Compose versions of the layout and surface components (they map directly to `VStack`/`Column`, `Card` and Material 3); em-based web breakpoints.
+- **Android contrast:** Android 13 and older have no public contrast-level API, and the "High contrast text" switch is not exposed to Compose, so `prefersHighContrast()` returns false there. React Native's Android check depends on the React Native version.

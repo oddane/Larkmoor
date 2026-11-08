@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Larkmoor screen reader fixture</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="../../dist/larkmoor.css">
+</head>
+<!-- Test fixture: the web components added in 0.2.0, with the markup from docs/index.html.
+     Used by tests/browser/screen-reader-tree.test.mjs (Chromium accessibility tree) and
+     tests/screen-reader/*.spec.mjs (real VoiceOver on macOS and NVDA on Windows, in CI). -->
+<body>
+  <a class="lm-skip-link" href="#main">Skip to content</a>
+  <main id="main" class="lm-container lm-stack" style="padding-block: 24px">
+    <h1 class="lm-title">Screen reader fixture</h1>
+
+    <section class="lm-stack" aria-labelledby="h-tabs">
+      <h2 class="lm-subheading" id="h-tabs">Tabs</h2>
+      <div class="lm-tabs" id="demo-tabs">
+        <div class="lm-tabs__list" aria-label="Plan details">
+          <button class="lm-tabs__tab" type="button" id="t-overview" aria-controls="p-overview" aria-selected="true">Overview</button>
+          <button class="lm-tabs__tab" type="button" id="t-pricing" aria-controls="p-pricing">Pricing</button>
+          <button class="lm-tabs__tab" type="button" id="t-faq" aria-controls="p-faq">Questions</button>
+        </div>
+        <div class="lm-tabs__panel" id="p-overview"><p class="lm-body">Panels switch as the selection moves.</p></div>
+        <div class="lm-tabs__panel" id="p-pricing"><p class="lm-body">Free while in testing.</p></div>
+        <div class="lm-tabs__panel" id="p-faq"><p class="lm-body">Ask at any branch.</p></div>
+      </div>
+    </section>
+
+    <section class="lm-stack" aria-labelledby="h-dialog">
+      <h2 class="lm-subheading" id="h-dialog">Dialog</h2>
+      <div class="lm-cluster">
+        <button class="lm-btn lm-btn--secondary" type="button" id="open-dialog" data-lm-dialog-open="demo-dialog">Delete card</button>
+      </div>
+      <dialog class="lm-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+        <div class="lm-dialog__header"><h2 class="lm-subheading" id="demo-dialog-title">Delete this card?</h2><button class="lm-dialog__close" type="button" data-lm-dialog-close aria-label="Close">✕</button></div>
+        <div class="lm-dialog__body"><p>This can't be undone.</p></div>
+        <div class="lm-dialog__footer"><button class="lm-btn lm-btn--secondary lm-btn--sm" type="button" data-lm-dialog-close>Cancel</button><button class="lm-btn lm-btn--danger lm-btn--sm" type="button" data-lm-dialog-close>Delete</button></div>
+      </dialog>
+    </section>
+
+    <section class="lm-stack" aria-labelledby="h-toast">
+      <h2 class="lm-subheading" id="h-toast">Toast</h2>
+      <div class="lm-cluster"><button class="lm-btn lm-btn--secondary" type="button" id="save-draft">Save draft</button></div>
+    </section>
+
+    <section class="lm-stack" aria-labelledby="h-crumbs">
+      <h2 class="lm-subheading" id="h-crumbs">Breadcrumbs</h2>
+      <nav class="lm-breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="#h-crumbs" id="crumb-home">Home</a></li><li><a href="#h-crumbs">Services</a></li><li><span aria-current="page">Replace a lost card</span></li></ol></nav>
+    </section>
+
+    <section class="lm-stack" aria-labelledby="h-pages">
+      <h2 class="lm-subheading" id="h-pages">Pagination</h2>
+      <nav class="lm-pagination" aria-label="Pagination"><ul>
+        <li class="lm-pagination__prev"><a href="#h-pages" rel="prev" aria-label="Previous page" id="page-prev">←</a></li>
+        <li><a href="#h-pages">1</a></li><li><a href="#h-pages" aria-current="page" id="page-current">2</a></li><li><a href="#h-pages">3</a></li>
+        <li class="lm-pagination__summary"><span>Page 2 of 3</span></li>
+        <li class="lm-pagination__next"><a href="#h-pages" rel="next" aria-label="Next page">→</a></li>
+      </ul></nav>
+    </section>
+
+    <section class="lm-stack lm-cq" aria-labelledby="h-table">
+      <h2 class="lm-subheading" id="h-table">Table</h2>
+      <div class="lm-table-wrap" role="region" aria-labelledby="demo-table-caption" tabindex="0" id="table-region">
+        <table class="lm-table">
+          <caption id="demo-table-caption">Loans this month</caption>
+          <thead><tr><th scope="col">Branch</th><th scope="col" class="lm-num">Books</th><th scope="col">Busiest day</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Quay Lane</th><td class="lm-num">4,812</td><td>Saturday</td></tr>
+            <tr><th scope="row">Harbour Road</th><td class="lm-num">2,077</td><td>Tuesday</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="lm-tabbar-spacer"></div>
+  </main>
+
+  <nav class="lm-tabbar" aria-label="App">
+    <a href="#main" aria-current="page" id="tab-home"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9H3z" fill="none" stroke="currentColor" stroke-width="2"/></svg>Home</a>
+    <a href="#h-table"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/></svg>Search</a>
+    <a href="#h-pages"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 4h14v16H5z" fill="none" stroke="currentColor" stroke-width="2"/></svg>Loans</a>
+  </nav>
+
+  <script type="module">
+    import { initTabs, initDialog, toast } from '../../dist/larkmoor.js';
+    initTabs(document.getElementById('demo-tabs'));
+    initDialog(document.getElementById('demo-dialog'));
+    document.getElementById('save-draft').addEventListener('click', async () => { await new Promise((r) => setTimeout(r, 300)); toast('Draft saved'); });
+    document.documentElement.dataset.ready = 'true';
+  </script>
+</body>
+</html>

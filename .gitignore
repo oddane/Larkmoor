@@ -4,3 +4,8 @@ node_modules/
 *.tgz
 .DS_Store
 .env*
+
+# local Gradle state for the Compose check
+tests/compose/.gradle/
+tests/compose/build/
+.kotlin/

@@ -51,3 +51,25 @@ test('Swift, Kotlin and React Native outputs contain every theme and the same ve
   for (const name of themes) { assert.match(swift, new RegExp(`"${name}": Theme\\(`)); assert.match(kt, new RegExp(`"${name}" to LarkmoorThemeTokens\\(`)); assert.ok(rn.includes(`"${name}"`)); }
   for (const src of [swift, kt, rn]) assert.ok(src.includes(model.version));
 });
+
+test('every native output maps each theme to its high-contrast partner', () => {
+  const swift = readFileSync(root + 'dist/ios/Larkmoor.swift', 'utf8');
+  const kt = readFileSync(root + 'dist/android/LarkmoorTokens.kt', 'utf8');
+  const rn = readFileSync(root + 'dist/react-native/tokens.generated.js', 'utf8');
+  assert.deepEqual(model.highContrast, { default: 'evergreen-contrast', 'evergreen-dark': 'evergreen-dark-contrast', 'evergreen-inverse': 'evergreen-inverse-contrast', harbor: 'harbor-contrast', 'harbor-dark': 'harbor-dark-contrast' });
+  for (const [of, n] of Object.entries(model.highContrast)) {
+    assert.ok(swift.includes(`"${of}": "${n}"`), `swift ${of}`);
+    assert.ok(kt.includes(`"${of}" to "${n}"`), `kotlin ${of}`);
+    assert.ok(rn.includes(`"${of}":"${n}"`) || rn.includes(`"${of}": "${n}"`), `rn ${of}`);
+  }
+  assert.match(swift, /colorSchemeContrast/);
+  assert.match(readFileSync(root + 'dist/android/LarkmoorTheme.kt', 'utf8'), /highContrast: Boolean/);
+});
+
+test('SwiftUI and Compose ship field, segmented control and accordion with accessibility semantics', () => {
+  const swift = readFileSync(root + 'dist/ios/LarkmoorComponents.swift', 'utf8');
+  const kt = readFileSync(root + 'dist/android/LarkmoorComponents.kt', 'utf8');
+  for (const n of ['LarkmoorField', 'LarkmoorSegmentedControl', 'LarkmoorAccordion']) { assert.match(swift, new RegExp(`public struct ${n}`)); assert.match(kt, new RegExp(`fun (<T> )?${n}\\(`)); }
+  for (const s of ['accessibilityLabel', '.isSelected', 'accessibilityValue(expanded', 'Size.target', 'accessibilityReduceMotion', 'larkmoorAnnounce']) assert.ok(swift.includes(s), `swift: ${s}`);
+  for (const s of ['Role.RadioButton', 'selectableGroup', 'stateDescription', 'expand {', 'collapse {', 'error(error)', 'LiveRegionMode.Polite', 'LarkmoorTokens.TARGET']) assert.ok(kt.includes(s), `kotlin: ${s}`);
+});

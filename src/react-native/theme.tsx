@@ -1,9 +1,9 @@
 // Larkmoor for React Native: theme provider, hooks and font helpers.
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AccessibilityInfo, Platform, useColorScheme, useWindowDimensions, type TextStyle } from 'react-native';
-import { themes, type ThemeName, type LarkmoorTokens } from './tokens.generated';
+import { themes, highContrast as contrastPartners, type ThemeName, type LarkmoorTokens } from './tokens.generated';
 
-export { themes, version } from './tokens.generated';
+export { themes, version, highContrast } from './tokens.generated';
 export type { ThemeName, LarkmoorTokens } from './tokens.generated';
 
 export type WindowClass = 'compact' | 'medium' | 'expanded';
@@ -24,6 +24,8 @@ export interface Larkmoor {
   /** Whether the bundled Larkmoor font files are loaded (see larkmoorFonts). */
   customFonts: boolean;
   reduceMotion: boolean;
+  /** Whether the high-contrast partner theme is active (iOS Increase Contrast, Android high-contrast text, or contrast="more"). */
+  highContrast: boolean;
   /** Picks the compact / medium / expanded value of a fluid token for the current window. */
   fluid: (value: { compact: number; medium: number; expanded: number }) => number;
   /** Full text style for a role: family, size, line height, tracking and case. */
@@ -48,6 +50,34 @@ export function useReducedMotion(): boolean {
   return reduce;
 }
 
+type ContrastApi = {
+  isHighTextContrastEnabled?: () => Promise<boolean>;
+  addEventListener: (event: string, handler: (value: boolean) => void) => { remove: () => void };
+};
+
+/**
+ * True when the device asks for more contrast: iOS Settings → Accessibility → Display & Text Size → Increase Contrast,
+ * or Android's High contrast text (where React Native reports it).
+ */
+export function useHighContrast(): boolean {
+  const [more, setMore] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    const api = AccessibilityInfo as unknown as ContrastApi;
+    const set = (v: boolean) => { if (alive) setMore(v); };
+    let sub: { remove: () => void } | undefined;
+    if (Platform.OS === 'ios') {
+      AccessibilityInfo.isDarkerSystemColorsEnabled().then(set).catch(() => {});
+      sub = api.addEventListener('darkerSystemColorsChanged', set);
+    } else if (Platform.OS === 'android' && api.isHighTextContrastEnabled) {
+      api.isHighTextContrastEnabled().then(set).catch(() => {});
+      try { sub = api.addEventListener('highTextContrastChanged', set); } catch { /* older React Native: read once */ }
+    }
+    return () => { alive = false; sub?.remove(); };
+  }, []);
+  return more;
+}
+
 const Ctx = createContext<Larkmoor | null>(null);
 
 export interface LarkmoorProviderProps {
@@ -57,17 +87,23 @@ export interface LarkmoorProviderProps {
   darkTheme?: ThemeName;
   /** "auto" follows the device setting. */
   colorScheme?: 'auto' | 'light' | 'dark';
+  /** "auto" switches to the theme's high-contrast partner when the device asks for more contrast. Default: "auto". */
+  contrast?: 'auto' | 'standard' | 'more';
   /** Set to true once the fonts in larkmoorFonts are loaded (e.g. with expo-font). Otherwise system fonts are used. */
   customFonts?: boolean;
   children: ReactNode;
 }
 
-export function LarkmoorProvider({ theme = 'default', darkTheme = 'evergreen-dark', colorScheme = 'auto', customFonts = false, children }: LarkmoorProviderProps) {
+export function LarkmoorProvider({ theme = 'default', darkTheme = 'evergreen-dark', colorScheme = 'auto', contrast = 'auto', customFonts = false, children }: LarkmoorProviderProps) {
   const system = useColorScheme();
   const { width } = useWindowDimensions();
   const reduceMotion = useReducedMotion();
+  const deviceMore = useHighContrast();
   const dark = colorScheme === 'dark' || (colorScheme === 'auto' && system === 'dark');
-  const name = (dark ? darkTheme : theme) as ThemeName;
+  const base = (dark ? darkTheme : theme) as ThemeName;
+  const more = contrast === 'more' || (contrast === 'auto' && deviceMore);
+  const name = (more ? contrastPartners[base] ?? base : base) as ThemeName;
+  const highContrast = name !== base;
   const value = useMemo<Larkmoor>(() => {
     const tokens = themes[name] as LarkmoorTokens;
     const windowClass = windowClassFor(width, tokens);
@@ -76,9 +112,9 @@ export function LarkmoorProvider({ theme = 'default', darkTheme = 'evergreen-dar
     return {
       name, tokens, colors: tokens.colors, isDark: tokens.scheme === 'dark', windowClass, width,
       target: Platform.OS === 'android' ? tokens.size.targetAndroid : tokens.size.target,
-      customFonts, reduceMotion, fluid, text,
+      customFonts, reduceMotion, highContrast, fluid, text,
     };
-  }, [name, width, customFonts, reduceMotion]);
+  }, [name, width, customFonts, reduceMotion, highContrast]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

@@ -244,12 +244,14 @@ export function initDialog(dialog) {
 
 /**
  * Shows a short, polite confirmation. Call it only after the action has actually finished.
- * Creates the live region on first use. Stays until dismissed when timeout is 0.
+ * Creates the live region on first use (the first message follows 150ms later so it is announced).
+ * Stays until dismissed when timeout is 0.
  * @param {string} message
  * @param {{ tone?: 'default' | 'danger', timeout?: number }} [options]
  */
 export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
   let region = document.querySelector('.lm-toast-region');
+  const fresh = !region;
   if (!region) {
     region = document.createElement('div');
     region.className = 'lm-toast-region';
@@ -262,7 +264,9 @@ export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
   const text = document.createElement('span'); text.textContent = message;
   const close = document.createElement('button'); close.type = 'button'; close.setAttribute('aria-label', 'Dismiss'); close.textContent = '✕';
   item.append(text, close);
-  region.append(item);
+  // Screen readers only announce changes to a live region they already know about, so the first
+  // message waits until a new region has been added to the accessibility tree.
+  if (fresh) { const r = region; setTimeout(() => r.append(item), 150); } else region.append(item);
   const remove = () => { item.classList.add('is-leaving'); setTimeout(() => item.remove(), motionOff() ? 0 : 250); };
   close.addEventListener('click', remove);
   if (timeout > 0) setTimeout(remove, timeout);

@@ -8,7 +8,7 @@ let env;
 before(async () => { env = await setup(); });
 after(async () => { await env.close(); });
 
-const audit = () => {
+const audit = ({ min = 4.5, minLarge = 3 } = {}) => {
   const out = { problems: [], contrast: [], targets: [] };
   const name = (el) => (el.getAttribute('aria-label') || el.textContent || el.getAttribute('title') || el.getAttribute('alt') || (el.labels && [...el.labels].map((l) => l.textContent).join(' ')) || (el.getAttribute('aria-labelledby') || '').split(' ').map((id) => document.getElementById(id)?.textContent || '').join(' ')).trim();
   if (!document.documentElement.lang) out.problems.push('html has no lang');
@@ -47,7 +47,7 @@ const audit = () => {
     let op = 1; for (let e = el; e; e = e.parentElement) op *= +getComputedStyle(e).opacity; fg = blend({ ...fg, a: fg.a * op }, bg);
     const [L1, L2] = [lum(fg), lum(bg)].sort((a, b) => b - a); const ratio = (L1 + 0.05) / (L2 + 0.05);
     const size = parseFloat(s.fontSize); const bold = +s.fontWeight >= 700; const large = size >= 24 || (bold && size >= 18.66);
-    if (ratio < (large ? 3 : 4.5)) out.contrast.push(`${ratio.toFixed(2)} "${el.textContent.trim().slice(0, 30)}" (${el.className || el.tagName})`);
+    if (ratio < (large ? minLarge : min)) out.contrast.push(`${ratio.toFixed(2)} "${el.textContent.trim().slice(0, 30)}" (${el.className || el.tagName})`);
   }
   // pointer targets: 24x24 minimum unless inline in text (WCAG 2.5.8 exception)
   for (const el of document.querySelectorAll('a[href], button, summary, input:not([type=radio]):not([type=checkbox]), select, .lm-segmented label, .lm-check')) {
@@ -130,3 +130,34 @@ for (const [name, path] of Object.entries({ tauawo: PAGES.tauawo, harbor: PAGES.
     assert.equal(r.visibleJsOnly, 0); assert.equal(r.hidden, 0); assert.ok(r.h2 >= 3);
   });
 }
+
+// prefers-contrast: more (iOS/macOS Increase Contrast). Pages that opt in with data-lm-contrast="auto"
+// switch to the high-contrast partner theme; every measurable text then meets AAA (7:1, large text 4.5:1).
+const resolved = JSON.parse((await import('node:fs')).readFileSync(new URL('../../dist/tokens.json', import.meta.url), 'utf8')).themes;
+for (const [name, path, colorScheme, expected] of [
+  ['tauawo', PAGES.tauawo, 'light', 'evergreen-contrast'],
+  ['harbor', PAGES.harbor, 'light', 'harbor-contrast'],
+  ['harbor', PAGES.harbor, 'dark', 'harbor-dark-contrast'],
+]) {
+  test(`${name} (${colorScheme}, prefers-contrast: more): switches to ${expected} and text meets 7:1`, async () => {
+    const { page, context, errors } = await open(env.browser, env.base + path, { viewport: { width: 1280, height: 900 }, colorScheme, contrast: 'more' });
+    await scrollThrough(page);
+    const text = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--lm-color-text').trim());
+    const target = await page.evaluate((v) => { const d = document.createElement('div'); d.style.color = v; document.body.append(d); const c = getComputedStyle(d).color; d.remove(); return c; }, resolved[expected]['color.text']);
+    const actual = await page.evaluate(() => getComputedStyle(document.body).color);
+    const r = await page.evaluate(audit, { min: 7, minLarge: 4.5 });
+    await context.close();
+    assert.deepEqual(errors, [], 'script errors');
+    assert.ok(text, 'no --lm-color-text');
+    assert.equal(actual, target, `body text colour is not ${expected}'s`);
+    assert.deepEqual(r.contrast, []);
+  });
+}
+
+test('without prefers-contrast the standard theme stays in place', async () => {
+  const { page, context } = await open(env.browser, env.base + PAGES.harbor, { colorScheme: 'light', contrast: 'no-preference' });
+  const actual = await page.evaluate(() => getComputedStyle(document.body).color);
+  const target = await page.evaluate((v) => { const d = document.createElement('div'); d.style.color = v; document.body.append(d); const c = getComputedStyle(d).color; d.remove(); return c; }, resolved.harbor['color.text']);
+  await context.close();
+  assert.equal(actual, target);
+});

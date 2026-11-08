@@ -1,0 +1,80 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "harbor-contrast",
+      "scheme": "light",
+      "extends": "harbor",
+      "contrastOf": "harbor",
+      "description": "Harbor for Increase Contrast / prefers-contrast: more. Every text role 7:1 or more, opaque borders."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.paper.50}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.paper.100}"
+    },
+    "surface": {
+      "$value": "{palette.white}"
+    },
+    "control-track": {
+      "$value": "{palette.navy.100}"
+    },
+    "text": {
+      "$value": "{palette.navy.950}"
+    },
+    "text-secondary": {
+      "$value": "{palette.navy.950}"
+    },
+    "text-muted": {
+      "$value": "{palette.navy.800}"
+    },
+    "text-label": {
+      "$value": "{palette.terracotta.800}"
+    },
+    "border": {
+      "$value": "{palette.navy.600}"
+    },
+    "border-strong": {
+      "$value": "{palette.navy.950}"
+    },
+    "accent": {
+      "$value": "{palette.terracotta.800}"
+    },
+    "accent-hover": {
+      "$value": "{palette.navy.950}"
+    },
+    "accent-text": {
+      "$value": "{palette.terracotta.800}"
+    },
+    "on-accent": {
+      "$value": "{palette.white}"
+    },
+    "action": {
+      "$value": "{palette.navy.950}"
+    },
+    "on-action": {
+      "$value": "{palette.white}"
+    },
+    "focus": {
+      "$value": "{palette.terracotta.800}"
+    },
+    "brand": {
+      "$value": "{palette.navy.950}"
+    },
+    "success": {
+      "$value": "{palette.green.800}"
+    },
+    "warning": {
+      "$value": "{palette.gold.800}"
+    },
+    "danger": {
+      "$value": "{palette.red.700}"
+    },
+    "header-scrim": {
+      "$value": "{palette.paper.50}"
+    }
+  }
+}
