@@ -4,3 +4,4 @@
 .lm-rows dt, .lm-rows b { font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text); }
 .lm-rows dd, .lm-rows span { color: var(--lm-color-text-muted); }
 @media (max-width: 519.98px) { .lm-rows > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+@container (max-width: 459.98px) { .lm-rows > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }

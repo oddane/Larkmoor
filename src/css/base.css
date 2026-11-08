@@ -31,7 +31,7 @@ a, button, summary, label[for] { cursor: pointer; touch-action: manipulation; }
   padding: 10px var(--lm-space-4); border-radius: var(--lm-radius-pill);
   background: var(--lm-color-action); color: var(--lm-color-on-action); font-weight: var(--lm-font-weight-medium); text-decoration: none;
 }
-.lm-skip-link:focus { top: var(--lm-space-3); }
+.lm-skip-link:focus { top: max(var(--lm-space-3), env(safe-area-inset-top)); }
 
 /* Themes scoped to a region still need their own ground. */
 [data-lm-theme] { background-color: var(--lm-color-bg); color: var(--lm-color-text); }

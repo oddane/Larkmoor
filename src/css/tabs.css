@@ -1,0 +1,16 @@
+/* Tabs (APG tabs pattern, automatic activation). Without JavaScript every panel stays visible, in order. */
+.lm-tabs { display: grid; gap: var(--lm-space-5); }
+.lm-tabs__list { display: flex; gap: var(--lm-space-1); overflow-x: auto; scrollbar-width: none; border-bottom: var(--lm-border-width) solid var(--lm-color-border-strong); }
+.lm-tabs__list::-webkit-scrollbar { display: none; }
+html:not(.js) .lm-tabs__list { display: none; }
+.lm-tabs__tab {
+  position: relative; flex: none; min-height: var(--lm-size-target); padding: 0 var(--lm-space-4); border: 0; background: none;
+  font-size: var(--lm-font-size-body-sm); font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text-muted); white-space: nowrap;
+  transition: color var(--lm-motion-duration-fast);
+}
+.lm-tabs__tab:hover { color: var(--lm-color-text); }
+.lm-tabs__tab[aria-selected="true"] { color: var(--lm-color-text); }
+.lm-tabs__tab[aria-selected="true"]::after { content: ""; position: absolute; inset: auto var(--lm-space-2) -1px; height: 2px; border-radius: 2px; background: var(--lm-color-accent); }
+.lm-tabs__tab:focus-visible { outline-offset: -2px; }
+.lm-tabs__panel:focus-visible { outline-offset: 4px; }
+@media (forced-colors: active) { .lm-tabs__tab[aria-selected="true"]::after { forced-color-adjust: none; background: Highlight; } }

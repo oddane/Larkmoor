@@ -1,6 +1,6 @@
 name: CI
 on:
-  push: { branches: [main] }
+  push:
   pull_request:
   workflow_dispatch:
 permissions: { contents: read }
@@ -40,3 +40,33 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with: { name: reports, path: reports/, retention-days: 14 }
+
+  react-native:
+    name: React Native type check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version-file: .nvmrc }
+      # the same versions as the Tauawo app; installed only for this check
+      - run: npm install --no-save --no-audit --no-fund react@19.3.0 react-native@0.88.1 react-native-safe-area-context@5.10.1 @types/react@19.3.0 typescript@6.0.3
+      - run: npx tsc -p tests/native/tsconfig.json
+
+  ios:
+    name: SwiftUI compile
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - run: swiftc --version
+      - run: swiftc -typecheck -target arm64-apple-macos14 dist/ios/Larkmoor.swift
+
+  android:
+    name: Kotlin compile
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - run: command -v kotlinc || sudo snap install --classic kotlin
+      - run: kotlinc dist/android/LarkmoorTokens.kt -d /tmp/larkmoor.jar && echo "compiled"

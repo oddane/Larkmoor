@@ -1,0 +1,8 @@
+/* Touch screens: compact controls grow to the 44px comfortable target; mouse users keep the compact look. */
+@media (pointer: coarse) {
+  .lm-btn--sm { --_h: var(--lm-size-target); }
+  .lm-motion-toggle, .lm-link { min-height: var(--lm-size-target); }
+  .lm-segmented label { min-height: calc(var(--lm-size-target) - 2 * var(--lm-space-1)); }
+  .lm-footer__col a, .lm-mobile-menu a { padding-block: 10px; }
+  .lm-pagination a, .lm-pagination span { min-width: var(--lm-size-target); min-height: var(--lm-size-target); }
+}

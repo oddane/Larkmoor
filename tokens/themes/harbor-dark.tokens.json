@@ -4,7 +4,8 @@
       "name": "harbor-dark",
       "scheme": "dark",
       "extends": "harbor",
-      "description": "Harbor's dark scheme. Verified independently, not an inversion."
+      "description": "Harbor's dark scheme. Verified independently, not an inversion.",
+      "darkOf": "harbor"
     }
   },
   "color": {

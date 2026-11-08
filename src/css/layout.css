@@ -1,5 +1,15 @@
 /* Layout primitives. The parent owns the gap; children never add outer margins. */
-.lm-container { width: 100%; max-width: var(--lm-size-container); margin-inline: auto; padding-inline: var(--lm-space-gutter); }
+.lm-container {
+  width: 100%; max-width: var(--lm-size-container); margin-inline: auto;
+  /* stays clear of notches and rounded corners in landscape (needs viewport-fit=cover) */
+  padding-left: max(var(--lm-space-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--lm-space-gutter), env(safe-area-inset-right));
+}
+.lm-container--narrow { max-width: var(--lm-size-container-narrow); }
+.lm-container--wide { max-width: var(--lm-size-container-wide); }
+
+/* Opt-in query container: components inside respond to this box's width, not the window's. */
+.lm-cq { container-type: inline-size; }
 
 /* Stack: vertical flow with one gap. Set --lm-stack-gap to any space token. */
 .lm-stack { display: flex; flex-direction: column; gap: var(--lm-stack-gap, var(--lm-space-4)); }
@@ -14,9 +24,19 @@
 /* Fill: keep the column width when there are fewer items than columns, instead of stretching them. */
 .lm-grid--fill { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--lm-grid-min, 240px)), 1fr)); }
 
+/* Columns: a fixed number of equal columns (--lm-columns, default 3). Two columns below 900px, one below 520px,
+   measured against the nearest .lm-cq container when there is one, otherwise the window. */
+.lm-columns { display: grid; grid-template-columns: repeat(var(--lm-columns, 3), minmax(0, 1fr)); gap: var(--lm-grid-gap, var(--lm-space-6)); }
+@media (max-width: 899.98px) { .lm-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 519.98px) { .lm-columns { grid-template-columns: minmax(0, 1fr); } }
+@container (min-width: 900px) { .lm-columns { grid-template-columns: repeat(var(--lm-columns, 3), minmax(0, 1fr)); } }
+@container (max-width: 899.98px) { .lm-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (max-width: 519.98px) { .lm-columns { grid-template-columns: minmax(0, 1fr); } }
+
 /* Split: a 4/8 aside-and-content pair that stacks below the medium breakpoint (900px). */
 .lm-split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--lm-space-3) var(--lm-space-7); align-items: start; }
 @media (max-width: 899.98px) { .lm-split { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 699.98px) { .lm-split { grid-template-columns: minmax(0, 1fr); } }
 
 /* Section: vertical rhythm between page sections, with a hairline between neighbours. */
 .lm-section { padding-block: var(--lm-space-section); position: relative; }
@@ -28,4 +48,4 @@
 @media (max-width: 899.98px) { .lm-section-head > .lm-label { padding-top: 0; } }
 
 /* Page shell: header, main that grows, footer. */
-.lm-shell { min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; }
+.lm-shell { min-height: 100svh; min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; }

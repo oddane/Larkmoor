@@ -12,5 +12,11 @@ badge.css
 surface.css
 rows.css
 footer.css
+tabs.css
+dialog.css
+navigation.css
+table.css
+toast.css
+touch.css
 motion.css
 forced-colors.css

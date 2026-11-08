@@ -1,0 +1,29 @@
+/* Breadcrumbs: where this page sits. The current page is the last item, marked aria-current="page". */
+.lm-breadcrumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-space-1) var(--lm-space-2); list-style: none; margin: 0; padding: 0; font-size: var(--lm-font-size-caption); color: var(--lm-color-text-muted); }
+.lm-breadcrumbs li { display: inline-flex; align-items: center; gap: var(--lm-space-2); }
+.lm-breadcrumbs li + li::before { content: "/"; color: var(--lm-color-border-strong); }
+.lm-breadcrumbs a { color: var(--lm-color-text-secondary); text-decoration: underline; text-decoration-color: var(--lm-color-border-strong); text-underline-offset: .2em; }
+.lm-breadcrumbs a:hover { color: var(--lm-color-text); }
+.lm-breadcrumbs [aria-current="page"] { color: var(--lm-color-text); font-weight: var(--lm-font-weight-medium); }
+@media (max-width: 519.98px) { .lm-breadcrumbs li:not(:nth-last-child(-n + 2)) { display: none; } } /* phones: parent and current only */
+
+/* Pagination: numbered pages with previous/next. On phones only "Page 2 of 9" and the arrows remain. */
+.lm-pagination ul { display: flex; flex-wrap: wrap; align-items: center; gap: var(--lm-space-1); list-style: none; margin: 0; padding: 0; }
+.lm-pagination a, .lm-pagination span { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; padding: 0 var(--lm-space-3); border-radius: var(--lm-radius-pill); font-size: var(--lm-font-size-caption); color: var(--lm-color-text-secondary); text-decoration: none; }
+.lm-pagination a:hover { background: var(--lm-color-bg-subtle); color: var(--lm-color-text); }
+.lm-pagination [aria-current="page"] { background: var(--lm-color-action); color: var(--lm-color-on-action); font-weight: var(--lm-font-weight-medium); }
+.lm-pagination__summary { display: none !important; }
+@media (max-width: 519.98px) {
+  .lm-pagination li:not(.lm-pagination__prev, .lm-pagination__next) { display: none; }
+  .lm-pagination__summary { display: inline-grid !important; }
+  .lm-pagination ul { justify-content: space-between; }
+}
+@media (forced-colors: active) { .lm-pagination [aria-current="page"] { forced-color-adjust: none; background: Highlight; color: HighlightText; } }
+
+/* Tab bar: app-style bottom navigation for phone-sized web apps. Hidden from 760px up, where the header nav shows. */
+.lm-tabbar { position: fixed; inset: auto 0 0; z-index: var(--lm-layer-sticky); display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: var(--lm-space-1) max(var(--lm-space-2), env(safe-area-inset-right)) max(var(--lm-space-1), env(safe-area-inset-bottom)) max(var(--lm-space-2), env(safe-area-inset-left)); border-top: var(--lm-border-width) solid var(--lm-color-border); background: var(--lm-color-header-scrim); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.lm-tabbar a { display: grid; justify-items: center; align-content: center; gap: 2px; min-height: 52px; border-radius: var(--lm-radius-md); font-size: 11px; font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text-muted); text-decoration: none; }
+.lm-tabbar a svg { width: 22px; height: 22px; }
+.lm-tabbar a[aria-current="page"] { color: var(--lm-color-accent-text); }
+.lm-tabbar-spacer { height: calc(60px + env(safe-area-inset-bottom)); }
+@media (min-width: 760px) { .lm-tabbar, .lm-tabbar-spacer { display: none; } }

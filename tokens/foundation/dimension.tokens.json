@@ -154,7 +154,7 @@
         "value": 44,
         "unit": "px"
       },
-      "$description": "Preferred size for primary touch controls."
+      "$description": "Preferred size for primary touch controls on the web; iOS minimum hit target (44pt)."
     },
     "control-sm": {
       "$value": {
@@ -173,6 +173,27 @@
         "value": 64,
         "unit": "px"
       }
+    },
+    "target-android": {
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      },
+      "$description": "Android touch target (48dp). Native apps on Android use this."
+    },
+    "container-narrow": {
+      "$value": {
+        "value": 800,
+        "unit": "px"
+      },
+      "$description": "Forms, articles and single-column flows."
+    },
+    "container-wide": {
+      "$value": {
+        "value": 1440,
+        "unit": "px"
+      },
+      "$description": "Dashboards and dense tables."
     }
   },
   "radius": {
@@ -253,6 +274,38 @@
         "unit": "px"
       },
       "$description": "At or above this: secondary wayfinding such as side rails."
+    }
+  },
+  "window": {
+    "$type": "dimension",
+    "$description": "Native window size classes (Material / Android). Apps switch layouts at these widths in dp/pt.",
+    "medium": {
+      "$value": {
+        "value": 600,
+        "unit": "px"
+      },
+      "$description": "600 and up: tablets in portrait, foldables."
+    },
+    "expanded": {
+      "$value": {
+        "value": 840,
+        "unit": "px"
+      },
+      "$description": "840 and up: tablets in landscape, desktop windows."
+    },
+    "large": {
+      "$value": {
+        "value": 1200,
+        "unit": "px"
+      },
+      "$description": "1200 and up: large tablets and desktop windows."
+    },
+    "xlarge": {
+      "$value": {
+        "value": 1600,
+        "unit": "px"
+      },
+      "$description": "1600 and up: wide desktop windows and external displays."
     }
   }
 }

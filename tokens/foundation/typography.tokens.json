@@ -9,7 +9,16 @@
           "SF Mono",
           "Menlo",
           "monospace"
-        ]
+        ],
+        "$extensions": {
+          "com.larkmoor.native": {
+            "weights": {
+              "300": "MartianMonoSemiCondensed-Light",
+              "400": "MartianMonoSemiCondensed-Regular",
+              "500": "MartianMonoSemiCondensed-Medium"
+            }
+          }
+        }
       },
       "sans": {
         "$value": [
@@ -19,7 +28,16 @@
           "-apple-system",
           "Segoe UI",
           "sans-serif"
-        ]
+        ],
+        "$extensions": {
+          "com.larkmoor.native": {
+            "weights": {
+              "400": "Geist-Regular",
+              "500": "Geist-Medium",
+              "600": "Geist-SemiBold"
+            }
+          }
+        }
       },
       "mono": {
         "$value": [
@@ -28,7 +46,14 @@
           "SF Mono",
           "Menlo",
           "monospace"
-        ]
+        ],
+        "$extensions": {
+          "com.larkmoor.native": {
+            "weights": {
+              "400": "MartianMono-Regular"
+            }
+          }
+        }
       },
       "serif": {
         "$value": [
@@ -38,7 +63,15 @@
           "Cambria",
           "Georgia",
           "serif"
-        ]
+        ],
+        "$extensions": {
+          "com.larkmoor.native": {
+            "system": {
+              "ios": "Georgia",
+              "android": "serif"
+            }
+          }
+        }
       },
       "system": {
         "$value": [
@@ -47,7 +80,15 @@
           "Segoe UI",
           "Roboto",
           "sans-serif"
-        ]
+        ],
+        "$extensions": {
+          "com.larkmoor.native": {
+            "system": {
+              "ios": "System",
+              "android": "sans-serif"
+            }
+          }
+        }
       }
     },
     "weight": {

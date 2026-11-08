@@ -1,0 +1,11 @@
+/* Toast: a short, polite confirmation after an action that has finished. Never the only place important information appears. */
+.lm-toast-region { position: fixed; z-index: var(--lm-layer-overlay); inset: auto max(var(--lm-space-4), env(safe-area-inset-right)) max(var(--lm-space-4), env(safe-area-inset-bottom)) auto; display: grid; gap: var(--lm-space-2); width: min(380px, calc(100vw - 2 * var(--lm-space-4))); pointer-events: none; }
+@media (max-width: 519.98px) { .lm-toast-region { inset-inline: max(var(--lm-space-4), env(safe-area-inset-left)) max(var(--lm-space-4), env(safe-area-inset-right)); width: auto; } }
+.lm-toast { pointer-events: auto; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--lm-space-3); padding: var(--lm-space-3) var(--lm-space-3) var(--lm-space-3) var(--lm-space-4); border-radius: var(--lm-radius-md); background: var(--lm-color-action); color: var(--lm-color-on-action); font-size: var(--lm-font-size-caption); box-shadow: 0 16px 40px -16px rgb(0 0 0 / .5);
+  transition: opacity var(--lm-motion-duration-base), transform var(--lm-motion-duration-slow) var(--lm-motion-easing-standard); }
+@starting-style { .lm-toast { opacity: 0; transform: translateY(8px); } }
+.lm-toast.is-leaving { opacity: 0; transform: translateY(8px); }
+.lm-toast::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lm-color-accent); }
+.lm-toast--danger::before { background: var(--lm-color-danger); }
+.lm-toast button { min-width: 36px; min-height: 36px; border: 0; border-radius: var(--lm-radius-pill); background: none; color: inherit; opacity: .8; }
+.lm-toast button:hover { opacity: 1; }

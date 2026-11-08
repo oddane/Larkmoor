@@ -1,0 +1,20 @@
+/* Table: real <table> markup in a labelled, keyboard-scrollable region. .lm-table--stack turns rows into
+   cards on narrow containers, using each cell's data-label. */
+.lm-table-wrap { overflow-x: auto; border: var(--lm-border-width) solid var(--lm-color-border); border-radius: var(--lm-radius-lg); container-type: inline-size; }
+.lm-table-wrap:focus-visible { outline-offset: 2px; }
+.lm-table { width: 100%; border-collapse: collapse; font-size: var(--lm-font-size-caption); font-variant-numeric: tabular-nums; }
+.lm-table caption { padding: var(--lm-space-4) var(--lm-space-4) var(--lm-space-2); text-align: left; font-weight: var(--lm-font-weight-semibold); color: var(--lm-color-text); }
+.lm-table th, .lm-table td { padding: var(--lm-space-3) var(--lm-space-4); text-align: left; vertical-align: top; border-bottom: var(--lm-border-width) solid var(--lm-color-border); }
+.lm-table thead th { position: sticky; top: 0; background: var(--lm-color-bg-subtle); font-family: var(--lm-text-label-family); font-size: var(--lm-text-label-size); letter-spacing: var(--lm-text-label-tracking); text-transform: uppercase; font-weight: var(--lm-font-weight-regular); color: var(--lm-color-text-muted); white-space: nowrap; }
+.lm-table tbody tr:last-child > * { border-bottom: 0; }
+.lm-table tbody th { font-weight: var(--lm-font-weight-medium); color: var(--lm-color-text); }
+.lm-table td { color: var(--lm-color-text-secondary); }
+.lm-table .lm-num { text-align: right; }
+@container (max-width: 519.98px) {
+  .lm-table--stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .lm-table--stack tr { display: grid; padding: var(--lm-space-3) var(--lm-space-4); border-bottom: var(--lm-border-width) solid var(--lm-color-border); }
+  .lm-table--stack tbody tr:last-child { border-bottom: 0; }
+  .lm-table--stack th, .lm-table--stack td { display: grid; grid-template-columns: 40% 1fr; gap: var(--lm-space-3); padding: var(--lm-space-1) 0; border: 0; }
+  .lm-table--stack :is(th, td)[data-label]::before { content: attr(data-label); color: var(--lm-color-text-muted); font-weight: var(--lm-font-weight-regular); }
+  .lm-table--stack .lm-num { text-align: left; }
+}

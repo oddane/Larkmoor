@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Builds every output from the DTCG token sources and the CSS/JS sources.
 // No dependencies: Node 20+ only. Run with `npm run build`.
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, rmSync, existsSync, cpSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import * as nativeMod from './native.mjs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -157,7 +159,15 @@ function build() {
     const changed = new Set();
     for (let t = themes[name]; t; t = themes[t.meta.extends]) for (const p of flatten(t.json).keys()) changed.add(p);
     const scheme = themes[name].meta.scheme;
-    const css = `${banner}/* ${themes[name].meta.description} */\n[data-lm-theme="${name}"] {\n${declarations(full, [...changed].sort())}\n  color-scheme: ${scheme};\n  background-color: var(--lm-color-bg);\n  color: var(--lm-color-text);\n}\n`;
+    const decls = declarations(full, [...changed].sort());
+    let css = `${banner}/* ${themes[name].meta.description} */\n[data-lm-theme="${name}"] {\n${decls}\n  color-scheme: ${scheme};\n  background-color: var(--lm-color-bg);\n  color: var(--lm-color-text);\n}\n`;
+    // A dark theme can be the automatic partner of a light one: pages that opt in with
+    // data-lm-color-scheme="auto" switch when the visitor's device is set to dark.
+    const darkOf = themes[name].meta.darkOf;
+    if (darkOf) {
+      const target = darkOf === 'default' ? '[data-lm-color-scheme="auto"]:not([data-lm-theme])' : `[data-lm-color-scheme="auto"][data-lm-theme="${darkOf}"]`;
+      css += `\n/* Automatic: ${darkOf} switches to ${name} when the device prefers dark */\n@media (prefers-color-scheme: dark) {\n  ${target} {\n${decls.replaceAll('\n', '\n  ')}\n    color-scheme: dark;\n  }\n}\n`;
+    }
     writeFileSync(join(dist, 'themes', `${name}.css`), css);
   }
 
@@ -177,18 +187,54 @@ function build() {
 
   // larkmoor.css: tokens + every source stylesheet, in the order index.txt lists
   const order = readFileSync(join(root, 'src/css/index.txt'), 'utf8').split('\n').map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
-  const parts = order.map((f) => `/* ---- ${f} ---- */\n${readFileSync(join(root, 'src/css', f), 'utf8').trim()}\n`);
-  writeFileSync(join(dist, 'larkmoor.css'), `${banner}${readFileSync(join(dist, 'tokens.css'), 'utf8').replace(banner, '')}\n${parts.join('\n')}`);
+  // Every stylesheet lives in a cascade layer, so any unlayered CSS on the page (a site theme, a CMS)
+  // overrides Larkmoor without specificity fights. Order: base < layout < components < utilities.
+  const layerOf = (f) => (f === 'base.css' || f === 'typography.css' ? 'lm.base' : f === 'layout.css' ? 'lm.layout' : f === 'motion.css' || f === 'forced-colors.css' ? 'lm.utilities' : 'lm.components');
+  const parts = order.map((f) => `/* ---- ${f} ---- */\n@layer ${layerOf(f)} {\n${readFileSync(join(root, 'src/css', f), 'utf8').trim()}\n}\n`);
+  writeFileSync(join(dist, 'larkmoor.css'), `${banner}@layer lm.base, lm.layout, lm.components, lm.utilities;\n${readFileSync(join(dist, 'tokens.css'), 'utf8').replace(banner, '')}\n${parts.join('\n')}`);
 
-  // fonts
-  for (const f of readdirSync(join(root, 'fonts'))) copyFileSync(join(root, 'fonts', f), join(dist, 'fonts', f));
+  // fonts (web woff2 + native ttf)
+  cpSync(join(root, 'fonts'), join(dist, 'fonts'), { recursive: true });
   copyFileSync(join(root, 'src/css/fonts.css'), join(dist, 'fonts.css'));
 
   // behaviours: plain ES modules with JSDoc, types alongside
   for (const f of readdirSync(join(root, 'src/js'))) copyFileSync(join(root, 'src/js', f), join(dist, f));
 
+  buildNative(base, themes, resolvedThemes);
+
   const files = readdirSync(dist, { recursive: true }).filter((f) => !existsSync(join(dist, f)) || f.includes('.'));
   console.log(`Built ${files.length} files into dist/ from ${tokens.size} base tokens and ${Object.keys(themes).length} themes.`);
+}
+
+// ---------- native platforms ----------
+
+function buildNative(base, themes, resolvedThemes) {
+  const { nativeModel, reactNativeTokens, reactNativeTokensDts, swift, kotlinCore, compose } = nativeMod;
+  const rawSemantic = readJson(join(root, 'tokens/semantic/semantic.tokens.json'));
+  const models = {};
+  for (const [name, map] of Object.entries(resolvedThemes)) {
+    models[name] = { name, scheme: name === 'default' ? 'light' : themes[name].meta.scheme, ...nativeModel(map, rawSemantic, resolve) };
+  }
+  mkdirSync(join(dist, 'native'), { recursive: true });
+  writeFileSync(join(dist, 'native/tokens.json'), JSON.stringify({ version: pkg.version, themes: models }, null, 2) + '\n');
+  mkdirSync(join(dist, 'ios'), { recursive: true });
+  writeFileSync(join(dist, 'ios/Larkmoor.swift'), swift(pkg.version, models));
+  mkdirSync(join(dist, 'android'), { recursive: true });
+  writeFileSync(join(dist, 'android/LarkmoorTokens.kt'), kotlinCore(pkg.version, models));
+  writeFileSync(join(dist, 'android/LarkmoorTheme.kt'), compose(pkg.version));
+
+  // React Native: generated tokens + hand-written components, compiled to JS with esbuild
+  const rnSrc = join(root, 'src/react-native');
+  writeFileSync(join(rnSrc, 'tokens.generated.ts'), reactNativeTokens(pkg.version, models));
+  const rnOut = join(dist, 'react-native');
+  mkdirSync(rnOut, { recursive: true });
+  let esbuild;
+  try { esbuild = createRequire(import.meta.url)('esbuild'); } catch { console.warn('esbuild not installed: skipped compiling src/react-native (run npm install).'); return; }
+  const entries = readdirSync(rnSrc).filter((f) => /\.tsx?$/.test(f) && !f.endsWith('.d.ts')).map((f) => join(rnSrc, f));
+  esbuild.buildSync({ entryPoints: entries, outdir: rnOut, format: 'esm', jsx: 'automatic', target: 'es2020', platform: 'neutral', logLevel: 'warning', logOverride: { 'unsupported-require-call': 'silent' } }); // Metro resolves the font require() calls
+  for (const f of readdirSync(rnSrc).filter((f) => f.endsWith('.d.ts'))) copyFileSync(join(rnSrc, f), join(rnOut, f));
+  for (const f of readdirSync(join(rnSrc, 'types')).filter((f) => f.endsWith('.d.ts'))) copyFileSync(join(rnSrc, 'types', f), join(rnOut, f));
+  writeFileSync(join(rnOut, 'tokens.generated.d.ts'), reactNativeTokensDts(pkg.version, models));
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

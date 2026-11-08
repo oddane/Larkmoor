@@ -181,3 +181,90 @@ export function initForm(form, { messages = {}, summary = null, onValid }) {
   form.addEventListener('input', onInput);
   return () => { form.removeEventListener('submit', onSubmit); form.removeEventListener('input', onInput); };
 }
+
+/**
+ * Tabs (APG tabs pattern, automatic activation). Markup: .lm-tabs > .lm-tabs__list > button.lm-tabs__tab[aria-controls]
+ * and .lm-tabs__panel[id]. Adds roles, aria-selected and roving tabindex; ←/→/Home/End move between tabs.
+ * Without this script all panels stay visible.
+ * @param {HTMLElement | null} root
+ * @param {{ onChange?: (index: number) => void }} [options]
+ */
+export function initTabs(root, { onChange } = {}) {
+  const list = /** @type {HTMLElement | null | undefined} */ (root?.querySelector('.lm-tabs__list'));
+  if (!root || !list) return () => {};
+  const tabs = /** @type {HTMLButtonElement[]} */ ([...list.querySelectorAll('.lm-tabs__tab')]);
+  const panels = tabs.map((t) => /** @type {HTMLElement | null} */ (document.getElementById(t.getAttribute('aria-controls') || '')));
+  list.setAttribute('role', 'tablist');
+  const select = (/** @type {number} */ i, focus = false) => {
+    tabs.forEach((t, j) => {
+      const on = i === j;
+      t.setAttribute('role', 'tab'); t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1;
+      const p = panels[j];
+      if (p) { p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', t.id || (t.id = `${p.id}-tab`)); p.tabIndex = 0; p.hidden = !on; }
+    });
+    if (focus) tabs[i].focus();
+    onChange?.(i);
+  };
+  const initial = Math.max(0, tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true'));
+  select(initial);
+  const onClick = (/** @type {MouseEvent} */ e) => { const i = tabs.indexOf(/** @type {HTMLButtonElement} */ (/** @type {Element} */ (e.target).closest('.lm-tabs__tab'))); if (i >= 0) select(i); };
+  const onKey = (/** @type {KeyboardEvent} */ e) => {
+    const i = tabs.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+    if (i < 0) return;
+    const next = { ArrowRight: (i + 1) % tabs.length, ArrowLeft: (i - 1 + tabs.length) % tabs.length, Home: 0, End: tabs.length - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault(); select(next, true);
+  };
+  list.addEventListener('click', onClick);
+  list.addEventListener('keydown', onKey);
+  return () => { list.removeEventListener('click', onClick); list.removeEventListener('keydown', onKey); };
+}
+
+/**
+ * Modal dialog on the native <dialog> element. Any element with data-lm-dialog-open="<dialog id>" opens it;
+ * [data-lm-dialog-close] or a click on the backdrop closes it. The browser handles focus, Escape and inertness.
+ * @param {HTMLDialogElement | null} dialog
+ */
+export function initDialog(dialog) {
+  if (!dialog) return () => {};
+  const openers = [...document.querySelectorAll(`[data-lm-dialog-open="${dialog.id}"]`)];
+  const open = () => dialog.showModal();
+  const onClick = (/** @type {MouseEvent} */ e) => {
+    const t = /** @type {Element} */ (e.target);
+    if (t.closest('[data-lm-dialog-close]')) { dialog.close(); return; }
+    if (t === dialog) { // the click landed on the backdrop, outside the dialog box
+      const r = dialog.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close();
+    }
+  };
+  openers.forEach((o) => o.addEventListener('click', open));
+  dialog.addEventListener('click', onClick);
+  return () => { openers.forEach((o) => o.removeEventListener('click', open)); dialog.removeEventListener('click', onClick); };
+}
+
+/**
+ * Shows a short, polite confirmation. Call it only after the action has actually finished.
+ * Creates the live region on first use. Stays until dismissed when timeout is 0.
+ * @param {string} message
+ * @param {{ tone?: 'default' | 'danger', timeout?: number }} [options]
+ */
+export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
+  let region = document.querySelector('.lm-toast-region');
+  if (!region) {
+    region = document.createElement('div');
+    region.className = 'lm-toast-region';
+    region.setAttribute('role', 'status');
+    region.setAttribute('aria-live', 'polite');
+    document.body.append(region);
+  }
+  const item = document.createElement('div');
+  item.className = `lm-toast${tone === 'danger' ? ' lm-toast--danger' : ''}`;
+  const text = document.createElement('span'); text.textContent = message;
+  const close = document.createElement('button'); close.type = 'button'; close.setAttribute('aria-label', 'Dismiss'); close.textContent = '✕';
+  item.append(text, close);
+  region.append(item);
+  const remove = () => { item.classList.add('is-leaving'); setTimeout(() => item.remove(), motionOff() ? 0 : 250); };
+  close.addEventListener('click', remove);
+  if (timeout > 0) setTimeout(remove, timeout);
+  return remove;
+}

@@ -1,7 +1,7 @@
 {
   "name": "@larkmoor/design-system",
-  "version": "0.1.0",
-  "description": "Tokens, CSS foundations, layout primitives, components and small behaviours for any website you build.",
+  "version": "0.2.0",
+  "description": "Tokens, layout primitives, accessible components and themes for websites and apps: CSS/JS for the web, plus React Native, SwiftUI and Jetpack Compose outputs.",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
@@ -16,7 +16,8 @@
     "ATTRIBUTION.md",
     "LICENSE.md",
     "docs/guides/THEMING.md",
-    "docs/guides/MIGRATION.md"
+    "docs/guides/MIGRATION.md",
+    "docs/guides/PLATFORMS.md"
   ],
   "exports": {
     ".": {
@@ -34,7 +35,14 @@
     },
     "./scss/breakpoints": "./dist/_breakpoints.scss",
     "./fonts/*": "./dist/fonts/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./react-native": {
+      "types": "./dist/react-native/index.d.ts",
+      "default": "./dist/react-native/index.js"
+    },
+    "./native/tokens.json": "./dist/native/tokens.json",
+    "./ios/*": "./dist/ios/*",
+    "./android/*": "./dist/android/*"
   },
   "sideEffects": [
     "*.css"
@@ -55,19 +63,40 @@
   "devDependencies": {
     "playwright": "1.64.1",
     "sharp": "^0.35.5",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "esbuild": "0.28.2"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oddane/Larkmoor.git"
   },
   "keywords": [
+    "accessibility",
+    "css",
     "design-system",
     "design-tokens",
     "dtcg",
-    "css",
-    "accessibility",
-    "wcag",
-    "theming"
-  ]
+    "jetpack-compose",
+    "mobile",
+    "react-native",
+    "swiftui",
+    "theming",
+    "wcag"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.76",
+    "react-native-safe-area-context": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "react-native-safe-area-context": {
+      "optional": true
+    }
+  }
 }

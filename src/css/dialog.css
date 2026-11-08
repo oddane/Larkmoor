@@ -1,0 +1,29 @@
+/* Dialog: native <dialog> opened with showModal(). Focus moves in, Escape closes, focus returns, the page behind is inert.
+   .lm-dialog--sheet becomes a bottom sheet on compact screens. */
+.lm-dialog {
+  width: min(560px, calc(100vw - 2 * var(--lm-space-gutter))); max-height: min(85dvh, 720px); padding: 0;
+  border: var(--lm-border-width) solid var(--lm-color-border); border-radius: var(--lm-radius-xl);
+  background: var(--lm-color-bg); color: var(--lm-color-text); box-shadow: 0 30px 80px -20px rgb(0 0 0 / .45);
+  overflow: hidden;
+}
+.lm-dialog[open] { display: flex; flex-direction: column; }
+.lm-dialog::backdrop { background: rgb(10 16 13 / .5); backdrop-filter: blur(2px); }
+.lm-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--lm-space-4); padding: var(--lm-space-5) var(--lm-space-5) 0; }
+.lm-dialog__body { padding: var(--lm-space-4) var(--lm-space-5); overflow-y: auto; overscroll-behavior: contain; color: var(--lm-color-text-secondary); }
+.lm-dialog__footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--lm-space-3); padding: var(--lm-space-4) var(--lm-space-5) max(var(--lm-space-5), env(safe-area-inset-bottom)); border-top: var(--lm-border-width) solid var(--lm-color-border); }
+.lm-dialog__close { flex: none; display: grid; place-items: center; width: var(--lm-size-target); height: var(--lm-size-target); margin: calc(-1 * var(--lm-space-2)) calc(-1 * var(--lm-space-2)) 0 0; border: 0; border-radius: var(--lm-radius-pill); background: none; color: var(--lm-color-text-muted); }
+.lm-dialog__close:hover { background: var(--lm-color-bg-subtle); color: var(--lm-color-text); }
+html:has(.lm-dialog[open]) { overflow: hidden; }
+
+/* entry and exit */
+.lm-dialog, .lm-dialog::backdrop { transition: opacity var(--lm-motion-duration-base) var(--lm-motion-easing-standard), transform var(--lm-motion-duration-slow) var(--lm-motion-easing-standard), overlay var(--lm-motion-duration-base) allow-discrete, display var(--lm-motion-duration-base) allow-discrete; }
+.lm-dialog:not([open]), .lm-dialog:not([open])::backdrop { opacity: 0; }
+.lm-dialog:not([open]) { transform: translateY(12px) scale(.98); }
+@starting-style { .lm-dialog[open], .lm-dialog[open]::backdrop { opacity: 0; } .lm-dialog[open] { transform: translateY(12px) scale(.98); } }
+
+@media (max-width: 519.98px) {
+  .lm-dialog--sheet { width: 100vw; max-width: 100vw; margin: auto 0 0; border-radius: var(--lm-radius-xl) var(--lm-radius-xl) 0 0; border-bottom: 0; }
+  .lm-dialog--sheet:not([open]) { transform: translateY(100%); }
+  @starting-style { .lm-dialog--sheet[open] { transform: translateY(100%); } }
+  .lm-dialog--sheet .lm-dialog__header::before { content: ""; position: absolute; top: 8px; left: 50%; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--lm-color-border-strong); }
+}

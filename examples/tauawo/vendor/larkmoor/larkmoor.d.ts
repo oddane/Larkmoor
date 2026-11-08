@@ -15,3 +15,6 @@ export declare function initForm(form: HTMLFormElement | null, options: {
 declare global {
   interface DocumentEventMap { 'lm:motionchange': CustomEvent<{ paused: boolean }>; }
 }
+export declare function initTabs(root: HTMLElement | null, options?: { onChange?: (index: number) => void }): Cleanup;
+export declare function initDialog(dialog: HTMLDialogElement | null): Cleanup;
+export declare function toast(message: string, options?: { tone?: 'default' | 'danger'; timeout?: number }): () => void;

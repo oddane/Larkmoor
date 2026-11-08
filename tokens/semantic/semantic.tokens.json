@@ -143,6 +143,11 @@
         "$extensions": {
           "com.larkmoor.css": "87.5%"
         }
+      },
+      "$extensions": {
+        "com.larkmoor.native": {
+          "maxFontScale": 1.3
+        }
       }
     },
     "title": {
@@ -167,6 +172,11 @@
         },
         "$extensions": {
           "com.larkmoor.css": "-0.04em"
+        }
+      },
+      "$extensions": {
+        "com.larkmoor.native": {
+          "maxFontScale": 1.4
         }
       }
     },
@@ -193,6 +203,11 @@
         "$extensions": {
           "com.larkmoor.css": "-0.035em"
         }
+      },
+      "$extensions": {
+        "com.larkmoor.native": {
+          "maxFontScale": 1.6
+        }
       }
     },
     "subheading": {
@@ -217,6 +232,11 @@
         },
         "$extensions": {
           "com.larkmoor.css": "-0.03em"
+        }
+      },
+      "$extensions": {
+        "com.larkmoor.native": {
+          "maxFontScale": 2
         }
       }
     },
@@ -257,6 +277,11 @@
         },
         "$extensions": {
           "com.larkmoor.css": "0.04em"
+        }
+      },
+      "$extensions": {
+        "com.larkmoor.native": {
+          "maxFontScale": 1.5
         }
       }
     },
