@@ -1,27 +1,37 @@
 name: Release
 on:
   push: { tags: ["v*.*.*"] }
+  workflow_dispatch:
+    inputs:
+      tag: { description: "Existing tag to (re)build the release package for, e.g. v0.1.0", required: true }
 permissions: { contents: write }
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+  # same environment as CI: GitHub's own visual baselines and the shared-runner blocking-time guard
+  LARKMOOR_BASELINES: tests/baselines/ci
+  LARKMOOR_TBT_BUDGET: 1000
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+        with: { ref: "${{ env.TAG }}" }
+      - uses: actions/setup-node@v7
         with: { node-version-file: .nvmrc }
       - run: npm install --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
       - run: npm test
       - name: Tag matches package.json
-        run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
+        run: test "v$(node -p "require('./package.json').version")" = "$TAG"
       - run: npm pack
-      - name: Create GitHub release with the package tarball
+      - name: Attach the package to the GitHub release
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
-          notes=$(awk "/^## ${GITHUB_REF_NAME#v} /{f=1;next} /^## /{f=0} f" CHANGELOG.md)
           # works whether the release was drafted in the GitHub UI (which creates the tag) or not
-          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --clobber
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" larkmoor-design-system-*.tgz --clobber
           else
-            gh release create "$GITHUB_REF_NAME" larkmoor-design-system-*.tgz --title "Larkmoor $GITHUB_REF_NAME" --notes "$notes"
+            notes=$(awk "/^## ${TAG#v} /{f=1;next} /^## /{f=0} f" CHANGELOG.md)
+            gh release create "$TAG" larkmoor-design-system-*.tgz --title "Larkmoor $TAG" --notes "$notes"
           fi

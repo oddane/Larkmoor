@@ -104,9 +104,12 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 
 | Requirement | Where | Evidence | Status |
 |---|---|---|---|
-| Private repository created | github.com/oddane/Larkmoor (you created it) | — | ✅ by you |
-| Source pushed and remote commit verified | Local git repository with commits | `git log` | ⛔ The Claude GitHub app has no access to the repository yet |
-| CI | `.github/workflows/ci.yml` | Runs only once pushed | ❔ |
+| Private repository created | https://github.com/oddane/Larkmoor (you created it) | — | ✅ by you |
+| Source pushed and remote commit verified | `main` on GitHub | `git ls-remote` and the GitHub API return the same commit as the local `HEAD` | ✅ |
+| CI | `.github/workflows/ci.yml` | GitHub Actions on `main`: build, typecheck, 10 unit + 41 browser tests, pack check, all green. CI records and commits its own visual baselines. | ✅ |
+| Release, templates, CODEOWNERS, Dependabot, labels | `.github/` | Labels created through the API | ✅ |
+| Tag v0.1.0 and release, description, topics, merge settings | Set in the GitHub web interface (built-in browser) | Release page `releases/tag/v0.1.0`; settings page re-read after saving | ✅ |
+| Branch protection | — | GitHub: rules on private repositories are enforced only on Team or Enterprise plans | ⚪ Not set, to avoid a rule that isn't enforced |
 | Website PR | — | — | ⚪ The website has no repository of its own; it lives in `examples/tauawo/` |
 
 ## Follow-up request (items 1–7)
@@ -116,7 +119,7 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 | 1 | Spacing, type, grids, containers, responsive rules, semantic colours, states, primitives | ✅ tokens, GUIDELINES, docs |
 | 2 | Package with installation instructions, docs, theming, versioning | ✅ README, docs, THEMING, README → Versioning, pack-check |
 | 3 | Second example with a different brand | ✅ Harbor (preview published) |
-| 4 | GitHub repository, uploaded source, verified commit | ⛔ waiting on access; left for later as you asked |
+| 4 | GitHub repository, uploaded source, verified commit | ✅ pushed to oddane/Larkmoor, commit verified, CI green, v0.1.0 released |
 | 5 | Remaining browser and accessibility checks; device-only checks listed | ✅ what this environment supports · checks needing your devices in ACCESSIBILITY.md |
 | 6 | Reproducible commands, logs, screenshots | ✅ README commands, `logs/`, `reports/`, `docs/screenshots/` |
 | 7 | Privacy evidence from implementation and network | ✅ PRIVACY_EVIDENCE.md · app network capture needs your phone |

@@ -13,9 +13,10 @@ jobs:
     permissions: { contents: write }   # only used to commit first-time CI visual baselines on main
     env:
       LARKMOOR_BASELINES: tests/baselines/ci
+      LARKMOOR_TBT_BUDGET: 1000  # ceiling only: shared runners measured 180–463ms for identical code; the 200ms budget is enforced on the reference machine
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with: { node-version-file: .nvmrc }
       - run: npm install --no-audit --no-fund   # switch to `npm ci` once package-lock.json is committed
       - run: npx playwright install --with-deps chromium
@@ -37,5 +38,5 @@ jobs:
           fi
       - name: Upload test evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with: { name: reports, path: reports/, retention-days: 14 }

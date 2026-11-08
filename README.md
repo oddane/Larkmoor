@@ -153,6 +153,20 @@ To release:
 
 The release workflow runs the full test suite and publishes a GitHub release with the package tarball.
 
+## Repository settings
+
+These are configured:
+- the description and topics;
+- squash-only merging, with branch updates suggested and merged branches deleted;
+- the `v0.1.0` release;
+- labels;
+- issue and PR templates;
+- Dependabot.
+
+Branch protection for `main` is not configured: on a private repository GitHub enforces it only on Team or Enterprise plans. Until then, CI still checks every push and pull request.
+
+To re-attach the package to a release, open **Actions → Release → Run workflow** and enter the tag.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Issues and pull requests use templates, and every change needs `npm test` to pass.

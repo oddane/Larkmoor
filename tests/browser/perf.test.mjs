@@ -5,13 +5,15 @@ import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { setup, PAGES } from './helpers.mjs';
 
-const BUDGET = { lcp: 2500, cls: 0.1, tbt: 200, bytes: 600 * 1024 };
+// TBT depends on the host CPU. 200ms is the budget on the reference machine. Shared CI runners are slower
+// and noisier, so CI sets LARKMOOR_TBT_BUDGET as a regression guard rather than a product target.
+const BUDGET = { lcp: 2500, cls: 0.1, tbt: Number(process.env.LARKMOOR_TBT_BUDGET || 200), bytes: 600 * 1024 };
 let env;
 before(async () => { env = await setup(); });
 after(async () => { await env.close(); });
 
 for (const [name, path] of Object.entries({ tauawo: PAGES.tauawo, harbor: PAGES.harbor })) {
-  test(`${name}: LCP <= 2.5s, CLS <= 0.1, TBT < 200ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)`, async () => {
+  test(`${name}: LCP <= 2.5s, CLS <= 0.1, TBT < ${BUDGET.tbt}ms, transfer < 600KB (390px, 4x CPU, ~1.6Mbps/150ms)`, async () => {
     const runs = [];
     for (let i = 0; i < 3; i++) {
       const ctx = await env.browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 3 });
