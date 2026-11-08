@@ -53,12 +53,12 @@ Everything is done through the screen reader, the way its users work:
 - VoiceOver moves with its own next-item command and presses with VO-Space, because Safari's Tab key skips links and buttons by default;
 - NVDA uses Tab, Enter and Escape, and reports the focused element after each step.
 
-**What the real screen readers said (GitHub Actions, 8 November 2026):**
+**What the real screen readers said (GitHub Actions, 8 November 2026; both jobs green, retries allowed: 2):**
 
 | Component | VoiceOver (macOS 15, WebKit) | NVDA 2026.3 (Windows, Chromium) |
 |---|---|---|
 | Tabs | ✅ "Pricing selected tab, 2 of 3" (passed on retry: the first attempt caught VoiceOver's hint instead) | ✅ "Pricing, tab, selected, 2 of 3" |
-| Dialog | ✅ name and "dialog" on opening; focus back on "Delete card button" after Escape | ✅ |
+| Dialog | ✅ name and "dialog" on opening; focus back on "Delete card button" after Escape (sometimes on retry: VoiceOver's walk to the button is slow) | ✅ |
 | Toast | ❔ not announced in 6 attempts; see below | ✅ "Draft saved" |
 | Breadcrumbs | ✅ "Breadcrumb navigation", "Replace a lost card current page 3 of 3", no "slash" | ❔ browse-mode reading not captured |
 | Pagination | ✅ "link Previous page", "current page link 2" | ✅ "2, link, … current page" |
