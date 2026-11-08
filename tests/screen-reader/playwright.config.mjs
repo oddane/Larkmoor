@@ -1,4 +1,4 @@
-// Real screen readers: VoiceOver (macOS, WebKit) and NVDA (Windows, Firefox) driven by Guidepup.
+// Real screen readers: VoiceOver (macOS, WebKit) and NVDA (Windows, Chromium) driven by Guidepup.
 // CI only (.github/workflows/screen-readers.yml): the runner must be prepared with `npx @guidepup/setup --ci`.
 import { devices } from '@playwright/test';
 import { screenReaderConfig } from '@guidepup/playwright';
@@ -16,6 +16,6 @@ export default {
   use: { baseURL: 'http://127.0.0.1:4173', video: 'retain-on-failure' },
   projects: [
     { name: 'voiceover', testMatch: 'voiceover.spec.mjs', use: { ...devices['Desktop Safari'], headless: false, viewport } },
-    { name: 'nvda', testMatch: 'nvda.spec.mjs', use: { ...devices['Desktop Firefox'], headless: false, viewport } },
+    { name: 'nvda', testMatch: 'nvda.spec.mjs', use: { ...devices['Desktop Chrome'], headless: false, viewport } },
   ],
 };

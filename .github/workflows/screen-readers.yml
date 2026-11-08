@@ -1,5 +1,5 @@
 name: Screen readers
-# Real VoiceOver (macOS + WebKit) and NVDA (Windows + Firefox) read tests/screen-reader/index.html,
+# Real VoiceOver (macOS + WebKit) and NVDA (Windows + Chromium) read tests/screen-reader/index.html,
 # driven by Guidepup. Every spoken phrase is uploaded as evidence, pass or fail.
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
         with: { name: voiceover, path: "reports/screen-reader/\ntest-results/\nrecordings/", retention-days: 30 }
 
   nvda:
-    name: NVDA (Windows, Firefox)
+    name: NVDA (Windows, Chromium)
     runs-on: windows-latest
     timeout-minutes: 40
     defaults: { run: { shell: bash } }
@@ -48,7 +48,7 @@ jobs:
         run: |
           npx --yes $GUIDEPUP_SETUP setup --ci
           npx --yes $GUIDEPUP_SETUP install
-      - run: npx playwright install firefox
+      - run: npx playwright install chromium
       - run: npx playwright test -c tests/screen-reader/playwright.config.mjs --project=nvda
       - name: Upload what NVDA said
         if: always()
