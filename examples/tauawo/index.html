@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tauawo · Private messaging without a phone number</title>
+  <meta name="description" content="Tauawo is an end-to-end encrypted messenger you join with a username. No phone number, no contact upload, no ads.">
+  <meta property="og:title" content="Tauawo">
+  <meta property="og:description" content="Only the people in the chat can read it.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f62f5'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='white' stroke-width='3.4'/%3E%3C/svg%3E">
+
+  <link rel="preload" href="vendor/larkmoor/fonts/martian-mono-semicondensed-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="vendor/larkmoor/fonts/geist-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="vendor/larkmoor/fonts.css">
+  <link rel="stylesheet" href="vendor/larkmoor/larkmoor.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-inverse.css">
+  <link rel="stylesheet" href="tauawo.css">
+</head>
+
+<body>
+<a class="lm-skip-link" href="#main">Skip to content</a>
+<div class="lm-progress" aria-hidden="true"></div>
+
+<header class="lm-header" id="header">
+  <div class="lm-container lm-header__bar">
+    <a class="lm-wordmark" href="#main" aria-label="Tauawo, back to top">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f62f5"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="3.4"/></svg>
+      Tauawo
+    </a>
+    <nav class="lm-nav" aria-label="Main">
+      <a href="#app">The app</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#security">Security</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="lm-header__end">
+      <a class="lm-btn lm-btn--primary lm-btn--sm" href="https://x.com/tauawo">Join the beta</a>
+      <button class="lm-menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="lm-mobile-menu" id="mobile-menu" aria-label="Mobile" hidden>
+    <a href="#app">The app</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#security">Security</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas class="cipher" aria-hidden="true"></canvas>
+    <div class="lm-container hero__inner">
+      <p class="lm-label">Private messenger · In private testing</p>
+      <h1 class="lm-display" id="hero-title">Only the people in the chat can <em class="lm-nowrap">read it.</em></h1>
+      <p class="lm-lead">An end-to-end encrypted messenger you join with a username. Everything around this text is what our servers see. The lens shows what your friends see.</p>
+      <div class="lm-cluster">
+        <a class="lm-btn lm-btn--primary" href="https://x.com/tauawo">Join the beta on X
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lm-nudge><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="lm-link" href="#app">Take the tour</a>
+      </div>
+      <div class="hero__meta lm-label">
+        <ul>
+          <li>No phone number</li>
+          <li>No contact upload</li>
+          <li>No ads</li>
+        </ul>
+        <div class="hero__end">
+          <p class="lens-hint" id="lens-hint"><i aria-hidden="true"></i><span>Move across the noise to read it</span></p>
+          <button class="lm-motion-toggle" type="button" aria-pressed="false" data-lm-requires-js>
+            <svg class="when-playing" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <svg class="when-paused" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg>
+            <span class="when-playing">Pause motion</span><span class="when-paused">Play motion</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" aria-labelledby="never-title">
+    <div class="lm-container">
+      <div class="lm-section-head lm-split">
+        <p class="lm-label lm-label--accent">01 · What we never ask for</p>
+        <h2 class="lm-title" id="never-title">Most messengers start by asking for something. <em>Tauawo doesn't.</em></h2>
+      </div>
+      <ol class="never">
+        <li><span class="never__n">01</span><p class="never__what"><span>Your phone number</span></p><p class="never__note">It's tied to your real name, your carrier and nearly every account you own. You sign up with a username and a password instead.</p></li>
+        <li><span class="never__n">02</span><p class="never__what"><span>Your contacts</span></p><p class="never__note">Tauawo never asks for your address book. You add people by username or by scanning their QR code.</p></li>
+        <li><span class="never__n">03</span><p class="never__what"><span>Your attention</span></p><p class="never__note">No ads in your chats. Nothing to scroll past to reach the people you came to talk to.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="lm-section" id="app" aria-labelledby="app-title">
+    <div class="lm-container">
+      <div class="lm-section-head lm-split">
+        <p class="lm-label lm-label--accent">02 · The app</p>
+        <div>
+          <h2 class="lm-title" id="app-title">Everything a messenger should do. <em>Quietly.</em></h2>
+          <p class="lm-lead">Real screens from the app, with sample chats.</p>
+        </div>
+      </div>
+
+      <div class="story">
+        <div class="chapters">
+          <article class="chapter is-active" data-screen="0">
+            <span class="chapter__n">2.1 — Sign-up</span>
+            <h3>A name, not a number.</h3>
+            <p>Pick a username and a password. That's the whole sign-up. Change your username whenever you like, and share it or your QR code to start talking.</p>
+            <p class="chapter__tags"><span>Username</span><span>Password</span><span>QR code</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/username.webp" width="780" height="1690" loading="lazy" alt="The Create your account screen asking only for a username and a password."></div></div></div></div>
+          </article>
+          <article class="chapter" data-screen="1">
+            <span class="chapter__n">2.2 — Chats</span>
+            <h3>Conversations, kept in order.</h3>
+            <p>Filter by unread, people, groups and channels. Sort chats into folders, pin the ones that matter and star messages you'll want again.</p>
+            <p class="chapter__tags"><span>Folders</span><span>Pinned</span><span>Starred</span><span>Search</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/chats.webp" width="780" height="1690" loading="lazy" alt="The chat list with filters for unread, people, groups and channels."></div></div></div></div>
+          </article>
+          <article class="chapter" data-screen="2">
+            <span class="chapter__n">2.3 — Messages</span>
+            <h3>Say it however you like.</h3>
+            <p>Text, voice notes, photos and files, all end-to-end encrypted. Set a timer and every phone in the chat deletes the messages on its own.</p>
+            <p class="chapter__tags"><span>Voice notes</span><span>Media</span><span>Disappearing messages</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/conversation.webp" width="780" height="1690" loading="lazy" alt="A conversation marked end-to-end encrypted, with a voice note."></div></div></div></div>
+          </article>
+          <article class="chapter" data-screen="3">
+            <span class="chapter__n">2.4 — Groups</span>
+            <h3>Plans, settled by vote.</h3>
+            <p>Polls, replies and reactions for the trip, the dinner, the group project. Group chats get the same encryption as one-to-one chats.</p>
+            <p class="chapter__tags"><span>Polls</span><span>Reactions</span><span>Replies</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/group.webp" width="780" height="1690" loading="lazy" alt="A group chat with a poll about where to have dinner."></div></div></div></div>
+          </article>
+          <article class="chapter" data-screen="4">
+            <span class="chapter__n">2.5 — Ghost mode</span>
+            <h3>See everything. Be seen by no one.</h3>
+            <p>Never appear online, send no read receipts and hide your typing, while you still see all of it. One switch.</p>
+            <p class="chapter__tags"><span>Privacy profiles</span><span>App lock</span><span>Message requests</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/ghost.webp" width="780" height="1690" loading="lazy" alt="Privacy settings with the Ghost profile and Ghost mode switched on."></div></div></div></div>
+          </article>
+          <article class="chapter" data-screen="5">
+            <span class="chapter__n">2.6 — Communities</span>
+            <h3>Groups inside groups.</h3>
+            <p>Split a big community into topics and subgroups so it never turns into one noisy chat. Add events with RSVPs, shared resources and join rules for each group.</p>
+            <p class="chapter__tags"><span>Subgroups</span><span>Events</span><span>Resources</span><span>Moderation</span></p>
+            <div class="chapter__shot"><div class="iphone"><span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span><div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span><img class="is-active" src="img/community-groups.webp" width="780" height="1690" loading="lazy" alt="A community's Groups tab with subgroups nested under parent groups."></div></div></div></div>
+          </article>
+        </div>
+
+        <div class="stage">
+          <div class="iphone" aria-hidden="true">
+            <span class="iphone__key iphone__key--action"></span><span class="iphone__key iphone__key--vol-up"></span><span class="iphone__key iphone__key--vol-down"></span><span class="iphone__key iphone__key--side"></span><span class="iphone__key iphone__key--camera"></span>
+            <div class="iphone__glass"><div class="iphone__screen"><span class="iphone__island"></span>
+              <img class="is-active" src="img/username.webp" width="780" height="1690" alt="">
+              <img src="img/chats.webp" width="780" height="1690" alt="" loading="lazy">
+              <img src="img/conversation.webp" width="780" height="1690" alt="" loading="lazy">
+              <img src="img/group.webp" width="780" height="1690" alt="" loading="lazy">
+              <img src="img/ghost.webp" width="780" height="1690" alt="" loading="lazy">
+              <img src="img/community-groups.webp" width="780" height="1690" alt="" loading="lazy">
+            </div></div>
+          </div>
+          <nav class="rail" aria-label="Tour chapters" data-lm-requires-js>
+            <button type="button" data-go="0"><span>Sign-up</span><i></i></button>
+            <button type="button" data-go="1"><span>Chats</span><i></i></button>
+            <button type="button" data-go="2"><span>Messages</span><i></i></button>
+            <button type="button" data-go="3"><span>Groups</span><i></i></button>
+            <button type="button" data-go="4"><span>Ghost mode</span><i></i></button>
+            <button type="button" data-go="5"><span>Communities</span><i></i></button>
+          </nav>
+        </div>
+      </div>
+
+      <div class="also">
+        <p class="lm-label">Also in Tauawo</p>
+        <ul>
+          <li>Voice and video calls <span>· one to one</span></li>
+          <li>Channels <span>· public, not end-to-end encrypted</span></li>
+          <li>Scheduled messages</li>
+          <li>Auto-reply and catch-up</li>
+          <li>271 app icons <span>· with shuffle</span></li>
+          <li>Theme Studio and wallpapers</li>
+          <li>Silence calls from strangers</li>
+          <li>Tablet layout</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="privacy" aria-labelledby="privacy-title">
+    <div class="lm-container privacy">
+      <div class="privacy__copy">
+        <p class="lm-label lm-label--accent">03 · Privacy</p>
+        <h2 class="lm-title" id="privacy-title">Decide what people <em>see.</em></h2>
+        <p class="lm-lead">Last seen, read receipts and typing, set together by one profile. Try each one and watch two phones change.</p>
+        <div class="lm-rows">
+          <div><b>Message requests</b><span>New people wait in Requests and can't tell you've read them.</span></div>
+          <div><b>App lock</b><span>Your passcode to open Tauawo, or to unhide a locked chat.</span></div>
+          <div><b>Privacy checkup</b><span>Two minutes through the settings that matter most.</span></div>
+        </div>
+      </div>
+
+      <div class="demo lm-panel">
+        <fieldset class="lm-segmented">
+          <legend class="lm-sr-only">Privacy profile</legend>
+          <input type="radio" name="profile" id="pf-open"><label for="pf-open">Open</label>
+          <input type="radio" name="profile" id="pf-balanced" checked><label for="pf-balanced">Balanced</label>
+          <input type="radio" name="profile" id="pf-private"><label for="pf-private">Private</label>
+          <input type="radio" name="profile" id="pf-ghost"><label for="pf-ghost">Ghost</label>
+        </fieldset>
+        <div class="views">
+          <div class="view">
+            <p class="view__who"><span>Maya's phone</span><span>Friend</span></p>
+            <div class="chat-head">
+              <span class="avatar">OD</span>
+              <div><b>Oddane</b><span class="presence"><span class="online" data-on="open balanced">online</span></span></div>
+            </div>
+            <p class="bubble">Leaving now, see you at 8</p>
+            <span class="receipt"><span class="read" data-on="open balanced">Read 8:02</span><span data-on="private ghost">Delivered</span></span>
+            <p class="typing" data-on="open balanced"><i></i><i></i><i></i>typing</p>
+            <p class="typing-gap" data-on="private ghost" aria-hidden="true"></p>
+          </div>
+          <div class="view">
+            <p class="view__who"><span>Stranger's phone</span><span>No chats yet</span></p>
+            <div class="chat-head">
+              <span class="avatar">OD</span>
+              <div><b>Oddane</b><span class="presence"><span class="online" data-on="open">online</span></span></div>
+            </div>
+            <p class="stranger">
+              <span data-on="open">They can see when you're active.</span>
+              <span data-on="balanced private ghost">Nothing about your activity is shown.</span>
+            </p>
+          </div>
+        </div>
+        <p class="demo__note" aria-live="polite">
+          <span data-on="open">Everyone sees when you're online, when you've read their message and when you're typing.</span>
+          <span data-on="balanced">People you chat with see when you're online. Strangers see nothing.</span>
+          <span data-on="private">No last seen, no read receipts, and your typing stays hidden.</span>
+          <span data-on="ghost">You never appear online and nobody knows you've read their message. You still see everything.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="security" aria-labelledby="security-title">
+    <div class="lm-container">
+      <div class="lm-section-head lm-split">
+        <p class="lm-label lm-label--accent">04 · Security</p>
+        <div>
+          <h2 class="lm-title" id="security-title">What we can see, and what we <em>can't.</em></h2>
+          <p class="lm-lead">Messages in private chats and groups are encrypted on your phone and decrypted only on the phones they're meant for.</p>
+        </div>
+      </div>
+
+      <div class="lm-input-group" data-lm-requires-js>
+        <label class="lm-sr-only" for="tx-input">Type a message to send through the demo</label>
+        <input id="tx-input" type="text" maxlength="48" autocomplete="off" enterkeyhint="send" placeholder="Type a message and watch it travel">
+        <button class="lm-btn lm-btn--primary lm-btn--sm" type="button" id="tx-send">Send
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lm-nudge><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <div class="route" id="route" role="group" aria-label="How a message travels">
+        <span class="packet" aria-hidden="true"></span>
+        <div class="route__stop">
+          <p class="lm-label">Your phone</p>
+          <p class="bubble" id="tx-out">See you at 8 by the arch</p>
+          <p class="lm-caption">Encrypted here, with keys that never leave your device.</p>
+        </div>
+        <div class="route__stop is-server">
+          <p class="lm-label">What our servers hold</p>
+          <p class="cipher-text" id="cipher-text">Q7mT0v+fZx2R9kLwP4hN1sYcB8uJ3eAqGd6/Vt5oXi0nHr7KyWbMpE2jCl9UaS4gFz1x==</p>
+          <p class="lm-caption">Passed along without a key to read it.</p>
+        </div>
+        <div class="route__stop">
+          <p class="lm-label">Maya's phone</p>
+          <p class="bubble in" id="tx-in">See you at 8 by the arch</p>
+          <p class="lm-caption">Decrypted only on her device.</p>
+        </div>
+      </div>
+      <p class="tx-status" id="tx-status" aria-live="polite" data-lm-requires-js>Ready. Type anything above and press Send.</p>
+
+      <div class="ledger">
+        <div class="cant">
+          <h3>We can't see</h3>
+          <ul>
+            <li>Messages in private chats and groups</li>
+            <li>The photos, files and voice notes in them</li>
+            <li>Your encryption keys, which stay on your device</li>
+            <li>Your address book. We never ask for it.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>We do handle</h3>
+          <ul>
+            <li>Which account a message is for, so it can be delivered</li>
+            <li>Your username and profile, so people can find you</li>
+            <li>Channel posts, which are public and not end-to-end encrypted</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spec">
+        <dl>
+          <div><dt>Key exchange</dt><dd>Hybrid <code>X25519</code> + <code>ML-KEM-768</code>, the NIST post-quantum standard. An attacker would need to break both.</dd></div>
+          <div><dt>Every message</dt><dd>A double ratchet. Keys move forward with each message, so one exposed key doesn't unlock earlier ones.</dd></div>
+          <div><dt>Encryption</dt><dd><code>XChaCha20-Poly1305</code>, which also detects tampering.</dd></div>
+          <div><dt>Verification</dt><dd>Safety numbers you can compare in person or by QR code.</dd></div>
+        </dl>
+        <aside class="status" aria-labelledby="status-title">
+          <p class="lm-label">Status, honestly</p>
+          <h3 id="status-title">Not independently audited yet.</h3>
+          <ul>
+            <li>End-to-end encryption <span class="lm-badge lm-badge--success">Built</span></li>
+            <li>Post-quantum key exchange <span class="lm-badge lm-badge--success">Built</span></li>
+            <li>Internal security review <span class="lm-badge lm-badge--accent">In progress</span></li>
+            <li>Independent audit <span class="lm-badge lm-badge--warning">Planned</span></li>
+            <li>Public audit report <span class="lm-badge lm-badge--warning">After audit</span></li>
+          </ul>
+          <p class="lm-caption">Until the audit is done and published, please treat Tauawo as beta software.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section" id="roadmap" aria-labelledby="road-title">
+    <div class="lm-container">
+      <div class="lm-section-head lm-split">
+        <p class="lm-label lm-label--accent">05 · Built in public</p>
+        <div>
+          <h2 class="lm-title" id="road-title">One founder, building <em>in the open.</em></h2>
+          <p class="lm-lead">Progress, mistakes and decisions, posted on X as they happen.</p>
+        </div>
+      </div>
+      <ol class="road">
+        <li class="is-now"><span class="when">Now</span><h3>Private testing</h3><p>Messaging, groups, calls, communities and privacy profiles on test phones.</p></li>
+        <li><span class="when">Next</span><h3>Open beta</h3><p>Invites in small batches. The independent security audit begins.</p></li>
+        <li><span class="when">Then</span><h3>Public launch</h3><p>App Store and Google Play, with the audit report published.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="lm-section" id="faq" aria-labelledby="faq-title">
+    <div class="lm-container lm-split faq">
+      <div class="lm-stack" style="--lm-stack-gap: var(--lm-space-4)">
+        <p class="lm-label lm-label--accent">06 · Questions</p>
+        <h2 class="lm-title" id="faq-title">Fair <em>questions.</em></h2>
+      </div>
+      <div class="lm-accordion">
+        <details open><summary>Do I really not need a phone number?</summary><p>Really. A username and a password is the whole sign-up. No email or real name either.</p></details>
+        <details><summary>Can Tauawo read my messages?</summary><p>Not in private chats or groups. They're encrypted with keys that exist only on your devices. Channels are the exception, because they're public by design.</p></details>
+        <details><summary>What does post-quantum mean here?</summary><p>Someone could record encrypted traffic today and try to crack it later with a quantum computer. Tauawo's key exchange adds ML-KEM-768, designed to resist that, on top of a proven classical method.</p></details>
+        <details><summary>Has it been audited?</summary><p>Not yet. An independent audit is planned before public launch, and the report will be published.</p></details>
+        <details><summary>Which phones does it run on?</summary><p>iPhone and Android, including tablets.</p></details>
+        <details><summary>How do I get in?</summary><p>Follow <a href="https://x.com/tauawo">@tauawo</a> on X. Beta invites are posted there first. Questions go to <a href="https://x.com/oddaneenglish">@oddaneenglish</a>.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="lm-section closing" data-lm-theme="evergreen-inverse" aria-labelledby="closing-title">
+    <div class="lm-container">
+      <h2 class="lm-display" id="closing-title">Talk freely. <em>Keep your number.</em></h2>
+      <p class="lm-lead">Beta invites go out on X first, in small batches.</p>
+      <div class="lm-cluster">
+        <a class="lm-btn lm-btn--primary" href="https://x.com/tauawo">Follow @tauawo
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lm-nudge><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="lm-btn lm-btn--secondary" href="https://x.com/oddaneenglish">Message the founder</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="lm-footer" data-lm-theme="evergreen-inverse">
+  <div class="lm-container lm-footer__grid">
+    <div class="lm-footer__brand">
+      <a class="lm-wordmark" href="#main" aria-label="Tauawo, back to top">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f62f5"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="3.4"/></svg>
+        Tauawo
+      </a>
+      <p>Private messaging without a phone number. Built in public by one founder.</p>
+      <span class="lm-badge lm-badge--outline">In private testing</span>
+    </div>
+    <nav class="lm-footer__col" aria-labelledby="ft-product">
+      <h2 id="ft-product">Product</h2>
+      <ul>
+        <li><a href="#app">The app</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+      </ul>
+    </nav>
+    <nav class="lm-footer__col" aria-labelledby="ft-help">
+      <h2 id="ft-help">Help</h2>
+      <ul>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://x.com/oddaneenglish">Ask the founder</a></li>
+        <li><a href="https://claude.ai/artifact/8BtsxqU48iwDRiexZuGk7s">Privacy policy and terms</a></li>
+      </ul>
+    </nav>
+    <nav class="lm-footer__col" aria-labelledby="ft-follow">
+      <h2 id="ft-follow">Follow</h2>
+      <ul>
+        <li><a href="https://x.com/tauawo">@tauawo</a></li>
+        <li><a href="https://x.com/oddaneenglish">@oddaneenglish</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="lm-container lm-footer__bottom">
+    <p>© 2026 Tauawo. Screens show sample chats.</p>
+    <p class="lm-label">Encrypted on your phone. Unreadable on ours.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { initMotionToggle, initDisclosureMenu, initHeader, initReveal, isMotionPaused, prefersReducedMotion } from './vendor/larkmoor/larkmoor.js';
+
+  const reduceMotion = prefersReducedMotion();
+  const header = document.getElementById('header');
+  const menuButton = header.querySelector('.lm-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  initMotionToggle(document.querySelector('.lm-motion-toggle'), { storageKey: 'tauawo:motion-paused' });
+  initDisclosureMenu(menuButton);
+  initHeader(header, { progress: document.querySelector('.lm-progress'), isLocked: () => !mobileMenu.hidden });
+  // below-the-fold work waits for an idle moment so it doesn't lengthen the first task
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 1));
+  idle(() => initReveal([
+    '.lm-section-head > *', '.never li', '.also > *', '.privacy__copy > *', '.demo',
+    '.lm-input-group', '.route', '.tx-status', '.ledger > div', '.spec dl > div', '.status',
+    '.road li', '.lm-accordion details', '.faq > div:first-child > *', '.closing .lm-container > *', '.lm-footer__grid > *',
+  ].join(',')));
+
+
+  /* ---------- hero: ciphertext field with a decryption lens ---------- */
+
+  (() => {
+    const canvas = document.querySelector('.cipher');
+    const ctx = canvas.getContext('2d');
+    const layer = document.createElement('canvas');
+    const lctx = layer.getContext('2d');
+
+    const GLYPHS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789+/=';
+    const MESSAGES = [
+      'see you at 8 by the arch', 'door code is 4471', 'sent you the trip plans', 'voice note 0:42',
+      'running late, 10 min', 'dinner saturday?', 'cuban in little havana', 'got the tickets',
+      'call you after class', 'happy birthday!!', 'which entrance?', 'leaving now',
+      'love that', 'count me in', 'the keys are under the mat', 'proud of you',
+    ];
+    const FONT_SIZE = 12;
+    const LINE = 22;
+    const INK = '#ffffff';
+    const CIPHER = '#d9e0db';
+    const PLAIN = '#14241c';
+    const RING = 'rgba(31, 122, 79, .75)';
+
+    const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const hint = document.querySelector('#lens-hint span');
+    if (!finePointer) hint.textContent = 'Drag across the noise to read it';
+
+    let width = 0, height = 0, cellW = 0, cols = 0, rows = 0;
+    let cells = [], plain = [];
+    const lens = { x: 0, y: 0, tx: 0, ty: 0, r: 120, base: 120, pulse: 0 };
+    let lastPointer = -Infinity;
+    let running = false;
+    let frameId = 0;
+    let lastMutation = 0;
+
+    const randomGlyph = () => GLYPHS[(Math.random() * GLYPHS.length) | 0];
+    const setFont = (c) => { c.font = `400 ${FONT_SIZE}px "Martian Mono", ui-monospace, Menlo, monospace`; c.textBaseline = 'top'; };
+
+    function buildPlaintext() {
+      // fill the grid row by row with messages, each row starting somewhere different
+      const stream = MESSAGES.join('   ·   ') + '   ·   ';
+      plain = new Array(cols * rows);
+      for (let r = 0; r < rows; r++) {
+        const offset = (r * 37) % stream.length;
+        for (let c = 0; c < cols; c++) plain[r * cols + c] = stream[(offset + c) % stream.length];
+      }
+    }
+
+    function drawCell(i) {
+      const x = (i % cols) * cellW;
+      const y = ((i / cols) | 0) * LINE;
+      lctx.clearRect(x, y, cellW, LINE);
+      lctx.fillText(cells[i], x, y + 4);
+    }
+
+    function setup() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width; height = rect.height;
+      for (const c of [canvas, layer]) { c.width = Math.round(width * dpr); c.height = Math.round(height * dpr); }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      setFont(ctx); setFont(lctx);
+      cellW = Math.ceil(ctx.measureText('M').width) + 2;
+      cols = Math.ceil(width / cellW);
+      rows = Math.ceil(height / LINE);
+      cells = Array.from({ length: cols * rows }, randomGlyph);
+      buildPlaintext();
+      lctx.fillStyle = CIPHER;
+      lctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < cells.length; i++) drawCell(i);
+
+      lens.base = lens.r = width < 760 ? (width < 360 ? 64 : 76) : Math.max(100, Math.min(130, width * 0.08));
+      if (performance.now() - lastPointer > 3500) {
+        const home = autopilot(performance.now());
+        lens.x = lens.tx = home.x;
+        lens.y = lens.ty = home.y;
+      }
+      draw();
+    }
+
+    function autopilot(time) {
+      // a slow figure-of-eight across the open, right-hand side of the field
+      const t = time / 1000;
+      const narrow = width < 760;
+      const cx = narrow ? width * 0.5 : width * 0.72;
+      const cy = narrow ? Math.min(150, 64 + (height - 64) * 0.12) : height * 0.44;
+      const ax = narrow ? width * 0.26 : width * 0.16;
+      const ay = narrow ? 16 : height * 0.2;
+      return { x: cx + Math.sin(t * 0.32) * ax, y: cy + Math.sin(t * 0.64) * ay };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.drawImage(layer, 0, 0, width, height);
+
+      const { x, y, r } = lens;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.fillStyle = INK;
+      ctx.fill();
+      ctx.fillStyle = PLAIN;
+      const c0 = Math.max(0, Math.floor((x - r) / cellW));
+      const c1 = Math.min(cols - 1, Math.ceil((x + r) / cellW));
+      const r0 = Math.max(0, Math.floor((y - r) / LINE));
+      const r1 = Math.min(rows - 1, Math.ceil((y + r) / LINE));
+      for (let row = r0; row <= r1; row++) {
+        for (let col = c0; col <= c1; col++) {
+          const ch = plain[row * cols + col];
+          if (ch === ' ') continue;
+          const cx = col * cellW + cellW / 2;
+          const cy = row * LINE + LINE / 2;
+          const d = Math.hypot(cx - x, cy - y);
+          if (d > r) continue;
+          ctx.globalAlpha = Math.min(1, 1.35 - d / r);
+          ctx.fillText(ch, col * cellW, row * LINE + 4);
+        }
+      }
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.strokeStyle = RING;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    function tick(time) {
+      if (time - lastPointer > 3500) {
+        const p = autopilot(time);
+        lens.tx = p.x; lens.ty = p.y;
+      }
+      lens.pulse *= 0.93;
+      lens.r = lens.base * (1 + 0.45 * lens.pulse);
+      lens.x += (lens.tx - lens.x) * 0.12;
+      lens.y += (lens.ty - lens.y) * 0.12;
+
+      if (time - lastMutation > 80) {
+        // each message is fresh ciphertext, so the field never sits still
+        const n = Math.max(6, (cells.length * 0.012) | 0);
+        for (let k = 0; k < n; k++) {
+          const i = (Math.random() * cells.length) | 0;
+          cells[i] = randomGlyph();
+          drawCell(i);
+        }
+        lastMutation = time;
+      }
+      draw();
+      frameId = requestAnimationFrame(tick);
+    }
+
+    const paused = isMotionPaused;
+    function start() { if (!running && !reduceMotion && !paused()) { running = true; frameId = requestAnimationFrame(tick); } }
+    document.addEventListener('lm:motionchange', () => (paused() ? stop() : start()));
+    function stop() { running = false; cancelAnimationFrame(frameId); }
+
+    window.addEventListener('pointermove', (event) => {
+      // touch only steers the lens during an actual drag; stray synthetic moves are ignored
+      if (event.pointerType !== 'mouse' && event.pressure === 0) return;
+      if (event.clientX === 0 && event.clientY === 0) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+      lens.tx = x; lens.ty = y;
+      lastPointer = performance.now();
+      if (reduceMotion) { lens.x = x; lens.y = y; draw(); }
+    }, { passive: true });
+
+    // press anywhere on the field to open the lens wider for a moment
+    canvas.parentElement.addEventListener('pointerdown', (event) => {
+      if (event.target.closest('a, button')) return;
+      lens.pulse = 1;
+    });
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(setup, 120);
+    });
+
+    new IntersectionObserver(([entry]) => (entry.isIntersecting ? start() : stop())).observe(canvas);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    // draw once, after the web font is ready, so the grid is measured with the real glyph width
+    // (drawing before and again after doubled the start-up work on slow phones)
+    let ready = false;
+    const first = () => { if (!ready) { ready = true; setup(); } };
+    (document.fonts ? document.fonts.load('400 12px "Martian Mono"') : Promise.resolve()).then(first, first);
+    setTimeout(first, 1200);
+  })();
+
+  /* ---------- the app: swap the phone screen with the chapter in view ---------- */
+
+  (() => {
+    const chapters = [...document.querySelectorAll('.chapter')];
+    const screens = [...document.querySelectorAll('.stage .iphone__screen img')];
+    const railButtons = [...document.querySelectorAll('.rail button')];
+
+    function show(index) {
+      chapters.forEach((chapter, i) => chapter.classList.toggle('is-active', i === index));
+      screens.forEach((screen, i) => {
+        screen.classList.toggle('is-active', i === index);
+        screen.classList.toggle('is-before', i < index); // earlier screens exit upward, later ones wait below
+      });
+      railButtons.forEach((button, i) => {
+        button.classList.toggle('is-active', i === index);
+        button.setAttribute('aria-current', i === index ? 'step' : 'false');
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) show(Number(entry.target.dataset.screen)); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    chapters.forEach((chapter) => observer.observe(chapter));
+    show(0);
+
+    railButtons.forEach((button) => button.addEventListener('click', () => {
+      const chapter = chapters[Number(button.dataset.go)];
+      const top = chapter.getBoundingClientRect().top + window.scrollY - (window.innerHeight - chapter.offsetHeight) / 2;
+      window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }));
+
+    // the phone leans a few degrees toward the pointer
+    const stage = document.querySelector('.stage');
+    if (stage && !reduceMotion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const story = document.querySelector('.story');
+      story.addEventListener('pointermove', (event) => {
+        const rect = stage.getBoundingClientRect();
+        const dx = (event.clientX - (rect.left + rect.width / 2)) / rect.width;
+        const dy = (event.clientY - (rect.top + rect.height / 2)) / rect.height;
+        stage.style.setProperty('--ry', `${Math.max(-1, Math.min(1, dx)) * 7}deg`);
+        stage.style.setProperty('--rx', `${Math.max(-1, Math.min(1, -dy)) * 5}deg`);
+      });
+      story.addEventListener('pointerleave', () => { stage.style.setProperty('--ry', '0deg'); stage.style.setProperty('--rx', '0deg'); });
+    }
+  })();
+
+  /* ---------- strike-throughs draw in once ---------- */
+
+  (() => {
+    if (reduceMotion) return;
+    const rows = [...document.querySelectorAll('.never li')];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -20% 0px' });
+    rows.forEach((row) => {
+      if (row.getBoundingClientRect().top < window.innerHeight * 0.8) return;
+      row.classList.add('will-reveal');
+      observer.observe(row);
+    });
+  })();
+
+  /* ---------- security: send a message and watch it travel ---------- */
+
+  (() => {
+    const B64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    const route = document.getElementById('route');
+    const packet = route.querySelector('.packet');
+    const stops = [...route.querySelectorAll('.route__stop')];
+    const input = document.getElementById('tx-input');
+    const button = document.getElementById('tx-send');
+    const out = document.getElementById('tx-out');
+    const inbox = document.getElementById('tx-in');
+    const cipher = document.getElementById('cipher-text');
+    const status = document.getElementById('tx-status');
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, reduceMotion ? 0 : ms));
+
+    // illustration only: random bytes, sized like an encrypted payload (nonce + text + tag)
+    const ciphertextFor = (text) => {
+      const bytes = crypto.getRandomValues(new Uint8Array(24 + new TextEncoder().encode(text).length + 16));
+      return Array.from(bytes, (n) => B64[n & 63]).join('').slice(0, 96) + '==';
+    };
+
+    function scrambleTo(el, finalText, duration) {
+      return new Promise((resolve) => {
+        if (reduceMotion) { el.textContent = finalText; resolve(); return; }
+        const start = performance.now();
+        const frame = (now) => {
+          const t = Math.min(1, (now - start) / duration);
+          const settled = Math.floor(finalText.length * t);
+          let text = finalText.slice(0, settled);
+          for (let i = settled; i < finalText.length; i++) text += finalText[i] === ' ' ? ' ' : B64[(Math.random() * 64) | 0];
+          el.textContent = text;
+          t < 1 ? requestAnimationFrame(frame) : resolve();
+        };
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function centre(el) {
+      const box = route.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
+      return [r.left + r.width / 2 - box.left, r.top + r.height / 2 - box.top];
+    }
+
+    function fly(from, to, duration) {
+      if (reduceMotion) return Promise.resolve();
+      const [x1, y1] = centre(from);
+      const [x2, y2] = centre(to);
+      return packet.animate([
+        { transform: `translate(${x1}px, ${y1}px) scale(.4)`, opacity: 0 },
+        { transform: `translate(${x1}px, ${y1}px) scale(1)`, opacity: 1, offset: .12 },
+        { transform: `translate(${x2}px, ${y2}px) scale(1)`, opacity: 1, offset: .88 },
+        { transform: `translate(${x2}px, ${y2}px) scale(.4)`, opacity: 0 },
+      ], { duration, easing: 'cubic-bezier(.65, 0, .35, 1)' }).finished;
+    }
+
+    let busy = false;
+    async function send(text) {
+      if (busy) return;
+      busy = true;
+      button.setAttribute('aria-disabled', 'true');
+      const message = text.trim() || 'See you at 8 by the arch';
+      const sealed = ciphertextFor(message);
+
+      out.textContent = message;
+      out.classList.remove('is-sending'); void out.offsetWidth; out.classList.add('is-sending');
+      status.className = 'tx-status is-busy';
+      status.textContent = 'Encrypting on your phone…';
+      stops[0].classList.add('is-hot');
+      await wait(450);
+
+      status.textContent = 'Sending ciphertext to the server…';
+      await fly(out, cipher, 900);
+      stops[0].classList.remove('is-hot');
+      stops[1].classList.add('is-hot');
+      cipher.classList.add('is-hot');
+      await scrambleTo(cipher, sealed, 600);
+      status.textContent = 'Server relays it. It has no key, so it can\'t read it.';
+      await wait(700);
+
+      await fly(cipher, inbox, 900);
+      stops[1].classList.remove('is-hot');
+      cipher.classList.remove('is-hot');
+      stops[2].classList.add('is-hot');
+      status.textContent = 'Decrypting on Maya\'s phone…';
+      inbox.textContent = sealed.slice(0, message.length);
+      await scrambleTo(inbox, message, 700);
+      stops[2].classList.remove('is-hot');
+      status.className = 'tx-status is-done';
+      status.textContent = 'Delivered. Only you and Maya ever saw the words.';
+
+      busy = false;
+      button.removeAttribute('aria-disabled');
+    }
+
+    button.addEventListener('click', () => { if (busy) return; send(input.value); input.value = ''; });
+    input.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); button.click(); } });
+
+    // play it once by itself the first time the section comes into view
+    const once = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      once.disconnect();
+      setTimeout(() => send('See you at 8 by the arch'), 500);
+    }, { threshold: 0.6 });
+    once.observe(route);
+  })();
+
+
+  // primary buttons lean toward the pointer (site flourish, fine pointers only)
+  if (!reduceMotion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.lm-btn--primary').forEach((btn) => {
+      btn.addEventListener('pointermove', (event) => {
+        if (isMotionPaused()) return;
+        const r = btn.getBoundingClientRect();
+        const x = (event.clientX - r.left - r.width / 2) / r.width;
+        const y = (event.clientY - r.top - r.height / 2) / r.height;
+        btn.style.transform = `translate(${x * 8}px, ${y * 6}px)`;
+      });
+      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+    });
+  }
+
+  // hero copy settles in on load
+  if (!reduceMotion && !isMotionPaused()) {
+    [...document.querySelector('.hero__inner').children].forEach((el, i) => {
+      el.style.setProperty('--d', `${120 + i * 90}ms`);
+      el.classList.add('hero-intro');
+    });
+  }
+</script>
+</body>
+</html>

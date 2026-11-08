@@ -1,0 +1,8 @@
+/* Self-hosted fonts. Both families are SIL Open Font License 1.1 (see fonts/OFL-*.txt).
+   No third-party requests: nothing about the visitor is sent to a font CDN.
+   Only the files a page actually uses are downloaded. */
+@font-face { font-family: "Geist"; src: url("fonts/geist-variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono-400.woff2") format("woff2"); font-weight: 400; font-stretch: 100%; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono-semicondensed-300.woff2") format("woff2"); font-weight: 300; font-stretch: 87.5%; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono-semicondensed-400.woff2") format("woff2"); font-weight: 400; font-stretch: 87.5%; font-display: swap; }
+@font-face { font-family: "Martian Mono"; src: url("fonts/martian-mono-semicondensed-500.woff2") format("woff2"); font-weight: 500; font-stretch: 87.5%; font-display: swap; }
