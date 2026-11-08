@@ -1,0 +1,80 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "evergreen-inverse-contrast",
+      "scheme": "dark",
+      "extends": "evergreen-inverse",
+      "contrastOf": "evergreen-inverse",
+      "description": "The inverse band for Increase Contrast / prefers-contrast: more. Every text role 7:1 or more, opaque borders."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.forest.900}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.forest.800}"
+    },
+    "surface": {
+      "$value": "{palette.forest.700}"
+    },
+    "control-track": {
+      "$value": "{palette.forest.800}"
+    },
+    "text": {
+      "$value": "{palette.white}"
+    },
+    "text-secondary": {
+      "$value": "{palette.cream.50}"
+    },
+    "text-muted": {
+      "$value": "{palette.cream.200}"
+    },
+    "text-label": {
+      "$value": "{palette.gold.300}"
+    },
+    "border": {
+      "$value": "{palette.neutral.400}"
+    },
+    "border-strong": {
+      "$value": "{palette.cream.50}"
+    },
+    "accent": {
+      "$value": "{palette.green.300}"
+    },
+    "accent-hover": {
+      "$value": "{palette.white}"
+    },
+    "accent-text": {
+      "$value": "{palette.green.300}"
+    },
+    "on-accent": {
+      "$value": "{palette.forest.950}"
+    },
+    "action": {
+      "$value": "{palette.cream.50}"
+    },
+    "on-action": {
+      "$value": "{palette.forest.900}"
+    },
+    "focus": {
+      "$value": "{palette.green.300}"
+    },
+    "brand": {
+      "$value": "{palette.cream.50}"
+    },
+    "success": {
+      "$value": "{palette.green.300}"
+    },
+    "warning": {
+      "$value": "{palette.gold.300}"
+    },
+    "danger": {
+      "$value": "{palette.red.200}"
+    },
+    "header-scrim": {
+      "$value": "{palette.forest.900}"
+    }
+  }
+}

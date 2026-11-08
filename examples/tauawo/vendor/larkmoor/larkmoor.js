@@ -242,14 +242,12 @@ export function initDialog(dialog) {
   return () => { openers.forEach((o) => o.removeEventListener('click', open)); dialog.removeEventListener('click', onClick); };
 }
 
-/**
- * Shows a short, polite confirmation. Call it only after the action has actually finished.
- * Creates the live region on first use. Stays until dismissed when timeout is 0.
- * @param {string} message
- * @param {{ tone?: 'default' | 'danger', timeout?: number }} [options]
+/** Adds the toast live region now, so screen readers (Safari's VoiceOver in particular) already
+ * track it when the first message arrives. Call once on page load; toast() also creates it if needed.
+ * @returns {HTMLElement}
  */
-export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
-  let region = document.querySelector('.lm-toast-region');
+export function initToasts() {
+  let region = /** @type {HTMLElement | null} */ (document.querySelector('.lm-toast-region'));
   if (!region) {
     region = document.createElement('div');
     region.className = 'lm-toast-region';
@@ -257,12 +255,27 @@ export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
     region.setAttribute('aria-live', 'polite');
     document.body.append(region);
   }
+  return region;
+}
+
+/**
+ * Shows a short, polite confirmation. Call it only after the action has actually finished.
+ * Creates the live region on first use (the first message follows 150ms later so it is announced).
+ * Stays until dismissed when timeout is 0.
+ * @param {string} message
+ * @param {{ tone?: 'default' | 'danger', timeout?: number }} [options]
+ */
+export function toast(message, { tone = 'default', timeout = 5000 } = {}) {
+  const fresh = !document.querySelector('.lm-toast-region');
+  const region = initToasts();
   const item = document.createElement('div');
   item.className = `lm-toast${tone === 'danger' ? ' lm-toast--danger' : ''}`;
   const text = document.createElement('span'); text.textContent = message;
   const close = document.createElement('button'); close.type = 'button'; close.setAttribute('aria-label', 'Dismiss'); close.textContent = '✕';
   item.append(text, close);
-  region.append(item);
+  // Screen readers only announce changes to a live region they already know about, so the first
+  // message waits until a new region has been added to the accessibility tree.
+  if (fresh) { const r = region; setTimeout(() => r.append(item), 150); } else region.append(item);
   const remove = () => { item.classList.add('is-leaving'); setTimeout(() => item.remove(), motionOff() ? 0 : 250); };
   close.addEventListener('click', remove);
   if (timeout > 0) setTimeout(remove, timeout);

@@ -217,6 +217,17 @@
           ],
           "hex": "#17603e"
         }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0588,
+            0.3216,
+            0.2
+          ],
+          "hex": "#0f5233"
+        }
       }
     },
     "gold": {
@@ -241,9 +252,31 @@
           ],
           "hex": "#7a5c24"
         }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3608,
+            0.2667,
+            0.0902
+          ],
+          "hex": "#5c4417"
+        }
       }
     },
     "red": {
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1.0,
+            0.7686,
+            0.7294
+          ],
+          "hex": "#ffc4ba"
+        }
+      },
       "300": {
         "$value": {
           "colorSpace": "srgb",
@@ -265,6 +298,17 @@
           ],
           "hex": "#b3261e"
         }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.549,
+            0.1137,
+            0.0902
+          ],
+          "hex": "#8c1d17"
+        }
       }
     },
     "blue": {
@@ -279,6 +323,17 @@
           "hex": "#2f62f5"
         },
         "$description": "Tauawo app blue. Logo and chat bubbles only."
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1176,
+            0.2706,
+            0.7529
+          ],
+          "hex": "#1e45c0"
+        }
       }
     },
     "navy": {
@@ -385,6 +440,17 @@
       }
     },
     "terracotta": {
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9647,
+            0.749,
+            0.6745
+          ],
+          "hex": "#f6bfac"
+        }
+      },
       "300": {
         "$value": {
           "colorSpace": "srgb",
@@ -416,6 +482,17 @@
             0.1255
           ],
           "hex": "#933720"
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4784,
+            0.1725,
+            0.0941
+          ],
+          "hex": "#7a2c18"
         }
       }
     }

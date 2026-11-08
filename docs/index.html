@@ -12,6 +12,10 @@
   <link rel="stylesheet" href="vendor/larkmoor/themes/harbor.css">
   <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark.css">
   <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-dark.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-contrast.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/evergreen-dark-contrast.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-contrast.css">
+  <link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark-contrast.css">
   <style>
     /* Documentation chrome only. */
     ul, ol { list-style: none; }
@@ -64,6 +68,10 @@
         <option value="evergreen-inverse">Evergreen inverse</option>
         <option value="harbor">Harbor</option>
         <option value="harbor-dark">Harbor dark</option>
+        <option value="evergreen-contrast">Evergreen high contrast</option>
+        <option value="evergreen-dark-contrast">Evergreen dark high contrast</option>
+        <option value="harbor-contrast">Harbor high contrast</option>
+        <option value="harbor-dark-contrast">Harbor dark high contrast</option>
       </select>
       <a class="lm-link" href="../examples/tauawo/">Tauawo site</a>
       <a class="lm-link" href="../examples/harbor/">Harbor example</a>
@@ -442,11 +450,12 @@ matchMedia(below('medium')).matches;   // true under 900px</code></pre>
 </div>
 
 <script type="module">
-  import { initMotionToggle, initTabs, initDialog, toast } from './vendor/larkmoor/larkmoor.js';
+  import { initMotionToggle, initTabs, initDialog, initToasts, toast } from './vendor/larkmoor/larkmoor.js';
   initMotionToggle(document.getElementById('mt'), { storageKey: 'lm-docs:motion' });
   initTabs(document.getElementById('demo-tabs'));
   initDialog(document.getElementById('demo-dialog'));
   initDialog(document.getElementById('demo-sheet'));
+  initToasts();
   document.getElementById('demo-toast').addEventListener('click', async () => { await new Promise((r) => setTimeout(r, 300)); toast('Draft saved'); });
 
   const root = document.getElementById('preview-root');

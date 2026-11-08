@@ -20,13 +20,13 @@ export async function setup() {
 
 /** Opens a page and collects script errors. */
 export async function open(browser, url, options = {}) {
-  const { reducedMotion = 'reduce', forcedColors, colorScheme, javaScriptEnabled = true, ...ctxOptions } = options;
+  const { reducedMotion = 'reduce', forcedColors, colorScheme, contrast, javaScriptEnabled = true, ...ctxOptions } = options;
   const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, javaScriptEnabled, ...ctxOptions });
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
-  await page.emulateMedia({ reducedMotion, ...(forcedColors ? { forcedColors } : {}), ...(colorScheme ? { colorScheme } : {}) });
+  await page.emulateMedia({ reducedMotion, ...(forcedColors ? { forcedColors } : {}), ...(colorScheme ? { colorScheme } : {}), ...(contrast ? { contrast } : {}) });
   await page.goto(url, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts && document.fonts.ready);
   return { page, context, errors };

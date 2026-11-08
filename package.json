@@ -1,6 +1,6 @@
 {
   "name": "@larkmoor/design-system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Tokens, layout primitives, accessible components and themes for websites and apps: CSS/JS for the web, plus React Native, SwiftUI and Jetpack Compose outputs.",
   "private": true,
   "license": "UNLICENSED",

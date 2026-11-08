@@ -18,3 +18,6 @@ declare global {
 export declare function initTabs(root: HTMLElement | null, options?: { onChange?: (index: number) => void }): Cleanup;
 export declare function initDialog(dialog: HTMLDialogElement | null): Cleanup;
 export declare function toast(message: string, options?: { tone?: 'default' | 'danger'; timeout?: number }): () => void;
+
+/** Adds the toast live region now so screen readers track it before the first message. */
+export declare function initToasts(): HTMLElement;

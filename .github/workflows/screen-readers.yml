@@ -1,0 +1,56 @@
+name: Screen readers
+# Real VoiceOver (macOS + WebKit) and NVDA (Windows + Chromium) read tests/screen-reader/index.html,
+# driven by Guidepup. Every spoken phrase is uploaded as evidence, pass or fail.
+on:
+  push:
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: "sr-${{ github.ref }}", cancel-in-progress: true }
+env:
+  SR_DEPS: "@playwright/test@1.64.1 @guidepup/playwright@0.21.0 @guidepup/guidepup@0.40.0"
+  GUIDEPUP_SETUP: "@guidepup/setup@0.29.3"
+jobs:
+  voiceover:
+    name: VoiceOver (macOS, WebKit)
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version-file: .nvmrc }
+      - run: npm install --no-audit --no-fund
+      - run: npm install --no-save --no-audit --no-fund $SR_DEPS
+      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright || true
+      - name: Prepare VoiceOver for automation
+        run: |
+          npx --yes $GUIDEPUP_SETUP setup --ci
+          npx --yes $GUIDEPUP_SETUP install
+      - run: npx playwright install webkit
+      - run: npx playwright test -c tests/screen-reader/playwright.config.mjs --project=voiceover
+      - name: Upload what VoiceOver said
+        if: always()
+        uses: actions/upload-artifact@v7
+        with: { name: voiceover, path: "reports/screen-reader/\ntest-results/\nrecordings/", retention-days: 30 }
+
+  nvda:
+    name: NVDA (Windows, Chromium)
+    runs-on: windows-latest
+    timeout-minutes: 40
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version-file: .nvmrc }
+      - run: npm install --no-audit --no-fund
+      - run: npm install --no-save --no-audit --no-fund $SR_DEPS
+      - run: npm ls @playwright/test @guidepup/guidepup @guidepup/playwright || true
+      - name: Install and configure NVDA
+        run: |
+          npx --yes $GUIDEPUP_SETUP setup --ci
+          npx --yes $GUIDEPUP_SETUP install
+      - run: npx playwright install chromium
+      - run: npx playwright test -c tests/screen-reader/playwright.config.mjs --project=nvda
+      - name: Upload what NVDA said
+        if: always()
+        uses: actions/upload-artifact@v7
+        with: { name: nvda, path: "reports/screen-reader/\ntest-results/", retention-days: 30 }

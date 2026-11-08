@@ -34,18 +34,50 @@
 | Tauawo | 1280 | WCAG text-spacing override | no clipping, no sideways scroll |
 | Tauawo | 1280 | forced colours | selected option and strike-through distinguishable |
 | Tauawo, Harbor | 1280 | JavaScript off | content visible; script-only controls hidden |
+| Tauawo, Harbor (light and dark) | 1280 | `prefers-contrast: more` | the high-contrast partner is applied; all measurable text 7:1 (large text 4.5:1) |
+| Screen-reader fixture | 700 | accessibility tree | tabs, dialog (modal, inert background, focus in and back), toast (live region order), breadcrumbs, pagination, table, tab bar: roles, names, states |
 
 The contrast checker skips text over gradients and images and lists them for manual review. The checked segment's label sits on a pseudo-element thumb, so its pair (on-action on action) is checked in the unit test instead.
 
 **Not available here:** axe-core, because the package registry was unreachable from the build environment. Run the axe DevTools extension once on each page.
 
+## Screen readers in CI
+
+`.github/workflows/screen-readers.yml` runs on every push. It starts real screen readers on GitHub's machines with [Guidepup](https://github.com/guidepup/guidepup) and reads `tests/screen-reader/index.html`:
+- **VoiceOver** on macOS with WebKit (Safari's engine);
+- **NVDA** on Windows with Firefox.
+
+For tabs, dialog, toast, breadcrumbs, pagination, table and tab bar it checks what the screen reader actually said: names, roles, selected and current states, the dialog name on opening, focus return on Escape, the toast announcement, and that breadcrumb separators and arrow glyphs are not read. Everything spoken is uploaded as a build artifact, pass or fail.
+
+Everything is done through the screen reader, the way its users work:
+- VoiceOver moves with its own next-item command and presses with VO-Space, because Safari's Tab key skips links and buttons by default;
+- NVDA uses Tab, Enter and Escape, and reports the focused element after each step.
+
+**What the real screen readers said (GitHub Actions, 8 November 2026; both jobs green, retries allowed: 2):**
+
+| Component | VoiceOver (macOS 15, WebKit) | NVDA 2026.3 (Windows, Chromium) |
+|---|---|---|
+| Tabs | ✅ "Pricing selected tab, 2 of 3" (passed on retry: the first attempt caught VoiceOver's hint instead) | ✅ "Pricing, tab, selected, 2 of 3" |
+| Dialog | ✅ name and "dialog" on opening; focus back on "Delete card button" after Escape (sometimes on retry: VoiceOver's walk to the button is slow) | ✅ |
+| Toast | ❔ not announced in 6 attempts; see below | ✅ "Draft saved" |
+| Breadcrumbs | ✅ "Breadcrumb navigation", "Replace a lost card current page 3 of 3", no "slash" | ❔ browse-mode reading not captured |
+| Pagination | ✅ "link Previous page", "current page link 2" | ✅ "2, link, … current page" |
+| Table | ✅ "Loans this month table 3 columns, 3 rows", "BOOKS 4,812 column 2 of 3" | ❔ browse-mode reading not captured |
+| Tab bar | ✅ "App navigation", current page | ✅ "Home, link, … current page" |
+
+**Known gaps** (reported as "fixme" in the workflow, with the reason):
+- **VoiceOver and the toast:** VoiceOver, driving Playwright's WebKit build, never spoke the polite status message. The toast was on the page each time, and NVDA announces it. Two changes made the toast more robust anyway: `initToasts()` now creates the live region on page load, and a region made on demand waits 150ms before the first message. It still needs one check on a real iPhone or Mac with Safari.
+- **NVDA browse mode:** on the Windows runner, Guidepup records NVDA's focus announcements but not its browse-mode reading (Down arrow, next item). So the breadcrumb current-page text and the table cells are verified by VoiceOver and the accessibility-tree tests, not NVDA.
+
 ## Manual checks that need your devices
 
 | Check | How | Time |
 |---|---|---|
-| VoiceOver on iPhone (Safari) | Swipe through each page. Use the menu, privacy switch, send demo, FAQ and the Harbor form (submit empty, fix, submit). Listen for the status announcements. | 20 min |
+| VoiceOver on iPhone (Safari) | Swipe through each page. Use the menu, privacy switch, send demo, FAQ and the Harbor form (submit empty, fix, submit). Listen for the status announcements, and for "Draft saved" after Save draft on the docs page (the one gap in the automated VoiceOver run). | 20 min |
 | TalkBack on Android (Chrome) | Same as above | 20 min |
 | NVDA + Firefox on Windows | Same, plus Tab order and the Escape key | 20 min |
+| iPhone Increase Contrast | Settings → Accessibility → Display & Text Size → Increase Contrast, then open Harbor in Safari and an app using `.larkmoorTheme`. Colours should switch to the high-contrast theme. | 5 min |
+| SwiftUI and Compose components with VoiceOver and TalkBack | Render `LarkmoorField`, `LarkmoorSegmentedControl` and `LarkmoorAccordion` in a test screen; swipe through them. | 15 min |
 | Windows High Contrast (real) | Settings → Accessibility → Contrast themes. Check the privacy switch and the form errors. | 5 min |
 | Browser zoom 200% and 400% on desktop Safari and Firefox | Ctrl/Cmd + until 400%. Nothing should be cut off. | 5 min |
 | iOS text size (largest) | Settings → Display → Text Size | 5 min |

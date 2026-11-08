@@ -130,9 +130,20 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 |---|---|---|---|
 | Compare against university design systems | `docs/guides/BENCHMARK.md` | 10 university systems read (6 in depth), plus Apple, Android and React Native docs, with URLs and access dates; inaccessible pages listed | ✅ |
 | Compare layouts, grids, spacing, type, breakpoints | BENCHMARK §4 comparison table | — | ✅ |
-| Keep Larkmoor up to date with the findings | BENCHMARK §7 | 10 of the 10 top recommendations applied; gaps listed | ✅ / ⚪ high-contrast theme |
+| Keep Larkmoor up to date with the findings | BENCHMARK §7 | 10 of the 10 top recommendations applied; gaps listed | ✅ (high-contrast theme added in 0.3.0) |
 | Works in mobile apps: React Native | `src/react-native`, `dist/react-native` | Strict type check against React Native 0.88.1 on your computer and in CI | ✅ compiled · ❔ not yet run on a device |
 | Works in mobile apps: iOS | `dist/ios/Larkmoor.swift` | `swiftc -typecheck` in CI (macOS) | ✅ compiled · ❔ not in an app yet |
 | Works in mobile apps: Android | `dist/android/*.kt` | `kotlinc` and Compose compile in CI | ✅ compiled · ❔ not in an app yet |
 | Works on mobile websites | safe areas, touch targets, container queries, sheet, tab bar | Browser tests at 17 widths plus touch emulation | ✅ |
 | Modern | cascade layers, container queries, `@starting-style`, `dvh`, native `<dialog>`, automatic dark mode | Tests and visual review | ✅ |
+
+## Follow-up request: high contrast, native components, screen readers (0.3.0)
+
+| Requirement | Where | Evidence | Status |
+|---|---|---|---|
+| High-contrast theme for iOS Increase Contrast | `tokens/themes/*-contrast.tokens.json`; `.larkmoorTheme` in `dist/ios/Larkmoor.swift` | AAA unit test; SwiftUI type-checks for iOS 16 and macOS 14 | ✅ built and compiled · ❔ not yet seen on an iPhone |
+| …and the same on web, React Native and Android | `data-lm-contrast="auto"`; `LarkmoorProvider contrast`; `LarkmoorTheme(highContrast)` + `prefersHighContrast()` | Browser test with `prefers-contrast: more`; RN, Kotlin and Compose compile | ✅ |
+| iPhone versions of field, segmented control, accordion | `dist/ios/LarkmoorComponents.swift` | `swiftc -typecheck` against the iOS simulator SDK | ✅ compiled · ❔ not run on a device |
+| Android versions of the same | `dist/android/LarkmoorComponents.kt` | Compose compile including a sample screen | ✅ compiled · ❔ not run on a device |
+| Test the new web components with screen readers | `tests/screen-reader`, `.github/workflows/screen-readers.yml`, `tests/browser/screen-reader-tree.test.mjs` | Real VoiceOver: 6 of 7; real NVDA: 5 of 7; accessibility tree: 6 of 6 | ✅ with 3 documented gaps |
+

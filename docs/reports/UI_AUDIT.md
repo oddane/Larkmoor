@@ -179,3 +179,14 @@ Each finding gives: **where**, **problem**, **impact**, **fix**, **verified**.
 | F25 | Default theme | No dark mode | Phones in dark mode got a bright page and app | `evergreen-dark` plus automatic switching | Contrast unit test; dark-mode browser test |
 | F26 | Benchmark gaps | Missing tabs, dialog, sheet, toast, breadcrumbs, pagination, table; no safe areas; no touch sizing | Common patterns had to be hand-built | Added, each with docs and tests | Interaction tests |
 | F27 | Header on phones with wide fallback fonts (found in GitHub's Linux screenshots) | "Quay Lane Library" wrapped onto two lines and "Get a card" squashed into two lines | Broken-looking header on Android and Linux phones | Buttons stay on one line; the wordmark truncates; tighter header spacing below 520px | Checked at 320, 360 and 390 with a deliberately wide font; CI screenshots re-recorded |
+
+## 7. Version 0.3.0 findings
+
+| ID | Where | Problem | Impact | Fix | Verified by |
+|---|---|---|---|---|---|
+| F28 | Breadcrumbs | The "/" separators came from CSS `content` and were in the accessibility tree | Screen readers read "slash" between every crumb | `content: "/" / ""` (empty alternative text), with a plain fallback for older browsers | Accessibility-tree test; VoiceOver and NVDA runs check that "slash" is never spoken |
+| F29 | `toast()` | The live region was created and filled in the same moment | Screen readers can miss the first message on a page | The first message is written 150ms after a new region; later ones go straight in | Accessibility-tree test checks the order and gap; screen-reader runs listen for "Draft saved" |
+| F30 | High contrast | No theme for Increase Contrast or `prefers-contrast: more`; muted text and translucent borders were AA only | Low-vision users who ask for more contrast got the standard colours | Five AAA partner themes with automatic switching on web, SwiftUI, React Native and Compose | Unit test (7:1 text, 4.5:1 controls, opaque borders); browser test with `prefers-contrast: more` on Tauawo and Harbor, light and dark |
+| F31 | Footer on Tauawo under more contrast | The inverse band's muted headings were 6.56:1 | Below AAA once the page asked for more contrast | `evergreen-inverse-contrast`, applied to themed bands inside the page | Same browser test, which found it |
+| F32 | Unselected segments under more contrast | 6.67:1 on the control track | Below AAA | Lighter track in `evergreen-contrast` | Unit test now checks muted text on the track |
+

@@ -168,6 +168,27 @@ function build() {
       const target = darkOf === 'default' ? '[data-lm-color-scheme="auto"]:not([data-lm-theme])' : `[data-lm-color-scheme="auto"][data-lm-theme="${darkOf}"]`;
       css += `\n/* Automatic: ${darkOf} switches to ${name} when the device prefers dark */\n@media (prefers-color-scheme: dark) {\n  ${target} {\n${decls.replaceAll('\n', '\n  ')}\n    color-scheme: dark;\n  }\n}\n`;
     }
+    // A high-contrast theme is the automatic partner of another theme: pages that opt in with
+    // data-lm-contrast="auto" switch when the device asks for more contrast (iOS/macOS Increase
+    // Contrast, Windows contrast themes off, Android high contrast where the browser reports it).
+    const contrastOf = themes[name].meta.contrastOf;
+    if (contrastOf) {
+      const block = (sel) => `  ${sel} {\n${decls.replaceAll('\n', '\n  ')}\n    color-scheme: ${scheme};\n  }`;
+      const rules = [];
+      const ofMeta = themes[contrastOf]?.meta;
+      if (contrastOf === 'default') {
+        rules.push(['(prefers-contrast: more)', '[data-lm-contrast="auto"]:not([data-lm-theme])']);
+      } else {
+        // the theme on the page root, or on a band inside it (e.g. an inverse footer)
+        rules.push(['(prefers-contrast: more)', `[data-lm-contrast="auto"][data-lm-theme="${contrastOf}"],\n  [data-lm-contrast="auto"] [data-lm-theme="${contrastOf}"]`]);
+      }
+      // the partner of an automatic dark theme also follows automatic dark mode (higher specificity wins)
+      if (ofMeta?.darkOf) {
+        const lightSel = ofMeta.darkOf === 'default' ? ':not([data-lm-theme])' : `[data-lm-theme="${ofMeta.darkOf}"]`;
+        rules.push(['(prefers-contrast: more) and (prefers-color-scheme: dark)', `[data-lm-contrast="auto"][data-lm-color-scheme="auto"]${lightSel}`]);
+      }
+      for (const [query, sel] of rules) css += `\n/* Automatic: ${contrastOf} switches to ${name} when the device asks for more contrast */\n@media ${query} {\n${block(sel)}\n}\n`;
+    }
     writeFileSync(join(dist, 'themes', `${name}.css`), css);
   }
 
@@ -215,17 +236,22 @@ function buildNative(base, themes, resolvedThemes) {
   for (const [name, map] of Object.entries(resolvedThemes)) {
     models[name] = { name, scheme: name === 'default' ? 'light' : themes[name].meta.scheme, ...nativeModel(map, rawSemantic, resolve) };
   }
+  // high-contrast partner for each theme that has one (used for iOS Increase Contrast, Android contrast level)
+  const contrast = Object.fromEntries(Object.entries(themes).filter(([, t]) => t.meta.contrastOf).map(([n, t]) => [t.meta.contrastOf, n]));
   mkdirSync(join(dist, 'native'), { recursive: true });
-  writeFileSync(join(dist, 'native/tokens.json'), JSON.stringify({ version: pkg.version, themes: models }, null, 2) + '\n');
+  writeFileSync(join(dist, 'native/tokens.json'), JSON.stringify({ version: pkg.version, highContrast: contrast, themes: models }, null, 2) + '\n');
+  // Hand-written native components live in src/ios and src/android and ship next to the generated tokens.
   mkdirSync(join(dist, 'ios'), { recursive: true });
-  writeFileSync(join(dist, 'ios/Larkmoor.swift'), swift(pkg.version, models));
+  writeFileSync(join(dist, 'ios/Larkmoor.swift'), swift(pkg.version, models, contrast));
+  for (const f of readdirSync(join(root, 'src/ios'))) copyFileSync(join(root, 'src/ios', f), join(dist, 'ios', f));
   mkdirSync(join(dist, 'android'), { recursive: true });
-  writeFileSync(join(dist, 'android/LarkmoorTokens.kt'), kotlinCore(pkg.version, models));
+  writeFileSync(join(dist, 'android/LarkmoorTokens.kt'), kotlinCore(pkg.version, models, contrast));
   writeFileSync(join(dist, 'android/LarkmoorTheme.kt'), compose(pkg.version));
+  for (const f of readdirSync(join(root, 'src/android'))) copyFileSync(join(root, 'src/android', f), join(dist, 'android', f));
 
   // React Native: generated tokens + hand-written components, compiled to JS with esbuild
   const rnSrc = join(root, 'src/react-native');
-  writeFileSync(join(rnSrc, 'tokens.generated.ts'), reactNativeTokens(pkg.version, models));
+  writeFileSync(join(rnSrc, 'tokens.generated.ts'), reactNativeTokens(pkg.version, models, contrast));
   const rnOut = join(dist, 'react-native');
   mkdirSync(rnOut, { recursive: true });
   let esbuild;
@@ -234,7 +260,7 @@ function buildNative(base, themes, resolvedThemes) {
   esbuild.buildSync({ entryPoints: entries, outdir: rnOut, format: 'esm', jsx: 'automatic', target: 'es2020', platform: 'neutral', logLevel: 'warning', logOverride: { 'unsupported-require-call': 'silent' } }); // Metro resolves the font require() calls
   for (const f of readdirSync(rnSrc).filter((f) => f.endsWith('.d.ts'))) copyFileSync(join(rnSrc, f), join(rnOut, f));
   for (const f of readdirSync(join(rnSrc, 'types')).filter((f) => f.endsWith('.d.ts'))) copyFileSync(join(rnSrc, 'types', f), join(rnOut, f));
-  writeFileSync(join(rnOut, 'tokens.generated.d.ts'), reactNativeTokensDts(pkg.version, models));
+  writeFileSync(join(rnOut, 'tokens.generated.d.ts'), reactNativeTokensDts(pkg.version, models, contrast));
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

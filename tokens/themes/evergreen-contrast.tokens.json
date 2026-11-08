@@ -1,0 +1,79 @@
+{
+  "$extensions": {
+    "com.larkmoor.theme": {
+      "name": "evergreen-contrast",
+      "scheme": "light",
+      "contrastOf": "default",
+      "description": "Evergreen for Increase Contrast / prefers-contrast: more. Every text role 7:1 or more, opaque borders."
+    }
+  },
+  "color": {
+    "$type": "color",
+    "bg": {
+      "$value": "{palette.white}"
+    },
+    "bg-subtle": {
+      "$value": "{palette.neutral.50}"
+    },
+    "surface": {
+      "$value": "{palette.white}"
+    },
+    "control-track": {
+      "$value": "{palette.neutral.100}"
+    },
+    "text": {
+      "$value": "{palette.forest.950}"
+    },
+    "text-secondary": {
+      "$value": "{palette.neutral.900}"
+    },
+    "text-muted": {
+      "$value": "{palette.neutral.700}"
+    },
+    "text-label": {
+      "$value": "{palette.gold.800}"
+    },
+    "border": {
+      "$value": "{palette.neutral.600}"
+    },
+    "border-strong": {
+      "$value": "{palette.neutral.900}"
+    },
+    "accent": {
+      "$value": "{palette.green.700}"
+    },
+    "accent-hover": {
+      "$value": "{palette.green.800}"
+    },
+    "accent-text": {
+      "$value": "{palette.green.700}"
+    },
+    "on-accent": {
+      "$value": "{palette.white}"
+    },
+    "action": {
+      "$value": "{palette.neutral.900}"
+    },
+    "on-action": {
+      "$value": "{palette.white}"
+    },
+    "focus": {
+      "$value": "{palette.green.700}"
+    },
+    "brand": {
+      "$value": "{palette.blue.700}"
+    },
+    "success": {
+      "$value": "{palette.green.700}"
+    },
+    "warning": {
+      "$value": "{palette.gold.800}"
+    },
+    "danger": {
+      "$value": "{palette.red.700}"
+    },
+    "header-scrim": {
+      "$value": "{palette.white}"
+    }
+  }
+}

@@ -72,6 +72,34 @@ for (const name of ['default', ...Object.keys(themes)]) {
   });
 }
 
+// High-contrast themes (Increase Contrast / prefers-contrast: more) are held to WCAG AAA: 7:1 text on every
+// ground including surfaces, 4.5:1 for controls and borders, opaque borders, 7:1 inside filled controls.
+for (const [name, t] of Object.entries(themes).filter(([, t]) => t.meta.contrastOf)) {
+  test(`high contrast: ${name} meets 7:1 text, 4.5:1 controls and opaque borders`, () => {
+    const map = themeTokens(base, themes, name);
+    const failures = [];
+    for (const p of ['color.border', 'color.border-strong', 'color.header-scrim']) if (hexOf(map, p) === null) failures.push(`${p} is translucent`);
+    for (const ground of ['color.bg', 'color.bg-subtle', 'color.surface']) {
+      const g = hexOf(map, ground);
+      for (const role of TEXT) { const r = ratio(hexOf(map, `color.${role}`), g); if (r < 7) failures.push(`${role} on ${ground}: ${r.toFixed(2)}`); }
+      for (const role of ['accent', 'focus', 'action', 'border', 'border-strong']) { const r = ratio(hexOf(map, `color.${role}`), g); if (r < 4.5) failures.push(`${role} on ${ground}: ${r.toFixed(2)} (needs 4.5:1)`); }
+    }
+    for (const [fg, bg] of [['on-action', 'action'], ['on-accent', 'accent'], ['text', 'control-track'], ['text-muted', 'control-track']]) {
+      const r = ratio(hexOf(map, `color.${fg}`), hexOf(map, `color.${bg}`)); if (r < 7) failures.push(`${fg} on ${bg}: ${r.toFixed(2)}`);
+    }
+    // the partner must keep the scheme of the theme it replaces
+    const of = t.meta.contrastOf;
+    const ofScheme = of === 'default' ? 'light' : themes[of].meta.scheme;
+    if (t.meta.scheme !== ofScheme) failures.push(`scheme ${t.meta.scheme} differs from ${of} (${ofScheme})`);
+    assert.deepEqual(failures, []);
+  });
+}
+
+test('every light and dark theme a site can choose has a high-contrast partner', () => {
+  const partners = new Set(Object.values(themes).map((t) => t.meta.contrastOf).filter(Boolean));
+  for (const name of ['default', 'evergreen-dark', 'evergreen-inverse', 'harbor', 'harbor-dark']) assert.ok(partners.has(name), `${name} has no high-contrast partner`);
+});
+
 test('generated files are up to date with the sources', async () => {
   const before = readFileSync(join(root, 'dist/larkmoor.css'), 'utf8');
   const { execFileSync } = await import('node:child_process');

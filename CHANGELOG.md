@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.3.0 · 2026-11-08
+High contrast on every platform, native form controls for iPhone and Android, and real screen-reader tests.
+
+**High contrast (new)**
+- Five high-contrast themes, one partner for each theme a site or app can choose: `evergreen-contrast`, `evergreen-dark-contrast`, `evergreen-inverse-contrast`, `harbor-contrast`, `harbor-dark-contrast`.
+- Held to WCAG AAA: 7:1 for every text role on every background and surface, 4.5:1 for controls and borders, opaque borders. A unit test enforces this.
+- Web: `data-lm-contrast="auto"` follows `prefers-contrast: more` (Increase Contrast on Apple devices), together with automatic dark mode and inside themed bands. Both examples opt in.
+- SwiftUI: `.larkmoorTheme(light:dark:)` follows Dark Mode and Increase Contrast (`colorSchemeContrast`).
+- React Native: `LarkmoorProvider` follows iOS Increase Contrast and Android high-contrast text; `contrast` prop and `useHighContrast()`.
+- Compose: `LarkmoorTheme(highContrast = …)`, plus `Context.prefersHighContrast()` for Android 14's contrast level.
+
+**iPhone and Android components (new)**
+- SwiftUI (`dist/ios/LarkmoorComponents.swift`) and Jetpack Compose (`dist/android/LarkmoorComponents.kt`): form field, segmented control and accordion, with VoiceOver and TalkBack semantics, 44pt / 48dp targets and Reduce Motion support.
+- CI type-checks the Swift for macOS and the iOS 16 simulator SDK, and compiles the Kotlin against Compose and `android.jar`.
+
+**Screen readers**
+- New accessibility-tree tests for tabs, dialog, toast, breadcrumbs, pagination, table and tab bar (Chromium, every run).
+- New workflow that runs real VoiceOver (macOS + WebKit) and NVDA (Windows + Firefox) over the same components with Guidepup and keeps what they said.
+
+**Fixed**
+- Breadcrumb separators were read aloud as "slash"; they are now decorative (`content: "/" / ""`).
+- `toast()` created its live region and wrote the first message at the same moment, which screen readers can miss; the first message now follows 150ms later.
+
 ## 0.2.0 · 2026-11-08
 Larkmoor now works for apps as well as websites, and was benchmarked against ten university design systems plus Apple, Android and React Native guidance (docs/guides/BENCHMARK.md).
 

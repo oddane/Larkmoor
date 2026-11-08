@@ -36,13 +36,41 @@ Design dark themes on their own; don't invert a light one. `evergreen-inverse` a
 
 Each dark theme passes the same contrast test independently. The docs page renders every component under each theme. Visual baselines cover Harbor dark at three widths.
 
-A theme does not switch on `prefers-color-scheme` by itself. A site can opt in:
+A theme does not switch on `prefers-color-scheme` by itself. A site opts in with `data-lm-color-scheme="auto"` on `<html>` (default switches to `evergreen-dark`, Harbor to `harbor-dark`). The Harbor example opts in. Tauawo does not: its brand is a white page by the owner's choice.
 
-```css
-@media (prefers-color-scheme: dark) { :root:not([data-lm-theme]) { /* copy the dark theme's declarations here, or set the attribute from script */ } }
+## High-contrast themes
+
+Every theme a site can choose has a high-contrast partner for people who turn on **Increase Contrast** (iPhone, iPad, Mac) or a contrast setting on Android or Windows:
+
+| Theme | High-contrast partner |
+|---|---|
+| default (Evergreen) | `evergreen-contrast` |
+| `evergreen-dark` | `evergreen-dark-contrast` |
+| `evergreen-inverse` (bands, footers) | `evergreen-inverse-contrast` |
+| `harbor` | `harbor-contrast` |
+| `harbor-dark` | `harbor-dark-contrast` |
+
+They are held to a stricter test than the standard themes (WCAG AAA rather than AA):
+- every text role is 7:1 or more on the page, the subtle background and surfaces;
+- controls, focus rings and borders are 4.5:1 or more;
+- borders and the header are opaque, never translucent;
+- text inside filled controls (buttons, the selected segment) is 7:1 or more.
+
+**On the web**, add `data-lm-contrast="auto"` to `<html>` and load the partner stylesheets. The page then switches when the device reports `prefers-contrast: more`, and combines with automatic dark mode:
+
+```html
+<html lang="en" data-lm-theme="harbor" data-lm-color-scheme="auto" data-lm-contrast="auto">
+<link rel="stylesheet" href="vendor/larkmoor/themes/harbor.css">
+<link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark.css">
+<link rel="stylesheet" href="vendor/larkmoor/themes/harbor-contrast.css">
+<link rel="stylesheet" href="vendor/larkmoor/themes/harbor-dark-contrast.css">
 ```
 
-Neither example opts in. Tauawo's brand is a white page by the owner's choice.
+Bands inside the page (for example an inverse footer with `data-lm-theme="evergreen-inverse"`) switch too. You can also pick a partner directly with `data-lm-theme="evergreen-contrast"`. Both examples opt in.
+
+**In apps**, see [Platforms](PLATFORMS.md): SwiftUI reads `colorSchemeContrast`, React Native reads iOS Increase Contrast and Android high-contrast text, and Compose takes a `highContrast` flag.
+
+`prefers-contrast: more` is separate from Windows contrast themes (`forced-colors`), which replace all colours and are handled in `forced-colors.css`.
 
 ## Fonts
 
