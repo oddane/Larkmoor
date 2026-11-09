@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "Tokens, layout primitives, accessible components and themes for websites and apps: CSS/JS for the web, plus React Native, SwiftUI and Jetpack Compose outputs.",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -14,7 +14,8 @@
     "README.md",
     "CHANGELOG.md",
     "ATTRIBUTION.md",
-    "LICENSE.md",
+    "LICENSE",
+    "NOTICE",
     "docs/guides/THEMING.md",
     "docs/guides/MIGRATION.md",
     "docs/guides/PLATFORMS.md"

@@ -1,0 +1,15 @@
+Larkmoor
+Copyright 2026 Oddane
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Trademarks and brand
+The Apache License does not grant permission to use the names, logos or other
+brand features of Tauawo or Larkmoor (Apache License section 6). The example in
+examples/tauawo/ is the Tauawo website: its name, logo, wording and product
+claims are included only to show the design system in use. You may study it,
+but do not reuse Tauawo's brand or copy in your own products.
+
+Third-party material
+Geist and Martian Mono are licensed under the SIL Open Font License 1.1 and are
+not covered by the Apache License. See fonts/OFL-*.txt and ATTRIBUTION.md.

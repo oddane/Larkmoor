@@ -13,7 +13,7 @@ One token source for web, React Native, iOS and Android · layout primitives · 
 ![tokens](https://img.shields.io/badge/tokens-DTCG%202025.10-14241c)
 ![a11y](https://img.shields.io/badge/target-WCAG%202.2%20AA-14241c)
 ![dependencies](https://img.shields.io/badge/runtime%20deps-0-14241c)
-![licence](https://img.shields.io/badge/licence-private-5f6e65)
+[![licence](https://img.shields.io/badge/licence-Apache%202.0-14241c)](LICENSE)
 
 <img src="docs/screenshots/tauawo-1440-first-screen.png" width="49%" alt="The Tauawo website built with Larkmoor's default Evergreen theme">
 <img src="docs/screenshots/harbor-1440-first-screen.png" width="49%" alt="A fictional library website built with Larkmoor's Harbor theme">
@@ -89,7 +89,7 @@ See [Platforms](docs/guides/PLATFORMS.md).
 
 ### With npm
 
-The package is private and not on a registry. Install it straight from this repository:
+The package isn't on the npm registry. Install it straight from this repository:
 
 ```bash
 npm install github:oddane/Larkmoor#v0.3.0
@@ -195,7 +195,7 @@ These are configured:
 - issue and PR templates;
 - Dependabot.
 
-Branch protection for `main` is not configured: on a private repository GitHub enforces it only on Team or Enterprise plans. Until then, CI still checks every push and pull request.
+CI checks every push and pull request. Branch protection for `main` can be turned on now that the repository is public (GitHub enforces it free on public repositories).
 
 To re-attach the package to a release, open **Actions → Release → Run workflow** and enter the tag.
 
@@ -205,4 +205,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Issues and pull requests use templates, 
 
 ## Licence
 
-Private. All rights reserved ([LICENSE.md](LICENSE.md)). Third-party fonts keep their own licences ([ATTRIBUTION.md](ATTRIBUTION.md)).
+[Apache License 2.0](LICENSE). You can use, change and ship Larkmoor in any project, including commercial ones, as long as you keep the copyright and licence notices ([NOTICE](NOTICE)).
+
+The licence covers the code and documentation, not brands: the Tauawo name, logo and website copy in `examples/tauawo/` stay Tauawo's. The Geist and Martian Mono fonts keep their own SIL Open Font License ([ATTRIBUTION.md](ATTRIBUTION.md)).

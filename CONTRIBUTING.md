@@ -24,3 +24,7 @@
 
 ## Before a pull request
 `npm test` must pass. Review any `reports/visual/diff-*.png` before running `npm run test:update-baselines` (local baselines live in `tests/baselines/local`; CI keeps its own set in `tests/baselines/ci`, because fonts render differently on GitHub's machines).
+
+## Licence of contributions
+
+Larkmoor is licensed under the [Apache License 2.0](LICENSE). Unless you say otherwise, anything you submit for inclusion is licensed under the same terms (Apache License section 5).
