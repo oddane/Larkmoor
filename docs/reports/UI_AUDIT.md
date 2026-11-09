@@ -11,7 +11,7 @@
 - rendered in Chromium at 17 widths;
 - automated checks in `tests/`;
 - visual review of full-page screenshots;
-- claims checked against the app source (PRIVACY_EVIDENCE.md).
+- claims checked against the app source (evidence kept in the app's private repository).
 
 **Standards:** WCAG 2.2 AA; web.dev Core Web Vitals. See RESEARCH.md for every source actually read.
 
@@ -61,7 +61,7 @@
 | Responsive | 320–1920 plus both sides of 520/760/900/1100; 568px-tall screens; landscape 844×390 | Responsive test | Pass after F12 and F13 |
 | Components and states | Every component on the docs page | Interaction tests; docs page | Fixed F14 (form layout shift on blur). F18 (`.01ms` transitions gave stale state). |
 | Accessibility | See ACCESSIBILITY.md | Automated plus manual plan | Automated checks pass. Screen-reader checks need your devices. |
-| Content | All copy | Read against app source | Claims supported (PRIVACY_EVIDENCE.md). Metadata disclosures suggested. |
+| Content | All copy | Read against app source | Claims supported (evidence in the app's private repository). Metadata disclosures suggested. |
 | Performance | Tauawo, Harbor | Lab test, 3 runs, median | Budgets met after F19 (lab only) |
 | Privacy of the site itself | All requests | Network log test | Fixed F20 (Google Fonts request) |
 | Localization / RTL | — | — | Not applicable now: English only. Logical properties are used for container padding and inline margins. RTL is untested. |
@@ -103,7 +103,7 @@ Each finding gives: **where**, **problem**, **impact**, **fix**, **verified**.
 - **Problem:** the app links its privacy and terms page; the site did not.
 - **Fix:** added "Privacy policy and terms" to the Help column. It uses the app's own `LEGAL_URL`.
 - **Verified:** link present; a11y test (name).
-- **Still to do:** move that page to your own domain before launch (PRIVACY_EVIDENCE.md §2).
+- **Still to do:** move that page to your own domain before launch.
 
 ### F16. Orphaned word in a chapter heading (Low)
 - **Where:** "See everything. Be seen by no one." at 1440px.

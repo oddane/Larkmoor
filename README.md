@@ -161,7 +161,7 @@ scripts/             build, serve, sync, screenshots, pack check, GitHub setup
 | [Design principles](docs/guides/DESIGN_PRINCIPLES.md) | [UI audit](docs/reports/UI_AUDIT.md) |
 | [Platforms: web, React Native, iOS, Android](docs/guides/PLATFORMS.md) | [Benchmark: universities and platforms](docs/guides/BENCHMARK.md) |
 | [Guidelines: layout, spacing, type, content, motion, responsive](docs/guides/GUIDELINES.md) | [QA report](docs/reports/QA_REPORT.md) |
-| [Theming](docs/guides/THEMING.md) | [Privacy evidence](docs/reports/PRIVACY_EVIDENCE.md) |
+| [Theming](docs/guides/THEMING.md) | [Network evidence](docs/reports/NETWORK_EVIDENCE.md) |
 | [Accessibility](docs/guides/ACCESSIBILITY.md) | [Completion matrix](docs/reports/COMPLETION_MATRIX.md) |
 | [Migration](docs/guides/MIGRATION.md) | [Changelog](CHANGELOG.md) |
 | [Research and sources](docs/guides/RESEARCH.md) | [Security policy](SECURITY.md) |

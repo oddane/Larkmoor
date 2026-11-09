@@ -104,12 +104,12 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 
 | Requirement | Where | Evidence | Status |
 |---|---|---|---|
-| Private repository created | https://github.com/oddane/Larkmoor (you created it) | — | ✅ by you |
+| Repository created | https://github.com/oddane/Larkmoor (you created it; public from 0.3.0 under Apache 2.0) | — | ✅ by you |
 | Source pushed and remote commit verified | `main` on GitHub | `git ls-remote` and the GitHub API return the same commit as the local `HEAD` | ✅ |
 | CI | `.github/workflows/ci.yml` | GitHub Actions on `main`: build, typecheck, 10 unit + 41 browser tests, pack check, all green. CI records and commits its own visual baselines. | ✅ |
 | Release, templates, CODEOWNERS, Dependabot, labels | `.github/` | Labels created through the API | ✅ |
 | Tag v0.1.0 and release, description, topics, merge settings | Set in the GitHub web interface (built-in browser) | Release page `releases/tag/v0.1.0`; settings page re-read after saving | ✅ |
-| Branch protection | — | GitHub: rules on private repositories are enforced only on Team or Enterprise plans | ⚪ Not set, to avoid a rule that isn't enforced |
+| Branch protection | — | Was not enforceable while private (needs Team or Enterprise); free once the repository is public | ⚪ Turn on after going public |
 | Website PR | — | — | ⚪ The website has no repository of its own; it lives in `examples/tauawo/` |
 
 ## Follow-up request (items 1–7)
@@ -122,7 +122,7 @@ This maps every requirement in the original assignment ("Website UI Repair and R
 | 4 | GitHub repository, uploaded source, verified commit | ✅ pushed to oddane/Larkmoor, commit verified, CI green, v0.1.0 released |
 | 5 | Remaining browser and accessibility checks; device-only checks listed | ✅ what this environment supports · checks needing your devices in ACCESSIBILITY.md |
 | 6 | Reproducible commands, logs, screenshots | ✅ README commands, `logs/`, `reports/`, `docs/screenshots/` |
-| 7 | Privacy evidence from implementation and network | ✅ PRIVACY_EVIDENCE.md · app network capture needs your phone |
+| 7 | Privacy evidence from implementation and network | ✅ website: NETWORK_EVIDENCE.md · app evidence kept in the app's private repository · app network capture needs your phone |
 
 ## Follow-up request: mobile apps, university benchmark, modernisation (0.2.0)
 

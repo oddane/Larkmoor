@@ -9,7 +9,7 @@ You are extending the Larkmoor design system. Read this before writing any CSS, 
 5. **Breakpoints:** 520 / 760 / 900 / 1100 (`dist/breakpoints.*`). Write media queries as `max-width: <bp - 0.02>px`. A new breakpoint needs a content reason, written next to it.
 6. **Accessibility is part of done:** native elements first; APG patterns for custom widgets; visible focus; 24px minimum targets (44 for primary touch); 4.5:1 text and 3:1 UI contrast in **every** theme; reduced motion; a pause control for loops; no-JS fallbacks with `data-lm-requires-js`.
 7. **Privacy:** no third-party requests (fonts, analytics, CDNs). `tests/browser/network.test.mjs` must stay green.
-8. **Honesty:** never invent testimonials, metrics, certifications or capabilities. Product claims need evidence (see PRIVACY_EVIDENCE.md).
+8. **Honesty:** never invent testimonials, metrics, certifications or capabilities. Product claims need evidence; evidence about the Tauawo app stays in the app's private repository.
 9. **Prove it:**
    - run `npm test`;
    - add tests for new behaviour;

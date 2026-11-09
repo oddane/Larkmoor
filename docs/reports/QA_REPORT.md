@@ -125,7 +125,7 @@ Each one has a test that would catch it again.
 | Item | Status | What unblocks it |
 |---|---|---|
 | axe-core | ⛔ registry unreachable here | Run the axe DevTools extension, or run CI on GitHub (it installs dependencies) |
-| App network capture | ⛔ needs your phone | PRIVACY_EVIDENCE.md §4 |
+| App network capture | ⛔ needs your phone | app's private repository |
 | Screen readers, Safari, Firefox, real devices | ⚪ | ACCESSIBILITY.md manual checklist (about 1.5 hours total) |
 | Field Core Web Vitals | ⚪ no visitors yet | After launch |
 | Lockfile | ⚪ `package-lock.json` can't be generated here without the registry | Run `npm install` once on your computer and commit the lockfile. Dependabot will keep it current. |

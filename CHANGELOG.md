@@ -19,6 +19,10 @@ High contrast on every platform, native form controls for iPhone and Android, an
 - New accessibility-tree tests for tabs, dialog, toast, breadcrumbs, pagination, table and tab bar (Chromium, every run).
 - New workflow that runs real VoiceOver (macOS + WebKit) and NVDA (Windows + Firefox) over the same components with Guidepup and keeps what they said.
 
+**Licence**
+- Larkmoor is now open source under the Apache License 2.0 (`LICENSE`, `NOTICE`). The Tauawo brand and the fonts' OFL licence are excluded.
+- The report on the Tauawo app's privacy implementation moved out of this repository; the website network evidence stays (`docs/reports/NETWORK_EVIDENCE.md`).
+
 **Fixed**
 - Breadcrumb separators were read aloud as "slash"; they are now decorative (`content: "/" / ""`).
 - `toast()` created its live region and wrote the first message at the same moment, which screen readers can miss; the first message now follows 150ms later.
